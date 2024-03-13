@@ -1,0 +1,178 @@
+﻿<Window x:Class="IPAM_NOTE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IPAM_NOTE"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesignDarkBackground}"
+        Foreground="{DynamicResource MaterialDesignDarkForeground}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        
+        
+        mc:Ignorable="d"
+        Title="IP地址分配记录本" 
+        MinHeight="768" 
+        MinWidth="1366"
+        Height="1080"
+        Width="1920"
+        WindowStartupLocation="CenterScreen"
+        Loaded="MainWindow_OnLoaded"
+        >
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <ProgressBar
+            Grid.Column="1"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            materialDesign:TransitionAssist.DisableTransitions="True"
+            Value="100" 
+            Orientation="Vertical"
+            HorizontalAlignment="Center"
+            Height="2"
+            Foreground="#546e7a"
+            />
+
+        <ListView
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            x:Name="ListView"
+           
+            Background="Coral"
+            >
+
+                <ListView.View>
+                
+                    <GridView >
+
+                        <GridViewColumn
+                        DisplayMemberBinding="{Binding Id}"
+
+                        >
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            >
+
+                            <Label Content="序号"/>
+
+                        </StackPanel>
+
+
+                    </GridViewColumn>
+
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Network}"
+      
+                        >
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            >
+
+                            <Label Content="网段"
+                                 
+                                   />
+
+                        </StackPanel>
+
+
+                    </GridViewColumn>
+
+
+
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Description}"
+     
+                        >
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            >
+                            <Label Content="备注"/>
+
+                        </StackPanel>
+
+
+                    </GridViewColumn>
+
+
+                    </GridView>
+                </ListView.View>
+           
+
+
+        </ListView>
+
+
+
+        <materialDesign:ColorZone
+            Grid.Column="2"
+            Grid.Row="0"
+            Mode="Standard"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            >
+
+
+
+                <StackPanel
+                    Margin="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    >
+                    <RadioButton
+                        Margin="4"
+                        Content="图形显示"
+                        IsChecked="True"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Margin="4"
+                        Content="列表显示"
+                        IsChecked="False"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    <RadioButton
+                        Margin="4"
+                        Content="状态检测"
+                        IsChecked="False"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" />
+                </StackPanel>
+            
+
+
+
+
+             
+
+        </materialDesign:ColorZone>
+
+
+        <DockPanel
+            Grid.Column="2"
+            Grid.Row="1"
+            x:Name="DockPanel"
+            
+            >
+
+
+
+        </DockPanel>
+
+    </Grid>
+</Window>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPAM-NOTE", "IPAM-NOTE.csproj", "{89472C4D-6B61-46F3-A976-6F78F15A06FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89472C4D-6B61-46F3-A976-6F78F15A06FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89472C4D-6B61-46F3-A976-6F78F15A06FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89472C4D-6B61-46F3-A976-6F78F15A06FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89472C4D-6B61-46F3-A976-6F78F15A06FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3ABE76A3-E3B6-41E5-A538-994CD6D02E3D}
+	EndGlobalSection
+EndGlobal
