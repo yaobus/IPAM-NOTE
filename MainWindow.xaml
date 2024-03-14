@@ -18,32 +18,32 @@
         Height="1080"
         Width="1920"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized"
+       
         Loaded="MainWindow_OnLoaded"
         >
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="320"/>
             <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
-
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
         <ProgressBar
             Grid.Column="1"
             Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             materialDesign:TransitionAssist.DisableTransitions="True"
             Value="100" 
             Orientation="Vertical"
             HorizontalAlignment="Center"
             Height="2"
-            Foreground="#546e7a"
+            Foreground="{DynamicResource MaterialDesignDarkSeparatorBackground}"
             />
 
         <ListView
@@ -51,17 +51,20 @@
             Grid.Row="0"
             Grid.RowSpan="2"
             x:Name="AddressListView"
-           SelectionChanged="AddressListView_OnSelectionChanged"
+            HorizontalAlignment="Center"
+            SelectionChanged="AddressListView_OnSelectionChanged"
             Background="Coral"
             >
 
-                <ListView.View>
-                
-                    <GridView >
+            <ListView.View>
 
-                        <GridViewColumn
+                <GridView 
+                    
+                    >
+
+                    <GridViewColumn
                         DisplayMemberBinding="{Binding Id}"
-
+                        
                         >
 
                         <StackPanel
@@ -69,8 +72,9 @@
                             HorizontalAlignment="Left"
                             >
 
-                            <Label Content="序号"/>
+                                <materialDesign:PackIcon Kind="Number0BoxOutline" Width="32" Height="32"/>
 
+                           
                         </StackPanel>
 
 
@@ -85,9 +89,7 @@
                             HorizontalAlignment="Left"
                             >
 
-                            <Label Content="网段"
-                                 
-                                   />
+                            <materialDesign:PackIcon Kind="IpNetworkOutline" Width="32" Height="32"/>
 
                         </StackPanel>
 
@@ -104,21 +106,76 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             >
-                            <Label Content="备注"/>
-
+                            <materialDesign:PackIcon Kind="InfoBoxOutline" Width="32" Height="32"/>
                         </StackPanel>
 
 
                     </GridViewColumn>
 
 
-                    </GridView>
-                </ListView.View>
-           
+                </GridView>
+            </ListView.View>
+
 
 
         </ListView>
 
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <ListBox
+                HorizontalAlignment="Center"
+                x:Name="MenuBox"
+                Style="{StaticResource MaterialDesignChoiceChipSecondaryOutlineListBox}"
+                SelectionChanged="MenuBox_OnSelectionChanged"
+                >
+                
+                <ListBoxItem Width="60" Height="60"
+                             Margin="5"
+                             ToolTip="添加网段"
+                            >
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                        <materialDesign:PackIcon Kind="Add" Width="32" Height="32"/>
+
+                    </StackPanel>
+
+                </ListBoxItem>
+
+
+
+                <ListBoxItem Width="60" 
+                             HorizontalAlignment="Center"
+                             ToolTip="删除网段"
+                             >
+
+                    <materialDesign:PackIcon Kind="Minus" Width="32" Height="32"/>
+
+                </ListBoxItem>
+
+                <ListBoxItem Width="60" 
+                             ToolTip="编辑网段"
+                             >
+
+                    <materialDesign:PackIcon Kind="Edit" Width="32" Height="32"/>
+
+                </ListBoxItem>
+                <ListBoxItem Width="60" 
+                             HorizontalAlignment="Right"
+                             ToolTip="关于"
+                             >
+
+                    <materialDesign:PackIcon Kind="AboutOutline" Width="32" Height="32"/>
+
+                </ListBoxItem>
+            </ListBox>
+
+        </StackPanel>
 
 
         <materialDesign:ColorZone
@@ -131,39 +188,52 @@
 
 
 
-                <StackPanel
+            <StackPanel
                     Margin="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     >
-                    <RadioButton
+                <RadioButton
                         x:Name="GraphicsButton"
                         Margin="4"
-                        Content="图形显示"
                         IsChecked="True"
                         Click="GraphicsButton_OnClick"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
+                        ToolTip="以图形方式显示所选网段地址"
+                       
+                        Style="{StaticResource MaterialDesignTabRadioButton}" >
+
+                    <materialDesign:PackIcon Kind="Apps" Width="32" Height="32"/>
+
+                </RadioButton>
+                <RadioButton
                         x:Name="ListButton"
                         Margin="4"
-                        Content="列表显示"
                         IsChecked="False"
                         Click="ListButton_OnClick"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                    <RadioButton
+                        ToolTip="以列表方式显示所选网段地址"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" >
+
+                    <materialDesign:PackIcon Kind="FormatListText" Width="32" Height="32"/>
+
+                </RadioButton>
+                <RadioButton
                         x:Name="StatusTestButton"
                         Margin="4"
-                        Content="状态检测"
                         IsChecked="False"
                         IsEnabled="False"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" />
-                </StackPanel>
-            
+                        ToolTip="检测所选网段地址在线状态"
+                        Style="{StaticResource MaterialDesignTabRadioButton}" >
+
+                    <materialDesign:PackIcon Kind="HelpNetwork" Width="32" Height="32"/>
+
+                </RadioButton>
+            </StackPanel>
 
 
 
 
-             
+
+
 
         </materialDesign:ColorZone>
 

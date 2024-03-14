@@ -314,6 +314,11 @@ namespace IPAM_NOTE
 
 		//}
 
+		private void MenuBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+			MessageBox.Show(MenuBox.SelectedIndex.ToString());
+		}
 	}
 
 
