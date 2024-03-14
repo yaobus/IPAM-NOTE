@@ -11,7 +11,6 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         
-        
         mc:Ignorable="d"
         Title="IP地址分配记录本" 
         MinHeight="768" 
@@ -19,12 +18,13 @@
         Height="1080"
         Width="1920"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Loaded="MainWindow_OnLoaded"
         >
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -50,8 +50,8 @@
             Grid.Column="0"
             Grid.Row="0"
             Grid.RowSpan="2"
-            x:Name="ListView"
-           
+            x:Name="AddressListView"
+           SelectionChanged="AddressListView_OnSelectionChanged"
             Background="Coral"
             >
 
@@ -137,16 +137,21 @@
                     HorizontalAlignment="Center"
                     >
                     <RadioButton
+                        x:Name="GraphicsButton"
                         Margin="4"
                         Content="图形显示"
                         IsChecked="True"
+                        Click="GraphicsButton_OnClick"
                         Style="{StaticResource MaterialDesignTabRadioButton}" />
                     <RadioButton
+                        x:Name="ListButton"
                         Margin="4"
                         Content="列表显示"
                         IsChecked="False"
+                        Click="ListButton_OnClick"
                         Style="{StaticResource MaterialDesignTabRadioButton}" />
                     <RadioButton
+                        x:Name="StatusTestButton"
                         Margin="4"
                         Content="状态检测"
                         IsChecked="False"
@@ -163,7 +168,7 @@
         </materialDesign:ColorZone>
 
 
-        <DockPanel
+        <WrapPanel
             Grid.Column="2"
             Grid.Row="1"
             x:Name="DockPanel"
@@ -172,7 +177,7 @@
 
 
 
-        </DockPanel>
+        </WrapPanel>
 
     </Grid>
 </Window>

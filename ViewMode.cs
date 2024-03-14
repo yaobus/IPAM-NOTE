@@ -28,6 +28,39 @@ namespace IPAM_NOTE
 		}
 
 
+		/// <summary>
+		/// 网段信息
+		/// </summary>
+		public class AddressInfo
+		{
+			public int Id { get; set; }
+
+			public string TableName { get; set; }
+
+			public string Network { get; set; }
+
+			public string Netmask { get; set; }
+
+			public string Description { get; set; }
+
+			public string Del { get; set; }
+
+
+
+
+			public AddressInfo(int id,string tableName,string network,string netmask,string description,string del)
+			{
+				Id = id;
+				TableName = tableName;
+				Network = network;
+				Netmask = netmask;
+				Description = description;
+				Del=del;
+
+			}
+
+		}
+
 
 	}
 }

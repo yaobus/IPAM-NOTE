@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,18 @@ namespace IPAM_NOTE.DatabaseOperation
 		{
 			SQLiteCommand command = new SQLiteCommand(query, connection);
 			command.ExecuteNonQuery();
+		}
+
+
+		public  SQLiteDataReader ExecuteQuery(string query)
+		{
+			using (SQLiteCommand command = new SQLiteCommand(query, connection))
+			{
+				using (SQLiteDataReader reader = command.ExecuteReader())
+				{
+					return reader;
+				}
+			}
 		}
 	}
 }
