@@ -19,6 +19,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static IPAM_NOTE.ViewMode;
+using Button = System.Windows.Controls.Button;
+using Style = System.Windows.Style;
 
 namespace IPAM_NOTE
 {
@@ -59,10 +61,11 @@ namespace IPAM_NOTE
 		}
 
 		//已分配网段
-		ObservableCollection<AddressInfo> AddressInfos = new ObservableCollection<AddressInfo>();
+		 ObservableCollection<AddressInfo> AddressInfos = new ObservableCollection<AddressInfo>();
 
-		private void LoadNetworkInfo(SQLiteConnection connection)
+		public void LoadNetworkInfo(SQLiteConnection connection)
 		{
+			AddressInfos.Clear();
 			try
 			{
 				string query = "SELECT * FROM Network"; // 表名替换成你的实际表名
@@ -71,7 +74,6 @@ namespace IPAM_NOTE
 
 				while (reader.Read())
 				{
-
 
 
 					// 读取数据行中的每一列
@@ -121,14 +123,16 @@ namespace IPAM_NOTE
 		{
 			int index = AddressListView.SelectedIndex;
 
+			DataBrige.TempAddress = (ViewMode.AddressInfo)AddressListView.SelectedItem;
+
 			string tableName;
 
 			if (index != -1)
 			{
 				tableName = AddressInfos[index].TableName;
 			
-				// LoadAddressConfig(tableName);
-				MessageBox.Show(tableName);
+				LoadAddressConfig(tableName);
+				//MessageBox.Show(tableName);
 			}
 		}
 
@@ -174,150 +178,204 @@ namespace IPAM_NOTE
 
 
 
-		///// <summary>
-		///// 加载IP地址图形化表
-		///// </summary>
-		//private void LoadAddressConfig(string tableName)
-		//{
-
-
-		//	string sql = string.Format("SELECT * FROM {0} ORDER BY Address ASC", tableName);
-
-		//	SQLiteDataReader reader = dbClass.ExecuteQuery(sql);
-
-		//	List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();
-
-		//	while (reader.Read())
-		//	{
-		//		int address = Convert.ToInt32(reader["Address"]);
-
-		//		string tableName2 = reader["TableName"].ToString();
-
-
-		//		string useTo = "";
-		//		string userDepartment = "";
-
-		//		string email = "";
-		//		string userTel = "";
-		//		string phoneNumber = "";
-		//		string deviceType = "";
-
-		//		string deviceModel = "";
-		//		string deviceMac = "";
-		//		string deviceAddress = "";
-		//		DateTime applyTime = DateTime.MinValue;
-
-		//		string ratify = "";
-		//		DateTime ratifyTime = DateTime.MinValue;
-
-		//		IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus, description,
-		//			applyUser, useTo, userDepartment, email, userTel, phoneNumber, deviceType, deviceModel, deviceMac,
-		//			deviceAddress, applyTime, ratify, ratifyTime);
-
-		//		ipAddressInfos.Add(ipAddress);
-		//	}
-
-		//	reader.Dispose();
-
-		//	WriteAddressConfig(ipAddressInfos);
-		//}
-
-		///// <summary>
-		///// 配置图形化显示
-		///// </summary>
-		///// <param name="ipAddressInfos"></param>
-		//private void WriteAddressConfig(List<IpAddressInfo> ipAddressInfos)
-		//{
-
-		//	int x = ipAddressInfos.Count;
-
-		//	for (int i = 0; i < x; i++)
-		//	{
-		//		//bool status = false;
-
-		//		string description = null;
-		//		Brush colorBrush = null;
-		//		int status = ipAddressInfos[i].AddressStatus;
-
-		//		switch (status)
-		//		{
-		//			case 0:
-		//				colorBrush = Brushes.DimGray;
-		//				description = "网段IP地址";
-
-		//				break;
-
-		//			case 1:
-		//				colorBrush = Brushes.DarkCyan;
-		//				description = "保留IP地址";
-
-		//				break;
-
-		//			case 2:
-		//				colorBrush = Brushes.LimeGreen;
-		//				description = "可用IP地址";
-		//				//status = true;
-
-		//				break;
-
-		//			case 3:
-		//				colorBrush = Brushes.DarkOrange;
-		//				description = "锁定IP地址" + "\r" + ipAddressInfos[i].Description + "\r" + ipAddressInfos[i].ApplyUser;
-
-
-		//				break;
-
-		//			case 4:
-		//				colorBrush = Brushes.OrangeRed;
-		//				description = "已用IP地址" + "\r" + ipAddressInfos[i].Description + "\r" + ipAddressInfos[i].ApplyUser;
-
-
-		//				break;
-
-
-		//			case 5:
-		//				colorBrush = Brushes.LightSlateGray;
-		//				description = "广播IP地址";
-
-
-		//				break;
-
-		//		}
-
-
-		//		Button newButton = new Button()
-		//		{
-		//			Width = 55,
-		//			Height = 30,
-		//			Background = colorBrush,
-		//			Foreground = Brushes.AliceBlue,
-		//			Content = i.ToString(),
-		//			ToolTip = description,
-		//			Tag = status,
-		//			Style = (Style)this.FindResource("MaterialDesignRaisedLightButton"),
-		//			Margin = new Thickness(3),
-
-		//		};
-
-
-
-		//		newButton.Click += NewButton_Click;
-
-
-
-
-
-		//		//显示到图形化区域
-		//		GraphicsPlan.Children.Add(newButton);
-
-		//	}
-
-		//}
-
-		private void MenuBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		/// <summary>
+		/// 加载IP地址图形化表
+		/// </summary>
+		private void LoadAddressConfig(string tableName)
 		{
 
-			MessageBox.Show(MenuBox.SelectedIndex.ToString());
+
+			string sql = string.Format("SELECT * FROM {0} ORDER BY Address ASC", tableName);
+
+
+			SQLiteCommand command = new SQLiteCommand(sql, dbClass.connection);
+			
+			SQLiteDataReader reader = command.ExecuteReader();
+
+
+			List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();
+
+			while (reader.Read())
+			{
+
+				int address = Convert.ToInt32(reader["Address"]);
+				int addressStatus = Convert.ToInt32(reader["AddressStatus"]);
+				string user = reader["User"].ToString();
+				string description = reader["Description"].ToString();
+
+
+				IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus,user, description);
+
+				ipAddressInfos.Add(ipAddress);
+			}
+
+			//reader.Dispose();
+
+			WriteAddressConfig(ipAddressInfos);
+		}
+
+
+
+		/// <summary>
+		/// 配置图形化显示
+		/// </summary>
+		/// <param name="ipAddressInfos"></param>
+		private void WriteAddressConfig(List<IpAddressInfo> ipAddressInfos)
+		{
+
+			int x = ipAddressInfos.Count;
+
+			for (int i = 0; i < x; i++)
+			{
+				//bool status = false;
+
+				string description = null;
+				Brush colorBrush = null;
+				int status = ipAddressInfos[i].AddressStatus;
+
+				switch (status)
+				{
+					case 0:
+						colorBrush = Brushes.DimGray;
+						description = "网段IP地址";
+
+						break;
+
+					case 1:
+						colorBrush = Brushes.LightSeaGreen;
+						description = "保留IP地址";
+
+						break;
+
+					
+
+				}
+				Button newButton = new Button()
+				{
+					Width = 60,
+					Height = 30,
+					Background = colorBrush,
+					Foreground = Brushes.AliceBlue,
+					Content = i.ToString(),
+					
+					ToolTip = description,
+					Tag = status,
+					Style = (Style)this.FindResource("MaterialDesignRaisedLightButton"),
+					Margin = new Thickness(5),
+
+				};
+
+
+
+				newButton.Click += NewButton_Click; ;
+
+
+
+
+
+				//显示到图形化区域
+				GraphicsPlan.Children.Add(newButton);
+
+			}
+
+		}
+
+
+
+		private void NewButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is Button button)
+			{
+
+				int tag = Convert.ToInt32(button.Tag);
+
+
+
+				if (tag == 2)
+				{
+					string text = button.Content.ToString();
+
+					if (button.Background == Brushes.LimeGreen)
+					{
+						//紫色代表被选中
+						button.Background = Brushes.BlueViolet;
+
+						Button bt = new Button();
+
+
+						string name = "bt" + button.Content;
+
+						bt.Content = button.Content;
+						bt.Background = button.Background;
+						bt.Height = button.Height;
+						bt.Width = button.Width;
+						bt.Margin = button.Margin;
+						bt.Style = (Style)this.FindResource("StaticResource MaterialDesignFlatAccentBgButton");
+						//IpSelectPanel.Children.Add(bt);
+						//IpSelectPanel.RegisterName(name, bt);
+
+						
+					}
+					else
+					{
+						//绿色代表未被选中
+						button.Background = Brushes.LimeGreen;
+
+						//Button bt = IpSelectPanel.FindName("bt" + button.Content.ToString()) as Button;
+
+						//if (bt != null)
+						//{
+							//IpSelectPanel.Children.Remove(bt);
+							//IpSelectPanel.UnregisterName("bt" + button.Content.ToString());
+						//}
+
+					}
+
+				}
+
+				//统计已选择IP数量
+				//SelectIpNum.Text = CountIp().ToString();
+
+				DataBrige.SelectIp = button.Content.ToString();
+
+				Window allocation = new Allocation();
+				allocation.Show();
+			}
+		}
+
+		private void AddButton_OnClick(object sender, RoutedEventArgs e)
+		{ 
+			AddWindow addWindow = new AddWindow();
+
+			if (addWindow.ShowDialog() == true)
+			{
+
+				// 当子窗口关闭后执行这里的代码
+				LoadNetworkInfo(dbClass.connection);
+			}
+
+			
+			
+
+			
+		}
+
+
+
+
+		private void MinusButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			
+		}
+
+		private void EditButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			
+		}
+
+		private void AboutButton_OnClick(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 

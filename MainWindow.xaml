@@ -18,7 +18,7 @@
         Height="1080"
         Width="1920"
         WindowStartupLocation="CenterScreen"
-       
+       WindowState="Maximized"
         Loaded="MainWindow_OnLoaded"
         >
     <Grid>
@@ -29,7 +29,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
@@ -51,9 +51,10 @@
             Grid.Row="0"
             Grid.RowSpan="2"
             x:Name="AddressListView"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Left"
             SelectionChanged="AddressListView_OnSelectionChanged"
             Background="Coral"
+            materialDesign:ElevationAssist.Elevation="Dp1"
             >
 
             <ListView.View>
@@ -127,7 +128,64 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             >
-            <ListBox
+
+            <Button
+                x:Name="AddButton"
+                Margin="10,0"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="添加网段"
+                VerticalAlignment="Center"
+                materialDesign:ButtonAssist.CornerRadius="15"
+                Click="AddButton_OnClick"
+                >
+
+                <materialDesign:PackIcon Kind="Add" Width="24" Height="24"/>
+
+            </Button>
+
+            <Button
+                x:Name="MinusButton"
+                Margin="10,0"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="删除网段"
+                VerticalAlignment="Center"
+                materialDesign:ButtonAssist.CornerRadius="15"
+                Click="MinusButton_OnClick"
+                >
+
+                <materialDesign:PackIcon Kind="Minus" Width="24" Height="24"/>
+
+            </Button>
+
+            <Button
+                x:Name="EditButton"
+                Margin="10,0"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="编辑网段"
+                VerticalAlignment="Center"
+                materialDesign:ButtonAssist.CornerRadius="15"
+                Click="EditButton_OnClick"
+                >
+
+                <materialDesign:PackIcon Kind="Edit" Width="24" Height="24"/>
+
+            </Button>
+
+            <Button
+                x:Name="AboutButton"
+                Margin="10,0"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="关于"
+                VerticalAlignment="Center"
+                materialDesign:ButtonAssist.CornerRadius="15"
+                Click="AboutButton_OnClick"
+                >
+
+                <materialDesign:PackIcon Kind="AboutOutline" Width="24" Height="24"/>
+
+            </Button>
+
+            <!--<ListBox
                 HorizontalAlignment="Center"
                 x:Name="MenuBox"
                 Style="{StaticResource MaterialDesignChoiceChipSecondaryOutlineListBox}"
@@ -173,7 +231,7 @@
                     <materialDesign:PackIcon Kind="AboutOutline" Width="32" Height="32"/>
 
                 </ListBoxItem>
-            </ListBox>
+            </ListBox>-->
 
         </StackPanel>
 
@@ -241,7 +299,7 @@
         <WrapPanel
             Grid.Column="2"
             Grid.Row="1"
-            x:Name="DockPanel"
+            x:Name="GraphicsPlan"
             
             >
 

@@ -16,14 +16,21 @@ namespace IPAM_NOTE
 		public class IpAddressInfo
 		{
 			//IP地址
-			public int Id { get; set; }
+			public int Address { get; set; }
 
-			public string Network { get; set; }
+			public int AddressStatus { get; set; }
 
-			public IpAddressInfo(int id,string network)
+			public string User { get; set; }
+
+			public string Description { get; set; }
+
+
+			public IpAddressInfo(int address,int addressStatus,string user,string description)
 			{
-				Id = id;
-				Network=network;
+				Address=address;
+				AddressStatus=addressStatus;
+				User=user;
+				Description=description;
 			}
 		}
 

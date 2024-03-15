@@ -41,7 +41,7 @@ namespace IPAM_NOTE
 				using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbFilePath};Version=3;"))
 				{
 					connection.Open();
-					string createTableQuery = "CREATE TABLE \"Network\" (\r\n  \"Id\" INTEGER NOT NULL,\r\n  \"TableName\" TEXT,\r\n  \"Network\" TEXT,\r\n  \"Netmask\" TEXT,\r\n  \"Description\" TEXT,\r\n  \"Del\" TEXT,\r\n  PRIMARY KEY (\"Id\")\r\n)";
+					string createTableQuery = "CREATE TABLE \"Network\" (\r\n  \"Id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\r\n  \"TableName\" TEXT,\r\n  \"Network\" TEXT,\r\n  \"Netmask\" TEXT,\r\n  \"Description\" TEXT,\r\n  \"Del\" TEXT\r\n)";
 					using (SQLiteCommand command = new SQLiteCommand(createTableQuery, connection))
 					{
 						command.ExecuteNonQuery();
