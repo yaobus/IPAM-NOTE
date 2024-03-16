@@ -46,7 +46,7 @@ namespace IPAM_NOTE
 
 			public string Network { get; set; }
 
-			public string Netmask { get; set; }
+			public string NetMask { get; set; }
 
 			public string Description { get; set; }
 
@@ -55,12 +55,12 @@ namespace IPAM_NOTE
 
 
 
-			public AddressInfo(int id,string tableName,string network,string netmask,string description,string del)
+			public AddressInfo(int id,string tableName,string network,string netMask,string description,string del)
 			{
 				Id = id;
 				TableName = tableName;
 				Network = network;
-				Netmask = netmask;
+				NetMask = netMask;
 				Description = description;
 				Del=del;
 

@@ -17,16 +17,22 @@
         Width="600"
         WindowStartupLocation="CenterScreen"
         Loaded="Allocation_OnLoaded"
+        Closing="Allocation_OnClosing"
         >
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
 
-        <StackPanel
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--<StackPanel
             Grid.Row="0"
             >
             <TextBox
@@ -43,7 +49,175 @@
                 Text="" />
 
 
+        </StackPanel>-->
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            >
+
+            <materialDesign:ColorZone
+                
+                Padding="0"
+                Background="#03a9f4"
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        x:Name="NetworkBlock"
+                        Grid.Row="0"
+                        Margin="16,16,16,4"
+                        Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                        Text="" />
+                    <Separator
+                        Grid.Row="1"
+                        Style="{StaticResource MaterialDesignLightSeparator}" />
+                    <TextBlock
+                        x:Name="AddressBlock"
+                        Grid.Row="2"
+                        Margin="16,0,16,8"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignBody2TextBlock}"
+                        Text="" />
+
+                </Grid>
+            </materialDesign:ColorZone>
+
         </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            >
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="分配给"
+                >
+
+                <materialDesign:PackIcon 
+                    Kind="User" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                />
+
+
+
+
+                <TextBox
+                    Width="340"
+                    x:Name="UserTextBox"
+                    Margin="5"
+                    Text=""
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"   
+                    TextWrapping="NoWrap" 
+                />
+
+            </StackPanel>
+
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="分配说明"
+                >
+
+                <materialDesign:PackIcon 
+                    Kind="NoteEdit" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                />
+
+
+
+
+                <TextBox
+                    Width="340"
+                    x:Name="DescriptionTextBox"
+                    Margin="5"
+                    Text=""
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"   
+                    TextWrapping="NoWrap" 
+                    />
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+        >
+            <Button
+                Grid.Column="1"
+                x:Name="ReleaseButton"
+                Margin="10"
+                Height="50"
+
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="删除分配" 
+                Click="ReleaseButton_OnClick"
+                materialDesign:ButtonAssist.CornerRadius="15"
+            >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <materialDesign:PackIcon 
+                        Kind="Delete" 
+                        VerticalAlignment="Center"
+                        Height="32"
+                        Width="32"
+                    />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        >删除分配</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button
+                Grid.Column="1"
+                x:Name="SaveButton"
+                Margin="10"
+                Height="50"
+
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="保存分配" 
+                Click="SaveButton_OnClick"
+                materialDesign:ButtonAssist.CornerRadius="15"
+            >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <materialDesign:PackIcon 
+                        Kind="ContentSave" 
+                        VerticalAlignment="Center"
+                        Height="32"
+                        Width="32"
+                    />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                    >保存分配</TextBlock>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+
 
     </Grid>
 </Window>

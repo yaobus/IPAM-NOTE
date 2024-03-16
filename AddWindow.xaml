@@ -11,7 +11,7 @@
         TextElement.FontSize="14"
         ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="添加网段" 
+        Title="" 
         Style="{DynamicResource MaterialDesignWindow}"
         Height="300"
         Width="600"
@@ -192,15 +192,18 @@
                     Style="{StaticResource MaterialDesignOutlinedButton}"
                     ToolTip="保存" 
                     Click="SaveButton_Click"
+                    materialDesign:ButtonAssist.CornerRadius="15"
                     >
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                         <materialDesign:PackIcon 
-                    Kind="ContentSave" 
-                     VerticalAlignment="Center"
-                    Height="32"
-                    Width="32"
-                    />
-
+                        Kind="ContentSave" 
+                        VerticalAlignment="Center"
+                        Height="32"
+                        Width="32"
+                        />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                        >保存网段</TextBlock>
                     </StackPanel>
                 </Button>
 

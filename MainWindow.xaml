@@ -12,7 +12,7 @@
         TextElement.FontSize="14"
         
         mc:Ignorable="d"
-        Title="IP地址分配记录本" 
+        Title="IP地址分配记录本-52破解-Yaobus" 
         MinHeight="768" 
         MinWidth="1366"
         Height="1080"
@@ -163,6 +163,7 @@
                 Style="{StaticResource MaterialDesignOutlinedButton}"
                 ToolTip="编辑网段"
                 VerticalAlignment="Center"
+                IsEnabled="False"
                 materialDesign:ButtonAssist.CornerRadius="15"
                 Click="EditButton_OnClick"
                 >
@@ -269,7 +270,9 @@
                         IsChecked="False"
                         Click="ListButton_OnClick"
                         ToolTip="以列表方式显示所选网段地址"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" >
+                        Style="{StaticResource MaterialDesignTabRadioButton}" 
+                        
+                        >
 
                     <materialDesign:PackIcon Kind="FormatListText" Width="32" Height="32"/>
 
@@ -280,7 +283,8 @@
                         IsChecked="False"
                         IsEnabled="False"
                         ToolTip="检测所选网段地址在线状态"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" >
+                        Style="{StaticResource MaterialDesignTabRadioButton}" 
+                        >
 
                     <materialDesign:PackIcon Kind="HelpNetwork" Width="32" Height="32"/>
 
@@ -299,8 +303,9 @@
         <WrapPanel
             Grid.Column="2"
             Grid.Row="1"
+            Grid.RowSpan="2"
             x:Name="GraphicsPlan"
-            
+
             >
 
 

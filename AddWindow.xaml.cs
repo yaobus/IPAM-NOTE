@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,6 +37,24 @@ namespace IPAM_NOTE
 		private void AddWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
 
+			if (DataBrige.AddStatus==0)
+			{
+				this.Title = "添加网段";
+
+
+			}
+			else
+			{
+				this.Title = "编辑网段信息";
+				IpTextBox.Text = DataBrige.TempAddress.Network;
+				MaskText.Text = DataBrige.TempAddress.NetMask;
+				IpDescription.Text = DataBrige.TempAddress.Description;
+
+
+				IpTextBox.IsEnabled = false;
+				MaskText.IsEnabled = false;
+
+			}
 
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 			string dbName = "Address_database.db";
@@ -44,6 +63,8 @@ namespace IPAM_NOTE
 
 			dbClass = new DbClass(dbFilePath);
 			dbClass.OpenConnection();
+
+
 		}
 
 		/// <summary>
@@ -53,35 +74,70 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void SaveButton_Click(object sender, RoutedEventArgs e)
 		{
-
-			//判断是不是瞎几把写的IP地址
-			if (IsValidIp(IpTextBox.Text) == true)
+			//添加网段
+			if (DataBrige.AddStatus==0)
 			{
-				//规范化IP输入
-				string ip = IpTextBox.Text.Substring(0, IpTextBox.Text.LastIndexOf(".") + 1) + "*";
-
-
-				if (IpDescription.Text != "")
+				//判断是不是瞎几把写的IP地址
+				if (IsValidIp(IpTextBox.Text) == true)
 				{
-					string tableName;
+					//规范化IP输入
+					string ip = IpTextBox.Text.Substring(0, IpTextBox.Text.LastIndexOf(".") + 1) + "*";
 
-					string sqlTemp = string.Format("SELECT COUNT(*) FROM Network WHERE `Network` = '{0}' ", ip);
 
-
-					int num = DbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
-
-					//IP地址段已存在
-					if (num > 0)
+					if (IpDescription.Text != "")
 					{
-						string msg = string.Format("已存在同配置网段{0}个，是否继续添加同配置网段？", num.ToString());
+						string tableName;
 
-						MessageBoxResult result = MessageBox.Show(msg, "确认", MessageBoxButton.YesNo,
-							MessageBoxImage.Information);
+						string sqlTemp = string.Format("SELECT COUNT(*) FROM Network WHERE `Network` = '{0}' ", ip);
 
-						if (result == MessageBoxResult.Yes)
+
+						int num = DbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
+
+						//IP地址段已存在
+						if (num > 0)
 						{
-							// 用户点击了"是"按钮，执行相关操作
-							tableName = CreateTableName(ip) + "_" + (num + 1).ToString();
+							string msg = string.Format("已存在同配置网段{0}个，是否继续添加同配置网段？", num.ToString());
+
+							MessageBoxResult result = MessageBox.Show(msg, "确认", MessageBoxButton.YesNo,
+								MessageBoxImage.Information);
+
+							if (result == MessageBoxResult.Yes)
+							{
+								// 用户点击了"是"按钮，执行相关操作
+								tableName = CreateTableName(ip) + "_" + (num + 1).ToString();
+
+
+								//插入网段信息总表的数据
+								string sql = string.Format(
+									"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
+									tableName, ip, MaskText.Text, IpDescription.Text, 0);
+
+								dbClass.ExecuteQuery(sql);
+
+								//创建表
+								CreateTable(tableName);
+
+								//装载初始化数据
+								InitializedData(tableName);
+
+								this.Close();
+
+
+
+							}
+							else if (result == MessageBoxResult.No)
+							{
+								// 用户点击了"否"按钮，取消操作或进行其他处理
+
+
+							}
+
+
+						}
+						else
+						{
+
+							tableName = CreateTableName(ip) + "_1";
 
 
 							//插入网段信息总表的数据
@@ -90,6 +146,8 @@ namespace IPAM_NOTE
 								tableName, ip, MaskText.Text, IpDescription.Text, 0);
 
 							dbClass.ExecuteQuery(sql);
+
+							//插入网段信息总表的数据
 
 							//创建表
 							CreateTable(tableName);
@@ -102,57 +160,48 @@ namespace IPAM_NOTE
 
 
 						}
-						else if (result == MessageBoxResult.No)
-						{
-							// 用户点击了"否"按钮，取消操作或进行其他处理
-
-
-						}
 
 
 					}
 					else
 					{
 
-						tableName = CreateTableName(ip) + "_1";
-
-
-						//插入网段信息总表的数据
-						string sql = string.Format(
-							"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
-							tableName, ip, MaskText.Text, IpDescription.Text, 0);
-
-						dbClass.ExecuteQuery(sql);
-
-						//插入网段信息总表的数据
-
-						//创建表
-						CreateTable(tableName);
-
-						//装载初始化数据
-						InitializedData(tableName);
-
-						this.Close();
-
+						MessageBox.Show("为了便于后期管理，必须填写网段说明!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
 
 
 					}
 
-
 				}
 				else
 				{
-
-					MessageBox.Show("为了便于后期管理，必须填写网段说明!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
-
-
+					MessageBox.Show("IP地址不合法，请检查IP地址是否正确!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 
 			}
-			else
+			else//编辑网段
 			{
-				MessageBox.Show("IP地址不合法，请检查IP地址是否正确!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
+
+				if (IpDescription.Text!="")
+				{
+					string tableName = DataBrige.TempAddress.TableName;
+
+					string sqlTemp = string.Format("UPDATE \"Network\" SET \"Description\" = '{0}' WHERE TableName = '{1}'", IpDescription.Text, tableName);
+
+					Console.WriteLine(sqlTemp);
+
+					dbClass.ExecuteQuery(sqlTemp);
+
+
+
+					this.Close();
+				}
+
+
+
+
+
 			}
+
 
 
 

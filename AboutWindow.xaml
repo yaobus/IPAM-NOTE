@@ -1,0 +1,68 @@
+﻿<Window x:Class="IPAM_NOTE.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IPAM_NOTE"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesignDarkBackground}"
+        Foreground="{DynamicResource MaterialDesignDarkForeground}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="关于IPAM-NOTE" 
+        Style="{DynamicResource MaterialDesignWindow}"
+        Height="300"
+        Width="600"
+        WindowStartupLocation="CenterScreen"
+        Loaded="AboutWindow_OnLoaded"
+        >
+    <Grid>
+        <StackPanel
+              Margin="0,10"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              >
+            <TextBlock
+                  Margin="0,10"
+                  Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                  Text="软件名称：IPAM-NOTE" />
+
+            <TextBlock
+                  Margin="0,10"
+                  Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                  Text="软件版本号：Ver1.00-Beta" />
+
+            <TextBlock
+                
+                  Margin="0,10"
+                  Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                  Text="软件作者：Yaobus" />
+
+            <TextBlock
+                x:Name="ipamNote"
+                  Margin="0,10"
+                  MouseDown="IpamNote_OnMouseDown"
+                  Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                  Text="Github主页：https://github.com/yaobus/IPAM-NOTE.git" />
+
+            <TextBlock
+                  Margin="0,10"
+                  Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                  Text="本软件有多用户版本SIPAM" />
+
+            <TextBlock
+                x:Name="Sipam"
+                Margin="0,10"
+                  MouseDown="Sipam_OnMouseDown"
+                  Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                  Text="SIPAM主页：https://github.com/yaobus/SIPAM.git" />
+
+
+
+
+        </StackPanel>
+
+    </Grid>
+</Window>
