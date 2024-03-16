@@ -216,11 +216,16 @@ namespace IPAM_NOTE
 			if (index != -1)
 			{
 				tableName = AddressInfos[index].TableName;
-
+				MinusButton.IsEnabled=true;
 				EditButton.IsEnabled = true;
 
 				LoadAddressConfig(tableName);
 
+			}
+			else
+			{
+				MinusButton.IsEnabled = false;
+				EditButton.IsEnabled = false;
 			}
 
 

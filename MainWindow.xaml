@@ -18,7 +18,7 @@
         Height="1080"
         Width="1920"
         WindowStartupLocation="CenterScreen"
-       WindowState="Maximized"
+      
         Loaded="MainWindow_OnLoaded"
         >
     <Grid>
@@ -150,6 +150,7 @@
                 ToolTip="删除网段"
                 VerticalAlignment="Center"
                 materialDesign:ButtonAssist.CornerRadius="15"
+                IsEnabled="False"
                 Click="MinusButton_OnClick"
                 >
 
