@@ -15,9 +15,9 @@
         Title="IP地址分配记录本-52破解-Yaobus" 
         MinHeight="768" 
         MinWidth="1366"
-        Height="1080"
-        Width="1920"
-        WindowStartupLocation="CenterScreen"
+        Height="900"
+        Width="1400"
+        WindowStartupLocation="Manual"
         Loaded="MainWindow_OnLoaded"
         >
     <Grid>
