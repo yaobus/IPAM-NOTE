@@ -28,5 +28,9 @@
 ![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/04.png)
 
 
+批量地址检测
+
+![地址检测](https://github.com/yaobus/ProjectData/blob/main/ipam-note/06.png)
+
 其他界面
 ![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/05.png)
