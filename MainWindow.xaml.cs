@@ -406,7 +406,6 @@ namespace IPAM_NOTE
 		}
 
 
-
 		private void NewButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is Button button)

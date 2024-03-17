@@ -71,15 +71,52 @@
                         <RowDefinition
                             Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock
-                        x:Name="NetworkBlock"
-                        Grid.Row="0"
-                        Margin="16,16,16,4"
-                        Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                        Text="" />
-                    <Separator
-                        Grid.Row="1"
-                        Style="{StaticResource MaterialDesignLightSeparator}" />
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="400"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            x:Name="NetworkBlock"
+                        
+                            Margin="16,16,16,4"
+                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                            Text="" />
+
+                        <Button
+                            Grid.Column="1"
+                            x:Name="PingButton"
+                            Margin="10"
+                            Height="50"
+                            Foreground="AliceBlue"
+                            
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            ToolTip="保存分配" 
+                            Click="PingButton_OnClick"
+                            materialDesign:ButtonAssist.CornerRadius="15"
+                        >
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                                <materialDesign:PackIcon 
+                                    Kind="Timelapse" 
+                                    VerticalAlignment="Center"
+                                    Height="32"
+                                    Width="32"
+                                />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Text="  Ping -t"
+
+                                />
+                            </StackPanel>
+                        </Button>
+
+                    </Grid>
+
+
+
                     <TextBlock
                         x:Name="AddressBlock"
                         Grid.Row="2"

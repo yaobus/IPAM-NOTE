@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -136,5 +138,31 @@ namespace IPAM_NOTE
 		}
 
 
+
+		private void PingButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			//int lastIndex = DataBrige.TempAddress.Network.LastIndexOf('.');
+			string ip = DataBrige.TempAddress.Network.Replace("*", "") + DataBrige.SelectIp;
+
+			string arguments = $"-t {ip}";
+
+			// 创建一个新的ProcessStartInfo对象
+			ProcessStartInfo processStartInfo = new ProcessStartInfo
+			{
+				FileName = "cmd.exe", // 要执行的程序是cmd.exe
+				Arguments = $"/k ping {arguments}", // /k参数告诉cmd执行完命令后不会自动退出
+				UseShellExecute = false, // 必须设置为false，否则无法重定向标准输入输出
+				CreateNoWindow = false // 创建一个新窗口来显示CMD窗口
+			};
+
+			// 创建一个新的Process对象
+			Process process = new Process
+			{
+				StartInfo = processStartInfo
+			};
+
+			// 启动进程
+			process.Start();
+		}
 	}
 }
