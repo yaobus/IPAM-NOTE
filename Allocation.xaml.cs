@@ -33,11 +33,22 @@ namespace IPAM_NOTE
 			
 			NetworkBlock.Text = "网段:" + DataBrige.TempAddress.Network;
 
-			AddressBlock.Text = "当前所选IP:" + DataBrige.SelectIp;
+			AddressBlock.Text = "当前所选IP为:" + DataBrige.SelectIp + " 目前使用该IP的主机为:" + DataBrige.IpAddress.HostName + " MAC为:" + DataBrige.IpAddress.MacAddress;
 
-			UserTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User;
+			if (DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User == "" && DataBrige.IpAddress.HostName != "N/A")
+			{
+				UserTextBox.Text = DataBrige.IpAddress.HostName;
+				DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
+			}
+			else
+			{
+				UserTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User;
 
-			DescriptionTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description;
+				DescriptionTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description;
+			}
+
+
+
 
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 			string dbName = "Address_database.db";
@@ -64,9 +75,16 @@ namespace IPAM_NOTE
 
 				string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2' , \"Description\" = '{2}' WHERE Address = {3}", tableName,UserTextBox.Text,DescriptionTextBox.Text,DataBrige.SelectIp);
 
+
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User = UserTextBox.Text;
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description = DescriptionTextBox.Text;
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].AddressStatus = 2;
+
 				//Console.WriteLine(sql);
 
 				dbClass.ExecuteQuery(sql);
+
+
 
 				this.Close();
 
@@ -98,6 +116,9 @@ namespace IPAM_NOTE
 				//Console.WriteLine(sql);
 
 				dbClass.ExecuteQuery(sql);
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User = "";
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description = "";
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].AddressStatus = 1;
 
 				this.Close();
 			}

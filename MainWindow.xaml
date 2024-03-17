@@ -18,7 +18,6 @@
         Height="1080"
         Width="1920"
         WindowStartupLocation="CenterScreen"
-      
         Loaded="MainWindow_OnLoaded"
         >
     <Grid>
@@ -282,12 +281,13 @@
                         x:Name="StatusTestButton"
                         Margin="4"
                         IsChecked="False"
-                        IsEnabled="False"
                         ToolTip="检测所选网段地址在线状态"
+                        IsEnabled="False"
                         Style="{StaticResource MaterialDesignTabRadioButton}" 
+                        Click="StatusTestButton_OnClick"
                         >
 
-                    <materialDesign:PackIcon Kind="HelpNetwork" Width="32" Height="32"/>
+                    <materialDesign:PackIcon Kind="Timelapse" Width="32" Height="32"/>
 
                 </RadioButton>
             </StackPanel>
@@ -312,6 +312,26 @@
 
 
         </WrapPanel>
+
+        <StackPanel
+            x:Name="StatusPanel"
+            Grid.Row="2"
+            Grid.Column="2"
+            VerticalAlignment="Bottom"
+            >
+
+
+            <ProgressBar
+                x:Name="Bar"
+                Height="5"
+                Maximum="100"
+                Visibility="Hidden"
+                Orientation="Horizontal"
+                IsIndeterminate="True" />
+
+
+        </StackPanel>
+
 
     </Grid>
 </Window>

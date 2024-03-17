@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,13 +26,27 @@ namespace IPAM_NOTE
 
 			public string Description { get; set; }
 
+			public IPStatus PingStatus { get; set; }
 
-			public IpAddressInfo(int address,int addressStatus,string user,string description)
+			public long PingTime { get; set; }
+
+			public string HostName { get; set; }
+
+			public string MacAddress { get; set; }
+
+
+
+
+			public IpAddressInfo(int address,int addressStatus,string user,string description, IPStatus pingStatus, long pingTime, string hostName, string macAddress)
 			{
-				Address=address;
-				AddressStatus=addressStatus;
-				User=user;
-				Description=description;
+				Address = address;
+				AddressStatus = addressStatus;
+				User = user;
+				Description = description;
+				PingStatus = pingStatus;
+				PingTime = pingTime;
+				HostName = hostName;
+				MacAddress = macAddress;
 			}
 		}
 
@@ -68,6 +84,25 @@ namespace IPAM_NOTE
 
 		}
 
+		/// <summary>
+		/// 检测状态
+		/// </summary>
+		public class IPInfo
+		{
+			public int IPAddress { get; set; }
+			public IPStatus PingStatus { get; set; }
+			public long PingTime { get; set; }
+			public string HostName { get; set; }
+			public string MACAddress { get; set; }
 
+			public IPInfo(int ipAddress, IPStatus pingStatus, long pingTime, string hostName, string macAddress)
+			{
+				IPAddress = ipAddress;
+				PingStatus = pingStatus;
+				PingTime = pingTime;
+				HostName = hostName;
+				MACAddress = macAddress;
+			}
+		}
 	}
 }

@@ -75,7 +75,7 @@ namespace IPAM_NOTE
 		private void SaveButton_Click(object sender, RoutedEventArgs e)
 		{
 			//添加网段
-			if (DataBrige.AddStatus==0)
+			if (DataBrige.AddStatus == 0)
 			{
 				//判断是不是瞎几把写的IP地址
 				if (IsValidIp(IpTextBox.Text) == true)
@@ -242,7 +242,7 @@ namespace IPAM_NOTE
 		private void CreateTable(string tableName)
 		{
 			string sql = string.Format(
-				"CREATE TABLE IF NOT EXISTS {0} (Address INTEGER  NOT NULL ,AddressStatus INTEGER , User VARCHAR ( 16 ),Description VARCHAR ( 80 ))",
+				"CREATE TABLE IF NOT EXISTS {0} (Address INTEGER  NOT NULL ,AddressStatus INTEGER , User VARCHAR ( 16 ),Description VARCHAR ( 80 ),HostName VARCHAR ( 64 ),MacAddress VARCHAR ( 20 ))",
 				tableName);
 
 			dbClass.ExecuteQuery(sql);
