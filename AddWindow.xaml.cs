@@ -36,6 +36,7 @@ namespace IPAM_NOTE
 
 		private void AddWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
+			LoadStatus=true;
 
 			if (DataBrige.AddStatus==0)
 			{
@@ -50,9 +51,11 @@ namespace IPAM_NOTE
 				MaskText.Text = DataBrige.TempAddress.NetMask;
 				IpDescription.Text = DataBrige.TempAddress.Description;
 
+				CalculateNetMaskLocated();
 
 				IpTextBox.IsEnabled = false;
 				MaskText.IsEnabled = false;
+				MaskSlider.IsEnabled=false;
 
 			}
 
@@ -256,7 +259,9 @@ namespace IPAM_NOTE
 		private void InitializedData(string tableName)
 		{
 			//需要写入的IP数量
-			int x = 255;
+			//int x = 255;
+			//需要写入的IP数量
+			int x = Convert.ToInt32(NumBox.Text);
 
 			for (int i = 0; i < x; i++)
 			{
@@ -307,6 +312,97 @@ namespace IPAM_NOTE
 		private void AddWindow_OnClosing(object sender, CancelEventArgs e)
 		{
 			this.DialogResult = true;
+		}
+
+
+		/// <summary>
+		/// 页面加载状态（页面未完成加载时不计算IP）
+		/// </summary>
+		public bool LoadStatus = false;
+
+		/// <summary>
+		/// 计算IP地址数量
+		/// </summary>
+		public void CalculateIpAddress()
+		{
+			int value = (int)MaskSlider.Value;
+			int num = 32 - value;
+			string str = null;
+			int tempStr = 8 - num;
+
+			//计算子网掩码二进制数
+			for (int i = 0; i < tempStr; i++)
+			{
+				str += "1";
+			}
+
+			for (int i = 0; i < num; i++)
+			{
+				str += "0";
+			}
+
+			int t = Convert.ToInt32(str, 2);
+			MaskText.Text = "255.255.255." + t.ToString();
+			NumBox.Text = (256 - t).ToString();
+
+			string ipStr = IpTextBox.Text;
+			int index = ipStr.LastIndexOf(".") + 1;
+
+			string strTemp = ipStr.Substring(0, index);
+
+
+
+
+		}
+
+
+		/// <summary>
+		/// 拖动滑条调整子网掩码
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MaskSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			if (LoadStatus==true)
+			{
+				CalculateIpAddress();
+			}
+
+			
+		}
+
+
+
+		/// <summary>
+		/// 计算子网掩码位数
+		/// </summary>
+		/// <param name="num"></param>
+		private void CalculateNetMaskLocated()
+		{
+			string ipStr = MaskText.Text;
+			int index = ipStr.LastIndexOf(".") + 1;
+
+			string strTemp = ipStr.Substring(index, ipStr.Length - index);
+
+			if (strTemp == "0")
+			{
+				strTemp = "256";
+			}
+
+			string str = Convert.ToString(Convert.ToInt32(strTemp), 2);
+
+
+
+			index = str.IndexOf("0");
+
+
+			string str2 = str.Substring(index, str.Length - index);
+
+			// MessageBox.Show(str2);
+
+
+
+			MaskSlider.Value = 32 - str2.Length;
 		}
 
 	}

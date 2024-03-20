@@ -22,8 +22,8 @@
         >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
+           
         </Grid.ColumnDefinitions>
         
         
@@ -63,6 +63,30 @@
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="NoWrap" 
                     />
+                <StackPanel
+                    Margin="5"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    materialDesign:HintAssist.Hint="网段地址数量"
+                >
+
+                    <TextBox
+                        Width="160"
+                        x:Name="NumBox"
+                        Margin="0"
+                        Text="256"
+                        MaxHeight="55"
+                        IsEnabled="False"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="True"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"   
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        TextWrapping="NoWrap" 
+                    />
+
+                </StackPanel>
+
 
             </StackPanel>
 
@@ -70,7 +94,6 @@
                 Margin="5"
                 Orientation="Horizontal"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Stretch"
                 materialDesign:HintAssist.Hint="子网掩码"
                 >
 
@@ -80,13 +103,51 @@
                     Height="32"
                     Width="32"
                     />
-                
+
+                <StackPanel
+                    VerticalAlignment="Center"
+                    >
+                    <Slider
+                        Margin="5"
+                        x:Name="MaskSlider"
+                        Minimum="24"
+                        Maximum="30"
+                        Width="340"
+                        IsEnabled="True"
+                         ValueChanged="MaskSlider_OnValueChanged"          
+                        Style="{StaticResource MaterialDesignDiscreteSlider}"
+                        TickFrequency="{Binding DiscreteHorizontal.TickFrequency}"
+                        TickPlacement="Both"  
+                    />
+                </StackPanel>
 
 
+                <StackPanel
+                    Margin="0,5"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    materialDesign:HintAssist.Hint="子网掩码"
+                >
+
+                    <TextBox
+                        Width="160"
+                        x:Name="MaskText"
+                        Margin="5"
+                        Text="255.255.255.0"
+                        MaxHeight="55"
+                        IsEnabled="False"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="True"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"   
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        TextWrapping="NoWrap" 
+                    />
+
+                </StackPanel>
 
 
-
-                <TextBox
+                <!--<TextBox
                     Width="340"
                     x:Name="MaskText"
                     Margin="5"
@@ -96,7 +157,7 @@
                     AcceptsReturn="True"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="NoWrap" 
-                    />
+                    />-->
 
             </StackPanel>
 
@@ -133,77 +194,23 @@
                     TextWrapping="Wrap" 
                     />
 
-            </StackPanel>
-
-
-
-        </StackPanel>
-
-        <Grid 
-                Grid.Column="1"
-              VerticalAlignment="Center"
-                >
-            <StackPanel>
-
-
-                <Button
-                    Grid.Column="1"
-                    x:Name="PasswordButton3"
-                    Margin="10"
-                    Height="50"
-                    Visibility="Hidden"
-                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                    ToolTip="保存" 
-                   
-                    >
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                        <materialDesign:PackIcon 
-                    Kind="ContentSave" 
-                     VerticalAlignment="Center"
-                    Height="32"
-                    Width="32"
-                    />
-
-                    </StackPanel>
-                </Button>
-                <Button
-                    Grid.Column="1"
-                    x:Name="PasswordButton"
-                    Margin="10"
-                    Height="50"
-                    Visibility="Hidden"
-                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                    ToolTip="保存" 
-                   
-                    >
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                        <materialDesign:PackIcon 
-                    Kind="ContentSave" 
-                     VerticalAlignment="Center"
-                    Height="32"
-                    Width="32"
-                    />
-
-                    </StackPanel>
-                </Button>
-
                 <Button
                     Grid.Column="1"
                     x:Name="SaveButton"
-                    Margin="10"
+                    Margin="5"
                     Height="50"
-
+                    Width="160"
                     Style="{StaticResource MaterialDesignOutlinedButton}"
                     ToolTip="保存" 
                     Click="SaveButton_Click"
-                    materialDesign:ButtonAssist.CornerRadius="15"
-                    >
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                >
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                         <materialDesign:PackIcon 
-                        Kind="ContentSave" 
-                        VerticalAlignment="Center"
-                        Height="32"
-                        Width="32"
+                            Kind="ContentSave" 
+                            VerticalAlignment="Center"
+                            Height="32"
+                            Width="32"
                         />
                         <TextBlock
                             VerticalAlignment="Center"
@@ -211,9 +218,27 @@
                     </StackPanel>
                 </Button>
 
+
             </StackPanel>
 
-        </Grid>
+
+
+        </StackPanel>
+
+        <StackPanel 
+            Orientation="Vertical"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left"
+            >
+
+
+
+
+
+            
+
+        </StackPanel>
 
 
     </Grid>
