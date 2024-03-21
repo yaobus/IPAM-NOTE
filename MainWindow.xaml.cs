@@ -836,7 +836,7 @@ namespace IPAM_NOTE
 			else
 			{
 				// 设置默认文件名
-				saveFileDialog.FileName = DataBrige.SelectTableName +"_Search_"+KeyWord.Text+ ".xlsx";
+				saveFileDialog.FileName = ComBoxAddressInfos[AddressBox.SelectedIndex].TableName +"_Search_"+KeyWord.Text+ ".xlsx";
 			}
 
 
