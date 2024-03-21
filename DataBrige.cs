@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -29,16 +30,25 @@ namespace IPAM_NOTE
 		public static int SelectIndex;
 
 		/// <summary>
-		/// 正常加载=0，搜索加载=1
+		/// 搜索框搜索的网段INDEX
 		/// </summary>
-		public static int LoadType = 0;
+		public static int SelectNetwork;
 
 		/// <summary>
-		/// 所选表格名字
+		/// 正常加载=0，搜索加载=1
+		/// </summary>
+		public static int LoadType;
+
+		/// <summary>
+		/// 搜索时所选表格名字
 		/// </summary>
 		public static string SelectTableName;
 
 
 		public static List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();
+
+
+		//搜索区网段列表
+		public static ObservableCollection<ComBoxAddressInfo> ComBoxAddressInfos = new ObservableCollection<ComBoxAddressInfo>();
 	}
 }

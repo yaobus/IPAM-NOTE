@@ -30,7 +30,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <ProgressBar
@@ -41,7 +41,7 @@
             Value="100" 
             Orientation="Vertical"
             HorizontalAlignment="Center"
-            Height="2"
+            Height="1"
             Foreground="{DynamicResource MaterialDesignDarkSeparatorBackground}"
             />
 
@@ -185,7 +185,7 @@
 
             </Button>
 
-            <!--<ListBox
+                <!--<ListBox
                 HorizontalAlignment="Center"
                 x:Name="MenuBox"
                 Style="{StaticResource MaterialDesignChoiceChipSecondaryOutlineListBox}"
@@ -233,6 +233,9 @@
                 </ListBoxItem>
             </ListBox>-->
 
+
+
+
         </StackPanel>
 
 
@@ -246,15 +249,23 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="450"/>
+                    <ColumnDefinition Width="470"/>
 
                 </Grid.ColumnDefinitions>
+
+                <ProgressBar
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    Height="1"
+                    materialDesign:TransitionAssist.DisableTransitions="True"
+                    Value="0" />
 
                 <StackPanel
                     Grid.Column="0"
                     Margin="2"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     >
                     <RadioButton
                         x:Name="GraphicsButton"
@@ -358,7 +369,15 @@
                         <materialDesign:PackIcon
                          Kind="Search" />
                     </Button>
-
+                    <Button
+                        x:Name="SearchClear"
+                        Visibility="Hidden"
+                        Click="SearchClear_OnClick"
+                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                        ToolTip="清空搜索">
+                        <materialDesign:PackIcon
+                            Kind="ClearCircleOutline" />
+                    </Button>
                     <Button
                         x:Name="ExportButton"
                         HorizontalAlignment="Right"

@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static IPAM_NOTE.ViewMode;
 
 namespace IPAM_NOTE
 {
@@ -35,28 +36,37 @@ namespace IPAM_NOTE
 		private void Allocation_OnLoaded(object sender, RoutedEventArgs e)
 		{
 
-			NetworkBlock.Text = "网段:" + DataBrige.TempAddress.Network;
 
 			AddressBlock.Text = "当前所选IP为:" + DataBrige.SelectIp + " 目前使用该IP的主机为:" + DataBrige.IpAddress.HostName + " MAC为:" + DataBrige.IpAddress.MacAddress;
 
-			if (DataBrige.LoadType==0)
+			if (DataBrige.LoadType == 1)
+
 			{
-				if (DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User == "")
+				
+				
+				NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
+
+
+				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 				{
 					UserTextBox.Text = DataBrige.IpAddress.HostName;
 					DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
 				}
 				else
 				{
-					UserTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User;
+					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
 
-					DescriptionTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description;
+					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
 				}
 
 			}
 			else
 			{
-				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "" )
+				NetworkBlock.Text = "所选网段:" + DataBrige.TempAddress.Network;
+				
+				
+				
+				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 				{
 					UserTextBox.Text = DataBrige.IpAddress.HostName;
 					DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
@@ -68,6 +78,15 @@ namespace IPAM_NOTE
 					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
 				}
 			}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -143,16 +162,22 @@ namespace IPAM_NOTE
 
 			if (result == MessageBoxResult.Yes)
 			{
-				string tableName = DataBrige.TempAddress.TableName;
+				string tableName = DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].TableName;
+
+				Console.WriteLine("TableName:" +tableName) ;
+
 
 				string sql = string.Format("UPDATE {0} SET \"User\" = '', \"AddressStatus\" = '1' , \"Description\" = '' WHERE Address = {1}", tableName, DataBrige.SelectIp);
 
-				//Console.WriteLine(sql);
+				Console.WriteLine(sql);
 
 				dbClass.ExecuteQuery(sql);
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User = "";
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description = "";
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].AddressStatus = 1;
+				Console.WriteLine("DataBrige.ipAddressInfos.Count=" + DataBrige.ipAddressInfos.Count);
+				Console.WriteLine("DataBrige.SelectIp="+ DataBrige.SelectIp);
+
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].User = "";
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].Description = "";
+				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].AddressStatus = 1;
 
 				this.Close();
 			}

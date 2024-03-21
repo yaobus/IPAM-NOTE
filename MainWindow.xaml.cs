@@ -71,17 +71,20 @@ namespace IPAM_NOTE
 		//已分配网段
 		ObservableCollection<AddressInfo> AddressInfos = new ObservableCollection<AddressInfo>();
 
-		//搜索区网段列表
-		ObservableCollection<ComBoxAddressInfo> ComBoxAddressInfos = new ObservableCollection<ComBoxAddressInfo>();
+
 
 		//搜索区ComBox信息
 		private List<string> ComBoxAddressList = new List<string>();
 
 
+		/// <summary>
+		/// 加载网段信息列表
+		/// </summary>
+		/// <param name="connection"></param>
 		public void LoadNetworkInfo(SQLiteConnection connection)
 		{
 			AddressInfos.Clear();
-			ComBoxAddressInfos.Clear();
+			DataBrige.ComBoxAddressInfos.Clear();
 			ComBoxAddressList.Clear();
 			GraphicsPlan.Children.Clear();
 			try
@@ -93,7 +96,6 @@ namespace IPAM_NOTE
 				while (reader.Read())
 				{
 
-
 					// 读取数据行中的每一列
 					int id = Convert.ToInt32(reader["Id"]);
 					string tableName = reader["TableName"].ToString();
@@ -102,7 +104,7 @@ namespace IPAM_NOTE
 					string description = reader["Description"].ToString();
 					string del = reader["Del"].ToString();
 					AddressInfos.Add(new AddressInfo(id, tableName, network, netmask, description, del));
-					ComBoxAddressInfos.Add(new ComBoxAddressInfo(tableName, network));
+					DataBrige.ComBoxAddressInfos.Add(new ComBoxAddressInfo(tableName, network));
 					ComBoxAddressList.Add(network);
 				}
 
@@ -145,7 +147,10 @@ namespace IPAM_NOTE
 		}
 
 
-
+		/// <summary>
+		/// 列表加载
+		/// </summary>
+		/// <param name="selectIndex"></param>
 		private void ListLoad(int selectIndex = 0)
 		{
 
@@ -186,6 +191,7 @@ namespace IPAM_NOTE
 			listView.Margin = new Thickness(10);
 
 			listView.ItemsSource = DataBrige.ipAddressInfos;
+			listView.SelectionChanged += ListView_SelectionChanged;
 			listView.MouseDoubleClick += ListView_MouseDoubleClick;
 
 
@@ -194,10 +200,38 @@ namespace IPAM_NOTE
 			listView.SelectedIndex = selectIndex;
 		}
 
+		/// <summary>
+		/// 表项被选择
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (sender is ListView listView)
+			{
+				Console.WriteLine("当前表项INDEX：" + listView.SelectedIndex);
+				if (listView.SelectedIndex != -1)
+				{
+					IpAddressInfo ipAddressInfo = listView.SelectedItem as IpAddressInfo;
+					int ip = ipAddressInfo.Address;
+					Console.WriteLine("当前表项IP："+ip);
+					if (ip != 0)
+					{
+						DataBrige.SelectIp = ip.ToString();
+						DataBrige.SelectIndex = listView.SelectedIndex;
+						Console.WriteLine("DataBrige.SelectIndex=" + DataBrige.SelectIndex);
+						DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[listView.SelectedIndex].HostName;
+						DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[listView.SelectedIndex].MacAddress;
+					}
+				}
+			}
+		}
 
-
-
-
+		/// <summary>
+		/// 表项被双击
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 
@@ -211,10 +245,7 @@ namespace IPAM_NOTE
 
 					if (ip != 0)
 					{
-						DataBrige.SelectIp = ip.ToString();
-						DataBrige.SelectIndex = listView.SelectedIndex;
-						DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[listView.SelectedIndex].HostName;
-						DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[listView.SelectedIndex].MacAddress;
+
 
 						Window allocation = new Allocation();
 						//allocation.ShowDialog();
@@ -245,6 +276,12 @@ namespace IPAM_NOTE
 			}
 		}
 
+
+		/// <summary>
+		/// 网段列表表项被选择
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void AddressListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			DataBrige.LoadType = 0;
@@ -252,6 +289,7 @@ namespace IPAM_NOTE
 			GraphicsPlan.Children.Clear();
 			GraphicsButton.IsEnabled = true;
 			int index = AddressListView.SelectedIndex;
+			AddressBox.SelectedIndex=AddressListView.SelectedIndex;
 
 			DataBrige.TempAddress = (ViewMode.AddressInfo)AddressListView.SelectedItem;
 
@@ -300,7 +338,7 @@ namespace IPAM_NOTE
 
 
 		/// <summary>
-		/// 加载IP地址表
+		/// 加载IP地址表配置
 		/// </summary>
 		private void LoadAddressConfig(string tableName)
 		{
@@ -494,22 +532,24 @@ namespace IPAM_NOTE
 				//SelectIpNum.Text = CountIp().ToString();
 				#endregion
 
-				
-				string ip = button.Content.ToString();
 
-				if (ip != "0")
+				IpAddressInfo ipAddressInfo = DataBrige.ipAddressInfos[Convert.ToInt32(button.Tag)] as IpAddressInfo;
+				int ip = ipAddressInfo.Address;
+
+				if (ip != 0)
 				{
-					DataBrige.SelectIp = ip;
-					DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[Convert.ToInt32(ip)].HostName;
-					DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[Convert.ToInt32(ip)].MacAddress;
+					DataBrige.SelectIp = ip.ToString();
+					DataBrige.SelectIndex = Convert.ToInt32(button.Tag);
+					Console.WriteLine("DataBrige.SelectIndex=" + DataBrige.SelectIndex);
+					DataBrige.IpAddress.HostName = ipAddressInfo.HostName;
+					DataBrige.IpAddress.MacAddress = ipAddressInfo.MacAddress;
 
 					Window allocation = new Allocation();
-					//allocation.ShowDialog();
+
 
 					if (allocation.ShowDialog() == true)
 					{
 
-						//AddressListView_OnSelectionChanged(null, null);
 						if (LoadMode == 0)
 						{
 							WriteAddressConfig(DataBrige.ipAddressInfos);
@@ -521,6 +561,10 @@ namespace IPAM_NOTE
 						}
 					}
 				}
+
+
+				
+
 
 
 
@@ -770,46 +814,100 @@ namespace IPAM_NOTE
 		public  void ExportToExcel(List<IpAddressInfo> dataList, string filePath)
 		{
 
-			using (var package = new ExcelPackage())
+			if (DataBrige.LoadType ==1)
 			{
-				var sheet = package.Workbook.Worksheets.Add(DataBrige.TempAddress.TableName);
-
-				// 写入标题行
-				sheet.Cells[1, 1].Value = "Address";
-				sheet.Cells[1, 2].Value = "AddressStatus";
-				sheet.Cells[1, 3].Value = "User";
-				sheet.Cells[1, 4].Value = "Description";
-				sheet.Cells[1, 5].Value = "PingStatus";
-				sheet.Cells[1, 6].Value = "PingTime";
-				sheet.Cells[1, 7].Value = "HostName";
-				sheet.Cells[1, 8].Value = "MacAddress";
-
-				// 写入数据
-				int rowIndex = 2;
-				foreach (var ipAddressInfo in dataList)
+				using (var package = new ExcelPackage())
 				{
-					sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Address;
-					sheet.Cells[rowIndex, 2].Value = ipAddressInfo.AddressStatus;
-					sheet.Cells[rowIndex, 3].Value = ipAddressInfo.User;
-					sheet.Cells[rowIndex, 4].Value = ipAddressInfo.Description;
-					sheet.Cells[rowIndex, 5].Value = ipAddressInfo.PingStatus;
-					sheet.Cells[rowIndex, 6].Value = ipAddressInfo.PingTime;
-					sheet.Cells[rowIndex, 7].Value = ipAddressInfo.HostName;
-					sheet.Cells[rowIndex, 8].Value = ipAddressInfo.MacAddress;
-					rowIndex++;
+					var sheet = package.Workbook.Worksheets.Add(DataBrige.SelectTableName);
+
+
+
+
+					// 写入标题行
+					sheet.Cells[1, 1].Value = "Address";
+					sheet.Cells[1, 2].Value = "AddressStatus";
+					sheet.Cells[1, 3].Value = "User";
+					sheet.Cells[1, 4].Value = "Description";
+					sheet.Cells[1, 5].Value = "PingStatus";
+					sheet.Cells[1, 6].Value = "PingTime";
+					sheet.Cells[1, 7].Value = "HostName";
+					sheet.Cells[1, 8].Value = "MacAddress";
+
+					// 写入数据
+					int rowIndex = 2;
+					foreach (var ipAddressInfo in dataList)
+					{
+						sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Address;
+						sheet.Cells[rowIndex, 2].Value = ipAddressInfo.AddressStatus;
+						sheet.Cells[rowIndex, 3].Value = ipAddressInfo.User;
+						sheet.Cells[rowIndex, 4].Value = ipAddressInfo.Description;
+						sheet.Cells[rowIndex, 5].Value = ipAddressInfo.PingStatus;
+						sheet.Cells[rowIndex, 6].Value = ipAddressInfo.PingTime;
+						sheet.Cells[rowIndex, 7].Value = ipAddressInfo.HostName;
+						sheet.Cells[rowIndex, 8].Value = ipAddressInfo.MacAddress;
+						rowIndex++;
+					}
+
+					// 保存Excel文件
+					FileInfo excelFile = new FileInfo(filePath);
+
+
+
+
+
+
+
+					package.SaveAs(excelFile);
 				}
-
-				// 保存Excel文件
-				FileInfo excelFile = new FileInfo(filePath);
-
-
-
-
-
-
-
-				package.SaveAs(excelFile);
 			}
+			else
+			{
+				using (var package = new ExcelPackage())
+				{
+					var sheet = package.Workbook.Worksheets.Add(DataBrige.TempAddress.TableName);
+
+
+
+
+					// 写入标题行
+					sheet.Cells[1, 1].Value = "Address";
+					sheet.Cells[1, 2].Value = "AddressStatus";
+					sheet.Cells[1, 3].Value = "User";
+					sheet.Cells[1, 4].Value = "Description";
+					sheet.Cells[1, 5].Value = "PingStatus";
+					sheet.Cells[1, 6].Value = "PingTime";
+					sheet.Cells[1, 7].Value = "HostName";
+					sheet.Cells[1, 8].Value = "MacAddress";
+
+					// 写入数据
+					int rowIndex = 2;
+					foreach (var ipAddressInfo in dataList)
+					{
+						sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Address;
+						sheet.Cells[rowIndex, 2].Value = ipAddressInfo.AddressStatus;
+						sheet.Cells[rowIndex, 3].Value = ipAddressInfo.User;
+						sheet.Cells[rowIndex, 4].Value = ipAddressInfo.Description;
+						sheet.Cells[rowIndex, 5].Value = ipAddressInfo.PingStatus;
+						sheet.Cells[rowIndex, 6].Value = ipAddressInfo.PingTime;
+						sheet.Cells[rowIndex, 7].Value = ipAddressInfo.HostName;
+						sheet.Cells[rowIndex, 8].Value = ipAddressInfo.MacAddress;
+						rowIndex++;
+					}
+
+					// 保存Excel文件
+					FileInfo excelFile = new FileInfo(filePath);
+
+
+
+
+
+
+
+					package.SaveAs(excelFile);
+				}
+			}
+
+
 		}
 
 
@@ -836,7 +934,7 @@ namespace IPAM_NOTE
 			else
 			{
 				// 设置默认文件名
-				saveFileDialog.FileName = ComBoxAddressInfos[AddressBox.SelectedIndex].TableName +"_Search_"+KeyWord.Text+ ".xlsx";
+				saveFileDialog.FileName = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName +"_Search_"+KeyWord.Text+ ".xlsx";
 			}
 
 
@@ -865,15 +963,21 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void SearchButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			DataBrige.SelectTableName = ComBoxAddressInfos[AddressBox.SelectedIndex].TableName + "_Search_" + KeyWord.Text;
+			SearchClear.Visibility = Visibility.Visible;
 
 			LoadMode = 1;
 			ExportButton.IsEnabled = true;
-			DataBrige.LoadType = 1;
 			
-			AddressListView.SelectedIndex = -1;
+
+
+			//搜索后的状态
+			DataBrige.LoadType = 1;
+			DataBrige.SelectNetwork = AddressBox.SelectedIndex;
+			//AddressListView.SelectedIndex = -1;
+
 			if (AddressBox.SelectedIndex != -1)
 			{
+				DataBrige.SelectTableName = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName + "_Search_" + KeyWord.Text;
 
 				//清空图表
 				GraphicsPlan.Children.Clear();
@@ -912,12 +1016,14 @@ namespace IPAM_NOTE
 				listView.Margin = new Thickness(10);
 
 				listView.ItemsSource = DataBrige.ipAddressInfos;
+
+				listView.SelectionChanged += ListView_SelectionChanged;
 				listView.MouseDoubleClick += ListView_MouseDoubleClick;
 
 
 				GraphicsPlan.Children.Add(listView);
 
-				LoadAddressSearch(ComBoxAddressInfos[AddressBox.SelectedIndex].TableName,KeyWord.Text);
+				LoadAddressSearch(DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName,KeyWord.Text);
 				
 				ListButton.IsChecked=true;
 				GraphicsButton.IsEnabled = false;
@@ -939,8 +1045,9 @@ namespace IPAM_NOTE
 
 
 
-			string sql = string.Format("SELECT * FROM `{0}` WHERE  `User`LIKE '%{1}%' OR  Description LIKE '%{2}%'", tableName, keyWord, keyWord);
+			string sql = string.Format("SELECT * FROM `{0}` WHERE  (`User`LIKE '%{1}%' OR  Description LIKE '%{2}%') AND AddressStatus != 1", tableName, keyWord, keyWord);
 
+			Console.WriteLine(sql);
 
 			SQLiteCommand command = new SQLiteCommand(sql, dbClass.connection);
 
@@ -983,6 +1090,31 @@ namespace IPAM_NOTE
 			}
 		}
 
+		/// <summary>
+		/// 清空搜索
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SearchClear_OnClick(object sender, RoutedEventArgs e)
+		{
+			string tableName;
 
+			if (AddressListView.SelectedIndex == -1)
+			{
+				tableName = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName;
+			}
+			else
+			{
+				tableName = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].TableName;
+			}
+
+
+			GraphicsButton.IsEnabled = true;
+			StatusTestButton.IsEnabled = true;
+
+			LoadAddressConfig(tableName);
+			ListLoad();
+			SearchClear.Visibility = Visibility.Hidden;
+		}
 	}
 }
