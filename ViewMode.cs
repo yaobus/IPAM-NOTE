@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IPAM_NOTE
 {
-	internal class ViewMode
+	public class ViewMode
 	{
 
 
@@ -104,5 +104,29 @@ namespace IPAM_NOTE
 				MACAddress = macAddress;
 			}
 		}
+
+
+		/// <summary>
+		/// 搜索复选框网段信息
+		/// </summary>
+		public class ComBoxAddressInfo
+		{
+
+			public string TableName { get; set; }
+
+			public string Network { get; set; }
+
+
+
+			public ComBoxAddressInfo(string tableName, string network)
+			{
+
+				TableName = tableName;
+				Network = network;
+				
+			}
+
+		}
+
 	}
 }

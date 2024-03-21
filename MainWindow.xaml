@@ -49,6 +49,7 @@
             Grid.Column="0"
             Grid.Row="0"
             Grid.RowSpan="2"
+            Width="320"
             x:Name="AddressListView"
             HorizontalAlignment="Left"
             SelectionChanged="AddressListView_OnSelectionChanged"
@@ -58,12 +59,10 @@
 
             <ListView.View>
 
-                <GridView 
-                    
-                    >
+                <GridView>
 
-                    <GridViewColumn
-                        DisplayMemberBinding="{Binding Id}"
+                    <GridViewColumn DisplayMemberBinding ="{Binding Id}"
+                       
                         
                         >
 
@@ -71,10 +70,10 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             >
+                          
+                            <materialDesign:PackIcon Kind="Number0BoxOutline" Width="32" Height="32"/>
 
-                                <materialDesign:PackIcon Kind="Number0BoxOutline" Width="32" Height="32"/>
 
-                           
                         </StackPanel>
 
 
@@ -82,7 +81,7 @@
 
                     <GridViewColumn
                         DisplayMemberBinding="{Binding Network}"
-      
+                        
                         >
                         <StackPanel
                             Orientation="Horizontal"
@@ -100,7 +99,7 @@
 
                     <GridViewColumn
                         DisplayMemberBinding="{Binding Description}"
-     
+                        
                         >
                         <StackPanel
                             Orientation="Horizontal"
@@ -244,15 +243,20 @@
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="450"/>
 
+                </Grid.ColumnDefinitions>
 
-
-            <StackPanel
+                <StackPanel
+                    Grid.Column="0"
                     Margin="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     >
-                <RadioButton
+                    <RadioButton
                         x:Name="GraphicsButton"
                         Margin="4"
                         IsChecked="True"
@@ -261,10 +265,10 @@
                        
                         Style="{StaticResource MaterialDesignTabRadioButton}" >
 
-                    <materialDesign:PackIcon Kind="Apps" Width="32" Height="32"/>
+                        <materialDesign:PackIcon Kind="Apps" Width="32" Height="32"/>
 
-                </RadioButton>
-                <RadioButton
+                    </RadioButton>
+                    <RadioButton
                         x:Name="ListButton"
                         Margin="4"
                         IsChecked="False"
@@ -274,10 +278,10 @@
                         
                         >
 
-                    <materialDesign:PackIcon Kind="FormatListText" Width="32" Height="32"/>
+                        <materialDesign:PackIcon Kind="FormatListText" Width="32" Height="32"/>
 
-                </RadioButton>
-                <RadioButton
+                    </RadioButton>
+                    <RadioButton
                         x:Name="StatusTestButton"
                         Margin="4"
                         IsChecked="False"
@@ -287,13 +291,95 @@
                         Click="StatusTestButton_OnClick"
                         >
 
-                    <materialDesign:PackIcon Kind="Timelapse" Width="32" Height="32"/>
+                        <materialDesign:PackIcon Kind="Timelapse" Width="32" Height="32"/>
 
-                </RadioButton>
-            </StackPanel>
+                    </RadioButton>
+
+                </StackPanel>
+
+
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    
+                    >
+
+                    <ComboBox
+                        x:Name="AddressBox"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                        materialDesign:HintAssist.Hint="被搜索网段"
+                        ItemsSource="{Binding ShortStringList}"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        
+                        Width="150">
+                        <ComboBox.SelectedItem>
+                            <Binding
+                                Path="SelectedValidationOutlined"
+                                Mode="TwoWay"
+                                UpdateSourceTrigger="PropertyChanged">
+                               
+                            </Binding>
+                        </ComboBox.SelectedItem>
+                    </ComboBox>
+
+
+                    <StackPanel
+                        Margin="0,5"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        materialDesign:HintAssist.Hint="搜索关键词"
+                    >
+
+                        <TextBox
+                            Width="120"
+                            x:Name="KeyWord"
+                            Margin="5"
+                            Text=""
+                            MaxHeight="55"
+                            VerticalAlignment="Top"
+                            AcceptsReturn="False"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"   
+                            materialDesign:ButtonAssist.CornerRadius="15"
+                            TextWrapping="NoWrap" 
+                            
+                            KeyDown="KeyWord_OnKeyDown"
+                        />
+
+                    </StackPanel>
+
+                    <Button
+                        x:Name="SearchButton"
+                        Click="SearchButton_OnClick"
+                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                        ToolTip="给我搜">
+                        <materialDesign:PackIcon
+                         Kind="Search" />
+                    </Button>
+
+                    <Button
+                        x:Name="ExportButton"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="20,4,4,4"
+                        Height="48"
+                        ToolTip="导出表格内容"
+                        IsEnabled="False"
+                        Click="ExportButton_OnClick"
+                    >
+
+
+                        <materialDesign:PackIcon Kind="DatabaseExportOutline" Width="32" Height="32" />
+                    </Button>
+
+
+                </StackPanel>
 
 
 
+            </Grid>
 
 
 

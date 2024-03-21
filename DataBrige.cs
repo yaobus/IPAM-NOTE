@@ -23,6 +23,20 @@ namespace IPAM_NOTE
 		/// </summary>
 		public static int AddStatus = 0;
 
+		/// <summary>
+		/// 搜索框搜索后被选中的IP地址索引
+		/// </summary>
+		public static int SelectIndex;
+
+		/// <summary>
+		/// 正常加载=0，搜索加载=1
+		/// </summary>
+		public static int LoadType = 0;
+
+		/// <summary>
+		/// 所选表格名字
+		/// </summary>
+		public static string SelectTableName;
 
 
 		public static List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,24 +31,44 @@ namespace IPAM_NOTE
 
 		private DbClass dbClass;
 
+
 		private void Allocation_OnLoaded(object sender, RoutedEventArgs e)
 		{
-			
+
 			NetworkBlock.Text = "网段:" + DataBrige.TempAddress.Network;
 
 			AddressBlock.Text = "当前所选IP为:" + DataBrige.SelectIp + " 目前使用该IP的主机为:" + DataBrige.IpAddress.HostName + " MAC为:" + DataBrige.IpAddress.MacAddress;
 
-			if (DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User == "" && DataBrige.IpAddress.HostName != "N/A")
+			if (DataBrige.LoadType==0)
 			{
-				UserTextBox.Text = DataBrige.IpAddress.HostName;
-				DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
+				if (DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User == "")
+				{
+					UserTextBox.Text = DataBrige.IpAddress.HostName;
+					DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
+				}
+				else
+				{
+					UserTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User;
+
+					DescriptionTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description;
+				}
+
 			}
 			else
 			{
-				UserTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User;
+				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "" )
+				{
+					UserTextBox.Text = DataBrige.IpAddress.HostName;
+					DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
+				}
+				else
+				{
+					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
 
-				DescriptionTextBox.Text = DataBrige.IpAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description;
+					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+				}
 			}
+
 
 
 
@@ -71,16 +92,27 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void SaveButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (UserTextBox.Text != "" && DescriptionTextBox.Text != "")
+			if (UserTextBox.Text != "" && UserTextBox.Text != "N/A" && DescriptionTextBox.Text != "" && DescriptionTextBox.Text != "N/A")
 			{
-				string tableName=DataBrige.TempAddress.TableName;
+				string tableName = DataBrige.TempAddress.TableName;
 
-				string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2' , \"Description\" = '{2}' WHERE Address = {3}", tableName,UserTextBox.Text,DescriptionTextBox.Text,DataBrige.SelectIp);
+				string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2' , \"Description\" = '{2}' WHERE Address = {3}", tableName, UserTextBox.Text, DescriptionTextBox.Text, DataBrige.SelectIp);
+
+				if (DataBrige.LoadType == 0)
+				{
+					DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User = UserTextBox.Text;
+					DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description = DescriptionTextBox.Text;
+					DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].AddressStatus = 2;
+				}
+				else
+				{
+					DataBrige.ipAddressInfos[DataBrige.SelectIndex].User = UserTextBox.Text;
+					DataBrige.ipAddressInfos[DataBrige.SelectIndex].Description = DescriptionTextBox.Text;
+					DataBrige.ipAddressInfos[DataBrige.SelectIndex].AddressStatus = 2;
+				}
 
 
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User = UserTextBox.Text;
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description = DescriptionTextBox.Text;
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].AddressStatus = 2;
+
 
 				//Console.WriteLine(sql);
 
@@ -107,7 +139,7 @@ namespace IPAM_NOTE
 		/// <exception cref="NotImplementedException"></exception>
 		private void ReleaseButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result= MessageBox.Show("你正在删除该IP地址的分配信息，此操作不可逆！继续？", "注意", MessageBoxButton.YesNo, MessageBoxImage.Information);
+			MessageBoxResult result = MessageBox.Show("你正在删除该IP地址的分配信息，此操作不可逆！继续？", "注意", MessageBoxButton.YesNo, MessageBoxImage.Information);
 
 			if (result == MessageBoxResult.Yes)
 			{

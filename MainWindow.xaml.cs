@@ -1,11 +1,14 @@
 ﻿using IPAM_NOTE.DatabaseOperation;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -17,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -51,28 +55,38 @@ namespace IPAM_NOTE
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 			string dbName = "Address_database.db";
 
-			dbFilePath = dbFilePath+dbName;
+			dbFilePath = dbFilePath + dbName;
 
 			dbClass = new DbClass(dbFilePath);
 			dbClass.OpenConnection();
 
 			LoadNetworkInfo(dbClass.connection);
 
+			AddressBox.ItemsSource = ComBoxAddressList;
 
 		}
 
 
 
 		//已分配网段
-		 ObservableCollection<AddressInfo> AddressInfos = new ObservableCollection<AddressInfo>();
+		ObservableCollection<AddressInfo> AddressInfos = new ObservableCollection<AddressInfo>();
+
+		//搜索区网段列表
+		ObservableCollection<ComBoxAddressInfo> ComBoxAddressInfos = new ObservableCollection<ComBoxAddressInfo>();
+
+		//搜索区ComBox信息
+		private List<string> ComBoxAddressList = new List<string>();
+
 
 		public void LoadNetworkInfo(SQLiteConnection connection)
 		{
 			AddressInfos.Clear();
+			ComBoxAddressInfos.Clear();
+			ComBoxAddressList.Clear();
 			GraphicsPlan.Children.Clear();
 			try
 			{
-				string query = "SELECT * FROM Network WHERE Del = 0"; // 表名替换成你的实际表名
+				string query = "SELECT * FROM Network WHERE Del = 0"; 
 				SQLiteCommand command = new SQLiteCommand(query, connection);
 				SQLiteDataReader reader = command.ExecuteReader();
 
@@ -87,9 +101,9 @@ namespace IPAM_NOTE
 					string netmask = reader["Netmask"].ToString();
 					string description = reader["Description"].ToString();
 					string del = reader["Del"].ToString();
-					AddressInfos.Add(new AddressInfo(id, tableName,network,netmask,description,del));
-
-
+					AddressInfos.Add(new AddressInfo(id, tableName, network, netmask, description, del));
+					ComBoxAddressInfos.Add(new ComBoxAddressInfo(tableName, network));
+					ComBoxAddressList.Add(network);
 				}
 
 				reader.Close();
@@ -132,7 +146,7 @@ namespace IPAM_NOTE
 
 
 
-		private void ListLoad(int selectIndex=0)
+		private void ListLoad(int selectIndex = 0)
 		{
 
 			//清空图表
@@ -150,11 +164,15 @@ namespace IPAM_NOTE
 			// 添加列到 GridView
 			gridView.Columns.Add(new GridViewColumn { Header = "IP地址", DisplayMemberBinding = new Binding("Address") });
 			gridView.Columns.Add(new GridViewColumn { Header = "分配给", DisplayMemberBinding = new Binding("User") });
-			gridView.Columns.Add(new GridViewColumn { Header = "备注", DisplayMemberBinding = new Binding("Description") });
-			gridView.Columns.Add(new GridViewColumn { Header = "PING状态", DisplayMemberBinding = new Binding("PingStatus") });
-			gridView.Columns.Add(new GridViewColumn { Header = "PING耗时", DisplayMemberBinding = new Binding("PingTime") });
+			gridView.Columns.Add(
+				new GridViewColumn { Header = "备注", DisplayMemberBinding = new Binding("Description") });
+			gridView.Columns.Add(new GridViewColumn
+				{ Header = "PING状态", DisplayMemberBinding = new Binding("PingStatus") });
+			gridView.Columns.Add(new GridViewColumn
+				{ Header = "PING耗时", DisplayMemberBinding = new Binding("PingTime") });
 			gridView.Columns.Add(new GridViewColumn { Header = "主机名", DisplayMemberBinding = new Binding("HostName") });
-			gridView.Columns.Add(new GridViewColumn { Header = "MAC地址", DisplayMemberBinding = new Binding("MacAddress") });
+			gridView.Columns.Add(new GridViewColumn
+				{ Header = "MAC地址", DisplayMemberBinding = new Binding("MacAddress") });
 
 			// 将 GridView 设置为 ListView 的 View
 			listView.View = gridView;
@@ -162,8 +180,9 @@ namespace IPAM_NOTE
 
 
 			// 设置 ListView 的属性
-			listView.Width = GraphicsPlan.ActualWidth-20; ;
-			listView.Height = GraphicsPlan.ActualHeight-20;
+			listView.Width = GraphicsPlan.ActualWidth - 20;
+			;
+			listView.Height = GraphicsPlan.ActualHeight - 20;
 			listView.Margin = new Thickness(10);
 
 			listView.ItemsSource = DataBrige.ipAddressInfos;
@@ -193,8 +212,9 @@ namespace IPAM_NOTE
 					if (ip != 0)
 					{
 						DataBrige.SelectIp = ip.ToString();
-						DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[Convert.ToInt32(ip)].HostName;
-						DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[Convert.ToInt32(ip)].MacAddress;
+						DataBrige.SelectIndex = listView.SelectedIndex;
+						DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[listView.SelectedIndex].HostName;
+						DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[listView.SelectedIndex].MacAddress;
 
 						Window allocation = new Allocation();
 						//allocation.ShowDialog();
@@ -227,9 +247,10 @@ namespace IPAM_NOTE
 
 		private void AddressListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-
+			DataBrige.LoadType = 0;
+			ExportButton.IsEnabled = true;
 			GraphicsPlan.Children.Clear();
-
+			GraphicsButton.IsEnabled = true;
 			int index = AddressListView.SelectedIndex;
 
 			DataBrige.TempAddress = (ViewMode.AddressInfo)AddressListView.SelectedItem;
@@ -239,11 +260,14 @@ namespace IPAM_NOTE
 			if (index != -1)
 			{
 				tableName = AddressInfos[index].TableName;
-				MinusButton.IsEnabled=true;
+				DataBrige.SelectTableName= tableName;
+				//tableName = DataBrige.TempAddress.TableName;
+
+				MinusButton.IsEnabled = true;
 				EditButton.IsEnabled = true;
 
 				LoadAddressConfig(tableName);
-				StatusTestButton.IsEnabled=true;
+				StatusTestButton.IsEnabled = true;
 			}
 			else
 			{
@@ -255,7 +279,7 @@ namespace IPAM_NOTE
 
 
 
-			if (LoadMode==0)
+			if (LoadMode == 0)
 			{
 				WriteAddressConfig(DataBrige.ipAddressInfos);
 			}
@@ -271,25 +295,25 @@ namespace IPAM_NOTE
 
 
 
-		
+
 
 
 
 		/// <summary>
-		/// 加载IP地址图形化表
+		/// 加载IP地址表
 		/// </summary>
 		private void LoadAddressConfig(string tableName)
 		{
-			
+
 			string sql = string.Format("SELECT * FROM {0} ORDER BY Address ASC", tableName);
 
 
 			SQLiteCommand command = new SQLiteCommand(sql, dbClass.connection);
-			
+
 			SQLiteDataReader reader = command.ExecuteReader();
 
 			DataBrige.ipAddressInfos.Clear();
-			
+
 
 			while (reader.Read())
 			{
@@ -299,10 +323,11 @@ namespace IPAM_NOTE
 				string user = reader["User"].ToString();
 				string description = reader["Description"].ToString();
 				string hostName = reader["HostName"].ToString();
-				string macAddress= reader["MacAddress"].ToString();
+				string macAddress = reader["MacAddress"].ToString();
 
-				IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus,user, description,IPStatus.Unknown,-1,hostName,macAddress);
-				
+				IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus, user, description, IPStatus.Unknown,
+					-1, hostName, macAddress);
+
 				DataBrige.ipAddressInfos.Add(ipAddress);
 			}
 
@@ -335,10 +360,10 @@ namespace IPAM_NOTE
 				Brush colorBrush = null;
 				int status = ipAddressInfos[i].AddressStatus;
 
-				Brush fontBrush=null;
-				
-				
-				IPStatus pingStatus= ipAddressInfos[i].PingStatus;
+				Brush fontBrush = null;
+
+
+				IPStatus pingStatus = ipAddressInfos[i].PingStatus;
 
 				switch (status)
 				{
@@ -350,13 +375,16 @@ namespace IPAM_NOTE
 
 					case 1:
 						colorBrush = Brushes.LightSeaGreen;
-						description = "类型：可选IP地址" + "\r当前在线主机：" + ipAddressInfos[i].HostName + "\rMAC：" + ipAddressInfos[i].MacAddress;
+						description = "类型：可选IP地址" + "\r当前在线主机：" + ipAddressInfos[i].HostName + "\rMAC：" +
+						              ipAddressInfos[i].MacAddress;
 
 						break;
 
 					case 2:
 						colorBrush = Brushes.Coral;
-						description = "类型：已用IP地址\r分配：" + ipAddressInfos[i].User+ "\r备注：" + ipAddressInfos[i].Description + "\r当前在线主机："+ ipAddressInfos[i].HostName + "\rMAC：" + ipAddressInfos[i].MacAddress;
+						description = "类型：已用IP地址\r分配：" + ipAddressInfos[i].User + "\r备注：" +
+						              ipAddressInfos[i].Description + "\r当前在线主机：" + ipAddressInfos[i].HostName +
+						              "\rMAC：" + ipAddressInfos[i].MacAddress;
 
 						break;
 
@@ -365,13 +393,13 @@ namespace IPAM_NOTE
 
 				if (pingStatus == IPStatus.Success)
 				{
-					fontBrush= Brushes.Red;
-					
+					fontBrush = Brushes.Red;
+
 				}
 				else
 				{
 					fontBrush = Brushes.AliceBlue;
-					
+
 				}
 
 
@@ -382,9 +410,9 @@ namespace IPAM_NOTE
 					Background = colorBrush,
 					Foreground = fontBrush,
 					FontWeight = FontWeights.Bold,
-					Content = i.ToString(),
+					Content = ipAddressInfos[i].Address,
 					ToolTip = description,
-					Tag = status,
+					Tag = i.ToString(),
 					Style = (Style)this.FindResource("MaterialDesignRaisedButton"),
 					Margin = new Thickness(5),
 
@@ -392,7 +420,8 @@ namespace IPAM_NOTE
 
 
 
-				newButton.Click += NewButton_Click; ;
+				newButton.Click += NewButton_Click;
+				;
 
 
 
@@ -410,6 +439,10 @@ namespace IPAM_NOTE
 		{
 			if (sender is Button button)
 			{
+				#region MyRegion
+
+
+
 
 				//int tag = Convert.ToInt32(button.Tag);
 
@@ -438,7 +471,7 @@ namespace IPAM_NOTE
 				//		//IpSelectPanel.Children.Add(bt);
 				//		//IpSelectPanel.RegisterName(name, bt);
 
-						
+
 				//	}
 				//	else
 				//	{
@@ -459,7 +492,9 @@ namespace IPAM_NOTE
 
 				//统计已选择IP数量
 				//SelectIpNum.Text = CountIp().ToString();
+				#endregion
 
+				
 				string ip = button.Content.ToString();
 
 				if (ip != "0")
@@ -471,7 +506,7 @@ namespace IPAM_NOTE
 					Window allocation = new Allocation();
 					//allocation.ShowDialog();
 
-					if (allocation.ShowDialog()==true)
+					if (allocation.ShowDialog() == true)
 					{
 
 						//AddressListView_OnSelectionChanged(null, null);
@@ -501,18 +536,18 @@ namespace IPAM_NOTE
 
 			AddWindow addWindow = new AddWindow();
 
-			if (addWindow.ShowDialog() == true )
+			if (addWindow.ShowDialog() == true)
 			{
 
-					// 当子窗口关闭后执行这里的代码
-					LoadNetworkInfo(dbClass.connection);
+				// 当子窗口关闭后执行这里的代码
+				LoadNetworkInfo(dbClass.connection);
 
 			}
 
-			
-			
 
-			
+
+
+
 		}
 
 
@@ -524,7 +559,8 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void MinusButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("注意！你正在删除一个网段，是否继续？", "注意", MessageBoxButton.YesNo, MessageBoxImage.Information);
+			MessageBoxResult result = MessageBox.Show("注意！你正在删除一个网段，是否继续？", "注意", MessageBoxButton.YesNo,
+				MessageBoxImage.Information);
 
 			if (result == MessageBoxResult.Yes)
 			{
@@ -542,7 +578,7 @@ namespace IPAM_NOTE
 
 				dbClass.ExecuteQuery(sql);
 
-				MainWindow_OnLoaded(null,null);
+				MainWindow_OnLoaded(null, null);
 
 			}
 
@@ -616,7 +652,7 @@ namespace IPAM_NOTE
 				DataBrige.ipAddressInfos[i].PingTime = results[i - 1].PingTime;
 				DataBrige.ipAddressInfos[i].HostName = results[i - 1].HostName;
 				DataBrige.ipAddressInfos[i].MacAddress = results[i - 1].MACAddress;
-				
+
 			}
 
 			Bar.Visibility = Visibility.Hidden;
@@ -639,26 +675,26 @@ namespace IPAM_NOTE
 		{
 			//string baseIP = "10.0.0."; // 设置基本IP地址
 
-			
 
-			string	baseIP = DataBrige.TempAddress.Network.ToString().Replace("*","");
 
-			
+			string baseIP = DataBrige.TempAddress.Network.ToString().Replace("*", "");
+
+
 
 			List<Task<IPInfo>> pingTasks = new List<Task<IPInfo>>();
 
-			
+
 			for (int i = 1; i <= 255; i++)
 			{
 				string ip = baseIP + i.ToString(); // 构建要ping的IP地址
 
 				pingTasks.Add(PingAndGetInfo(ip)); // 启动ping并获取信息任务
 
-				
+
 			}
 
 			IPInfo[] results = await Task.WhenAll(pingTasks); // 等待所有ping任务完成
-			
+
 			return results;
 		}
 
@@ -667,7 +703,7 @@ namespace IPAM_NOTE
 
 		private async Task<IPInfo> PingAndGetInfo(string ip)
 		{
-			
+
 
 			Ping ping = new Ping();
 
@@ -677,10 +713,10 @@ namespace IPAM_NOTE
 			{
 				string macAddress = await GetMacAddress(ip);
 				string hostName = await GetHostName(ip);
-				
+
 				int lastIndex = ip.LastIndexOf('.');
-				
-				int address =Convert.ToInt32( ip.Substring(lastIndex + 1));
+
+				int address = Convert.ToInt32(ip.Substring(lastIndex + 1));
 
 				return new IPInfo(address, reply.Status, reply.RoundtripTime, hostName, macAddress);
 			}
@@ -731,8 +767,222 @@ namespace IPAM_NOTE
 
 		
 
+		public  void ExportToExcel(List<IpAddressInfo> dataList, string filePath)
+		{
+
+			using (var package = new ExcelPackage())
+			{
+				var sheet = package.Workbook.Worksheets.Add(DataBrige.TempAddress.TableName);
+
+				// 写入标题行
+				sheet.Cells[1, 1].Value = "Address";
+				sheet.Cells[1, 2].Value = "AddressStatus";
+				sheet.Cells[1, 3].Value = "User";
+				sheet.Cells[1, 4].Value = "Description";
+				sheet.Cells[1, 5].Value = "PingStatus";
+				sheet.Cells[1, 6].Value = "PingTime";
+				sheet.Cells[1, 7].Value = "HostName";
+				sheet.Cells[1, 8].Value = "MacAddress";
+
+				// 写入数据
+				int rowIndex = 2;
+				foreach (var ipAddressInfo in dataList)
+				{
+					sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Address;
+					sheet.Cells[rowIndex, 2].Value = ipAddressInfo.AddressStatus;
+					sheet.Cells[rowIndex, 3].Value = ipAddressInfo.User;
+					sheet.Cells[rowIndex, 4].Value = ipAddressInfo.Description;
+					sheet.Cells[rowIndex, 5].Value = ipAddressInfo.PingStatus;
+					sheet.Cells[rowIndex, 6].Value = ipAddressInfo.PingTime;
+					sheet.Cells[rowIndex, 7].Value = ipAddressInfo.HostName;
+					sheet.Cells[rowIndex, 8].Value = ipAddressInfo.MacAddress;
+					rowIndex++;
+				}
+
+				// 保存Excel文件
+				FileInfo excelFile = new FileInfo(filePath);
+
+
+
+
+
+
+
+				package.SaveAs(excelFile);
+			}
+		}
+
+
+
+		private void ExportButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+
+			// 创建 SaveFileDialog 实例
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+			saveFileDialog.FilterIndex = 1;
+			saveFileDialog.RestoreDirectory = true;
+
+
+			if (DataBrige.LoadType == 0)
+			{
+				// 设置默认文件名
+				//saveFileDialog.FileName = DataBrige.TempAddress.TableName + ".xlsx";
+				// 设置默认文件名
+				saveFileDialog.FileName = DataBrige.SelectTableName + ".xlsx";
+			}
+			else
+			{
+				// 设置默认文件名
+				saveFileDialog.FileName = DataBrige.SelectTableName +"_Search_"+KeyWord.Text+ ".xlsx";
+			}
+
+
+
+
+			// 显示 SaveFileDialog
+			bool? result = saveFileDialog.ShowDialog();
+
+			if (result == true)
+			{
+				// 获取用户选择的文件路径
+				string filePath = saveFileDialog.FileName;
+				ExportToExcel(DataBrige.ipAddressInfos, filePath);
+
+			}
+
+
+		}
+
+
+
+		/// <summary>
+		/// 搜索
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SearchButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			DataBrige.SelectTableName = ComBoxAddressInfos[AddressBox.SelectedIndex].TableName + "_Search_" + KeyWord.Text;
+
+			LoadMode = 1;
+			ExportButton.IsEnabled = true;
+			DataBrige.LoadType = 1;
+			
+			AddressListView.SelectedIndex = -1;
+			if (AddressBox.SelectedIndex != -1)
+			{
+
+				//清空图表
+				GraphicsPlan.Children.Clear();
+
+				// 创建一个 ListView
+				ListView listView = new ListView();
+
+
+
+				// 创建一个 GridView
+				GridView gridView = new GridView();
+
+
+				// 添加列到 GridView
+				gridView.Columns.Add(new GridViewColumn { Header = "IP地址", DisplayMemberBinding = new Binding("Address") });
+				gridView.Columns.Add(new GridViewColumn { Header = "分配给", DisplayMemberBinding = new Binding("User") });
+				gridView.Columns.Add(
+					new GridViewColumn { Header = "备注", DisplayMemberBinding = new Binding("Description") });
+				gridView.Columns.Add(new GridViewColumn
+					{ Header = "PING状态", DisplayMemberBinding = new Binding("PingStatus") });
+				gridView.Columns.Add(new GridViewColumn
+					{ Header = "PING耗时", DisplayMemberBinding = new Binding("PingTime") });
+				gridView.Columns.Add(new GridViewColumn { Header = "主机名", DisplayMemberBinding = new Binding("HostName") });
+				gridView.Columns.Add(new GridViewColumn
+					{ Header = "MAC地址", DisplayMemberBinding = new Binding("MacAddress") });
+
+				// 将 GridView 设置为 ListView 的 View
+				listView.View = gridView;
+
+
+
+				// 设置 ListView 的属性
+				listView.Width = GraphicsPlan.ActualWidth - 20;
+				;
+				listView.Height = GraphicsPlan.ActualHeight - 20;
+				listView.Margin = new Thickness(10);
+
+				listView.ItemsSource = DataBrige.ipAddressInfos;
+				listView.MouseDoubleClick += ListView_MouseDoubleClick;
+
+
+				GraphicsPlan.Children.Add(listView);
+
+				LoadAddressSearch(ComBoxAddressInfos[AddressBox.SelectedIndex].TableName,KeyWord.Text);
+				
+				ListButton.IsChecked=true;
+				GraphicsButton.IsEnabled = false;
+				StatusTestButton.IsEnabled=false;
+			}
+
+
+
+
+
+		}
+
+
+		/// <summary>
+		/// 加载IP地址搜索项
+		/// </summary>
+		private void LoadAddressSearch(string tableName, string keyWord)
+		{
+
+
+
+			string sql = string.Format("SELECT * FROM `{0}` WHERE  `User`LIKE '%{1}%' OR  Description LIKE '%{2}%'", tableName, keyWord, keyWord);
+
+
+			SQLiteCommand command = new SQLiteCommand(sql, dbClass.connection);
+
+			SQLiteDataReader reader = command.ExecuteReader();
+
+			DataBrige.ipAddressInfos.Clear();
+
+
+			while (reader.Read())
+			{
+
+				int address = Convert.ToInt32(reader["Address"]);
+				int addressStatus = Convert.ToInt32(reader["AddressStatus"]);
+				string user = reader["User"].ToString();
+				string description = reader["Description"].ToString();
+				string hostName = reader["HostName"].ToString();
+				string macAddress = reader["MacAddress"].ToString();
+
+				IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus, user, description, IPStatus.Unknown,
+					-1, hostName, macAddress);
+
+				DataBrige.ipAddressInfos.Add(ipAddress);
+			}
+
+			DataBrige.IpAddressInfos = DataBrige.ipAddressInfos;
+
+			
+
+
+
+
+		}
+
+
+		private void KeyWord_OnKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				SearchButton_OnClick(null, null);
+			}
+		}
+
 
 	}
-
-
 }

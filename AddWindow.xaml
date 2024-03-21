@@ -59,7 +59,7 @@
                     Text=""
                     MaxHeight="55"
                     VerticalAlignment="Top"
-                    AcceptsReturn="True"
+                    AcceptsReturn="False"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="NoWrap" 
                     />
