@@ -1,0 +1,231 @@
+﻿<Window x:Class="IPAM_NOTE.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IPAM_NOTE"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesignDarkBackground}"
+        Foreground="{DynamicResource MaterialDesignDarkForeground}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="数据导入向导" 
+        Style="{DynamicResource MaterialDesignWindow}"
+        Height="300"
+        Width="600"
+        WindowStartupLocation="CenterScreen"
+        Loaded="ImportWindow_OnLoaded"
+        Closing="ImportWindow_OnClosing"
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+
+
+
+        <StackPanel 
+            Orientation="Vertical"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            >
+
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="需要导入的CSV数据"
+                >
+
+                <materialDesign:PackIcon 
+                    Kind="Target" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                    />
+
+
+                <ComboBox
+                    x:Name="NetworkComboBox"
+                    Margin="5"
+                    Width="340"
+                    materialDesign:HintAssist.Hint="选择要导入的数据的网段"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    ItemsSource="{Binding ShortStringList}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}">
+
+                </ComboBox>
+
+
+
+                <Button
+                    x:Name="ExportButton"
+                    Margin="5"
+                    Height="50"
+                    Width="160"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    ToolTip="导出模板" 
+                    Click="ExportButton_OnClick"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                >
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                        <materialDesign:PackIcon 
+                            Kind="TableExport" 
+                            VerticalAlignment="Center"
+                            Height="32"
+                            Width="32"
+                        />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                        >导出</TextBlock>
+                    </StackPanel>
+                </Button>
+
+
+
+
+
+
+            </StackPanel>
+
+
+
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="选择需要导入的CSV数据"
+                >
+
+                <materialDesign:PackIcon 
+                    Kind="FileImport" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                    />
+
+
+
+
+                    <TextBox
+                        Width="340"
+                        x:Name="SourceData"
+                        Margin="5"
+                        Text=""
+                        MaxHeight="55"
+                        VerticalAlignment="Top"
+                        AcceptsReturn="False"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"   
+                        TextWrapping="NoWrap" 
+                        />
+
+                    <Button
+                        x:Name="BrowseButton"
+                        Margin="5"
+                        Height="50"
+                        Width="160"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        ToolTip="保存" 
+                        Click="BrowseButton_OnClick"
+                        materialDesign:ButtonAssist.CornerRadius="5"
+                        >
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                            <materialDesign:PackIcon 
+                                Kind="SearchExpand" 
+                                VerticalAlignment="Center"
+                                Height="32"
+                                Width="32"
+                            />
+                        <TextBlock
+                                VerticalAlignment="Center"
+                            >浏览</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+
+
+
+
+            </StackPanel>
+
+
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="网段备注"
+                >
+
+                <materialDesign:PackIcon 
+                    Kind="ListStatus" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                    />
+
+
+
+                <ProgressBar
+                    x:Name="ProgressBar"
+                    Margin="5"
+                    Width="340"
+                    Height="20"
+                    />
+
+
+
+
+                <Button
+                    x:Name="ImportButton"
+                    Margin="5"
+                    Height="50"
+                    Width="160"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    ToolTip="保存" 
+                    Click="ImportButton_OnClick"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                >
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                        <materialDesign:PackIcon 
+                            Kind="Import" 
+                            VerticalAlignment="Center"
+                            Height="32"
+                            Width="32"
+                        />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                        >导入</TextBlock>
+                    </StackPanel>
+                </Button>
+
+
+            </StackPanel>
+
+
+
+        </StackPanel>
+
+        <StackPanel 
+            Orientation="Vertical"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left"
+            >
+
+
+
+
+
+
+
+        </StackPanel>
+
+
+    </Grid>
+</Window>

@@ -50,5 +50,10 @@ namespace IPAM_NOTE
 
 		//搜索区网段列表
 		public static ObservableCollection<ComBoxAddressInfo> ComBoxAddressInfos = new ObservableCollection<ComBoxAddressInfo>();
+
+		/// <summary>
+		/// 数据导入界面，网段ComboBox数据源
+		/// </summary>
+		public static List<string> ComboBoxAddressList = new List<string>();
 	}
 }

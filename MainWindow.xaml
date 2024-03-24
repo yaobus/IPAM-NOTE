@@ -12,13 +12,14 @@
         TextElement.FontSize="14"
         
         mc:Ignorable="d"
-        Title="IP地址分配记录本-52破解-Yaobus" 
+        Title="IP地址分配记录本-Yaobus" 
         MinHeight="768" 
         MinWidth="1366"
-        Height="900"
-        Width="1400"
+        Height="1080"
+        Width="1920"
         WindowStartupLocation="Manual"
         Loaded="MainWindow_OnLoaded"
+        SizeChanged="MainWindow_OnSizeChanged"
         >
     <Grid>
 
@@ -175,63 +176,16 @@
                 x:Name="AboutButton"
                 Margin="10,0"
                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="关于"
+                ToolTip="更多功能"
                 VerticalAlignment="Center"
                 materialDesign:ButtonAssist.CornerRadius="15"
                 Click="AboutButton_OnClick"
                 >
 
-                <materialDesign:PackIcon Kind="AboutOutline" Width="24" Height="24"/>
+                <materialDesign:PackIcon Kind="MoreCircle" Width="24" Height="24"/>
 
             </Button>
 
-                <!--<ListBox
-                HorizontalAlignment="Center"
-                x:Name="MenuBox"
-                Style="{StaticResource MaterialDesignChoiceChipSecondaryOutlineListBox}"
-                SelectionChanged="MenuBox_OnSelectionChanged"
-                >
-                
-                <ListBoxItem Width="60" Height="60"
-                             Margin="5"
-                             ToolTip="添加网段"
-                            >
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-
-                        <materialDesign:PackIcon Kind="Add" Width="32" Height="32"/>
-
-                    </StackPanel>
-
-                </ListBoxItem>
-
-
-
-                <ListBoxItem Width="60" 
-                             HorizontalAlignment="Center"
-                             ToolTip="删除网段"
-                             >
-
-                    <materialDesign:PackIcon Kind="Minus" Width="32" Height="32"/>
-
-                </ListBoxItem>
-
-                <ListBoxItem Width="60" 
-                             ToolTip="编辑网段"
-                             >
-
-                    <materialDesign:PackIcon Kind="Edit" Width="32" Height="32"/>
-
-                </ListBoxItem>
-                <ListBoxItem Width="60" 
-                             HorizontalAlignment="Right"
-                             ToolTip="关于"
-                             >
-
-                    <materialDesign:PackIcon Kind="AboutOutline" Width="32" Height="32"/>
-
-                </ListBoxItem>
-            </ListBox>-->
 
 
 
@@ -249,7 +203,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="470"/>
+                    <ColumnDefinition Width="520"/>
 
                 </Grid.ColumnDefinitions>
 
@@ -314,17 +268,17 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
-                    
+                    materialDesign:HintAssist.Hint="被搜索网段"
                     >
 
                     <ComboBox
+                        Margin="5"
                         x:Name="AddressBox"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                        materialDesign:HintAssist.Hint="被搜索网段"
                         ItemsSource="{Binding ShortStringList}"
                         materialDesign:TextFieldAssist.HasClearButton="True"
-                        
-                        Width="150">
+                        Width="120"
+                        VerticalAlignment="Bottom"
+                        >
                         <ComboBox.SelectedItem>
                             <Binding
                                 Path="SelectedValidationOutlined"
@@ -337,25 +291,22 @@
 
 
                     <StackPanel
-                        Margin="0,5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
                         Orientation="Horizontal"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left"
                         materialDesign:HintAssist.Hint="搜索关键词"
-                    >
+                        >
 
                         <TextBox
                             Width="120"
                             x:Name="KeyWord"
                             Margin="5"
-                            Text=""
-                            MaxHeight="55"
                             VerticalAlignment="Top"
                             AcceptsReturn="False"
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"   
-                            materialDesign:ButtonAssist.CornerRadius="15"
                             TextWrapping="NoWrap" 
-                            
+                            materialDesign:HintAssist.FloatingScale="0"
+                            materialDesign:HintAssist.Hint="搜索关键词"
+                            Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
                             KeyDown="KeyWord_OnKeyDown"
                         />
 
@@ -364,33 +315,54 @@
                     <Button
                         x:Name="SearchButton"
                         Click="SearchButton_OnClick"
-                        Style="{StaticResource MaterialDesignIconForegroundButton}"
-                        ToolTip="给我搜">
-                        <materialDesign:PackIcon
-                         Kind="Search" />
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        ToolTip="给我搜"
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        >
+                        <materialDesign:PackIcon Width="24" Height="24" Kind="Search" />
                     </Button>
+                    
                     <Button
+                        Margin="5"
                         x:Name="SearchClear"
-                        Visibility="Hidden"
+                        Visibility="Visible"
+                        IsEnabled="False"
                         Click="SearchClear_OnClick"
-                        Style="{StaticResource MaterialDesignIconForegroundButton}"
-                        ToolTip="清空搜索">
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        ToolTip="清空搜索"
+                        materialDesign:ButtonAssist.CornerRadius="15"
+                        >
                         <materialDesign:PackIcon
-                            Kind="ClearCircleOutline" />
+                        Kind="ClearCircleOutline"  Width="24" Height="24"/>
                     </Button>
+                    
                     <Button
+                        Margin="5"
+                        x:Name="ImportButton"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        ToolTip="导入向导"
+                        Click="ImportButton_OnClick"
+                        materialDesign:ButtonAssist.CornerRadius="15" 
+                        >
+
+                        <materialDesign:PackIcon Kind="DatabaseImport"  Width="24" Height="24"/>
+                    </Button>
+
+                    <Button
+                        Margin="5"
                         x:Name="ExportButton"
                         HorizontalAlignment="Right"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="20,4,4,4"
-                        Height="48"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        
                         ToolTip="导出表格内容"
                         IsEnabled="False"
                         Click="ExportButton_OnClick"
-                    >
+                        materialDesign:ButtonAssist.CornerRadius="15" 
+                        >
 
 
-                        <materialDesign:PackIcon Kind="DatabaseExportOutline" Width="32" Height="32" />
+                        <materialDesign:PackIcon Kind="DatabaseExportOutline" Width="24" Height="24"/>
                     </Button>
 
 

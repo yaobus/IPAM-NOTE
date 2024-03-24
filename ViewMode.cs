@@ -51,6 +51,37 @@ namespace IPAM_NOTE
 		}
 
 
+
+
+		/// <summary>
+		/// ip地址信息
+		/// </summary>
+		public class IpAddressInfoFromCsv
+		{
+			//IP地址
+			public int Address { get; set; }
+
+			public int AddressStatus { get; set; }
+
+			public string User { get; set; }
+
+			public string Description { get; set; }
+
+			public string PingStatus { get; set; }
+
+			public long PingTime { get; set; }
+
+			public string HostName { get; set; }
+
+			public string MacAddress { get; set; }
+
+
+		}
+
+
+
+
+
 		/// <summary>
 		/// 网段信息
 		/// </summary>
@@ -128,5 +159,15 @@ namespace IPAM_NOTE
 
 		}
 
+
+		/// <summary>
+		/// 备份文件信息
+		/// </summary>
+		public class BackupInfo
+		{
+			public int Index { get; set; }
+			public string FileName { get; set; }
+			public string BackupTime { get; set; }
+		}
 	}
 }

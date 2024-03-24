@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using OfficeOpenXml;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -29,6 +31,7 @@ using static IPAM_NOTE.ViewMode;
 using Button = System.Windows.Controls.Button;
 using GridView = System.Windows.Controls.GridView;
 using ListView = System.Windows.Controls.ListView;
+using Path = System.IO.Path;
 using Style = System.Windows.Style;
 
 namespace IPAM_NOTE
@@ -53,9 +56,16 @@ namespace IPAM_NOTE
 			AddressListView.ItemsSource = AddressInfos;
 
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
+			
+			//创建数据库备份
+			CreatBackup(dbFilePath);
+
 			string dbName = "Address_database.db";
 
+
 			dbFilePath = dbFilePath + dbName;
+
+
 
 			dbClass = new DbClass(dbFilePath);
 			dbClass.OpenConnection();
@@ -107,6 +117,8 @@ namespace IPAM_NOTE
 					DataBrige.ComBoxAddressInfos.Add(new ComBoxAddressInfo(tableName, network));
 					ComBoxAddressList.Add(network);
 				}
+
+				DataBrige.ComboBoxAddressList = ComBoxAddressList;
 
 				reader.Close();
 			}
@@ -160,6 +172,20 @@ namespace IPAM_NOTE
 			// 创建一个 ListView
 			ListView listView = new ListView();
 
+			// 设置 ListView 的垂直对齐方式为拉伸
+			listView.VerticalAlignment = VerticalAlignment.Stretch;
+
+			// 设置 ListView 的内容垂直对齐方式为顶部对齐
+			listView.VerticalContentAlignment = VerticalAlignment.Stretch; 
+
+			ScrollViewer.SetCanContentScroll(listView, false);
+
+			// 创建 ScrollViewer 控件
+			ScrollViewer scrollViewer = new ScrollViewer();
+
+			// 设置垂直滚动条的可见性为自动
+			scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto; 
+
 
 
 			// 创建一个 GridView
@@ -185,9 +211,14 @@ namespace IPAM_NOTE
 
 
 			// 设置 ListView 的属性
-			listView.Width = GraphicsPlan.ActualWidth - 20;
-			;
-			listView.Height = GraphicsPlan.ActualHeight - 20;
+
+			Binding bindingWidth = new Binding("ActualWidth");
+			bindingWidth.Source = GraphicsPlan;
+			listView.SetBinding(ListView.WidthProperty, bindingWidth);
+
+			// 设置 ListView 的高度为 Auto
+			listView.Height = double.NaN;
+
 			listView.Margin = new Thickness(10);
 
 			listView.ItemsSource = DataBrige.ipAddressInfos;
@@ -195,10 +226,52 @@ namespace IPAM_NOTE
 			listView.MouseDoubleClick += ListView_MouseDoubleClick;
 
 
-			GraphicsPlan.Children.Add(listView);
 
-			listView.SelectedIndex = selectIndex;
+			scrollViewer.Content = listView;
+			scrollViewer.PreviewMouseWheel += ScrollViewer_PreviewMouseWheel;
+
+
+			GraphicsPlan.Children.Add(scrollViewer);
+
 		}
+
+		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			// 获取当前的 ScrollViewer 控件
+			ScrollViewer currentScrollViewer = sender as ScrollViewer;
+
+			if (currentScrollViewer != null)
+			{
+				// 计算滚动的增量
+				double delta = e.Delta;
+
+				// 计算新的滚动位置
+				double newOffset = currentScrollViewer.VerticalOffset - delta;
+
+				// 限制滚动位置在合理范围内
+				if (newOffset < 0)
+				{
+					newOffset = 0;
+				}
+				else if (newOffset > currentScrollViewer.ScrollableHeight)
+				{
+					newOffset = currentScrollViewer.ScrollableHeight;
+				}
+
+				// 设置新的滚动位置
+				currentScrollViewer.ScrollToVerticalOffset(newOffset);
+			}
+
+			// 标记事件为已处理，以阻止默认的滚动行为
+			e.Handled = true;
+
+		}
+
+
+
+
+
+
 
 		/// <summary>
 		/// 表项被选择
@@ -289,7 +362,7 @@ namespace IPAM_NOTE
 			GraphicsPlan.Children.Clear();
 			GraphicsButton.IsEnabled = true;
 			int index = AddressListView.SelectedIndex;
-			AddressBox.SelectedIndex=AddressListView.SelectedIndex;
+			AddressBox.SelectedIndex = AddressListView.SelectedIndex;
 
 			DataBrige.TempAddress = (ViewMode.AddressInfo)AddressListView.SelectedItem;
 
@@ -963,7 +1036,7 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void SearchButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			SearchClear.Visibility = Visibility.Visible;
+			SearchClear.IsEnabled = true;
 
 			LoadMode = 1;
 			ExportButton.IsEnabled = true;
@@ -985,6 +1058,11 @@ namespace IPAM_NOTE
 				// 创建一个 ListView
 				ListView listView = new ListView();
 
+				// 创建 ScrollViewer 控件
+				ScrollViewer scrollViewer = new ScrollViewer();
+				scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto; // 设置垂直滚动条的可见性为自动
+				listView.VerticalAlignment = VerticalAlignment.Top; // 设置 ListView 的垂直对齐方式为顶部对齐
+				scrollViewer.Content = listView;
 
 
 				// 创建一个 GridView
@@ -1010,9 +1088,13 @@ namespace IPAM_NOTE
 
 
 				// 设置 ListView 的属性
-				listView.Width = GraphicsPlan.ActualWidth - 20;
-				;
-				listView.Height = GraphicsPlan.ActualHeight - 20;
+
+				Binding bindingWidth = new Binding("ActualWidth");
+				bindingWidth.Source = GraphicsPlan;
+				listView.SetBinding(ListView.WidthProperty, bindingWidth);
+
+
+
 				listView.Margin = new Thickness(10);
 
 				listView.ItemsSource = DataBrige.ipAddressInfos;
@@ -1020,8 +1102,9 @@ namespace IPAM_NOTE
 				listView.SelectionChanged += ListView_SelectionChanged;
 				listView.MouseDoubleClick += ListView_MouseDoubleClick;
 
+				scrollViewer.PreviewMouseWheel += ScrollViewer_PreviewMouseWheel;
 
-				GraphicsPlan.Children.Add(listView);
+				GraphicsPlan.Children.Add(scrollViewer);
 
 				LoadAddressSearch(DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName,KeyWord.Text);
 				
@@ -1114,7 +1197,130 @@ namespace IPAM_NOTE
 
 			LoadAddressConfig(tableName);
 			ListLoad();
-			SearchClear.Visibility = Visibility.Hidden;
+			SearchClear.IsEnabled = false;
+		}
+
+
+
+		/// <summary>
+		/// 导入向导
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ImportButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			ImportWindow importWindow = new ImportWindow();
+
+			
+
+			if (importWindow.ShowDialog() == true)
+			{
+
+				AddressListView_OnSelectionChanged(null, null);
+				// 当子窗口关闭后执行这里的代码
+				//LoadNetworkInfo(dbClass.connection);
+
+			}
+		}
+
+
+		/// <summary>
+		/// 窗口尺寸改变
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MainWindow_OnSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			//if (LoadMode == 1)
+			//{
+			//	ListView listView = (ListView)GraphicsPlan.FindName("DynamicListView");
+
+			//	listView.Width = GraphicsPlan.ActualWidth - 20;
+			//	listView.Height = GraphicsPlan.ActualHeight - 20;
+			//	listView.Margin = new Thickness(10);
+			//}
+		}
+
+
+
+		private void CreatBackup(string sourceFilePath)
+		{
+
+			string dbFileName = "Address_database.db";
+			string dbFilePath = Path.Combine(sourceFilePath, dbFileName);
+
+
+			// 如果源文件不存在，则无需备份
+			if (!File.Exists(dbFilePath))
+			{
+				Console.WriteLine("源文件不存在，无法备份。");
+				return;
+			}
+
+			string backupDirectoryPath = Path.Combine(sourceFilePath, "Backup");
+
+			// 创建备份目录（如果不存在）
+			if (!Directory.Exists(backupDirectoryPath))
+			{
+				Directory.CreateDirectory(backupDirectoryPath);
+			}
+
+			// 获取备份文件夹内的所有备份文件
+			string[] backupFiles = Directory.GetFiles(backupDirectoryPath, "*.bak");
+
+			// 如果存在备份文件，则选择最新的一个进行比较
+			if (backupFiles.Length > 0)
+			{
+				string latestBackupFilePath = backupFiles.OrderByDescending(f => File.GetLastWriteTime(f)).First();
+
+				// 如果最新备份文件与源文件相同，则无需备份
+				if (FilesAreIdentical(dbFilePath, latestBackupFilePath))
+				{
+					Console.WriteLine("最新备份和源文件相同，无需备份。");
+					return;
+				}
+			}
+
+
+			// 构建备份文件名
+			string backupFileName = $"Address_database.db_{DateTime.Now:yyyy年M月d日HH.mm}.bak";
+			string backupFilePath =Path.Combine(backupDirectoryPath, backupFileName);
+
+
+			try
+			{
+				// 进行备份
+				File.Copy(dbFilePath, backupFilePath, true);
+				Console.WriteLine("备份已创建：" + backupFilePath);
+			}
+			catch (DirectoryNotFoundException ex)
+			{
+				Console.WriteLine("备份目录未找到：" + ex.Message);
+			}
+
+		}
+
+		/// <summary>
+		/// 检查两个文件是否相同
+		/// </summary>
+		/// <param name="file1"></param>
+		/// <param name="file2"></param>
+		/// <returns></returns>
+		private bool FilesAreIdentical(string file1, string file2)
+		{
+			using (var hashAlgorithm = SHA256.Create())
+			{
+				using (var stream1 = File.OpenRead(file1))
+				using (var stream2 = File.OpenRead(file2))
+				{
+					var hash1 = hashAlgorithm.ComputeHash(stream1);
+
+
+					var hash2 = hashAlgorithm.ComputeHash(stream2);
+
+					return StructuralComparisons.StructuralEqualityComparer.Equals(hash1, hash2);
+				}
+			}
 		}
 	}
 }
