@@ -32,5 +32,24 @@
 
 ![地址检测](https://github.com/yaobus/ProjectData/blob/main/ipam-note/06.png)
 
+EXCEL导出界面
+![地址分配]([https://github.com/yaobus/ProjectData/blob/main/ipam-note/%E5%AF%BC%E5%87%BA.png])
+
+搜索界面
+![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/%E6%90%9C%E7%B4%A2%E7%95%8C%E9%9D%A2.png)
+
+UI帮助界面
+![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/helpui.png)
+
+数据导入界面
+![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/import.png)
+
+数据导入帮助界面
+![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/heipimport.png)
+
+
+数据还原界面
+![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/restore.png)
+
 其他界面
 ![地址分配](https://github.com/yaobus/ProjectData/blob/main/ipam-note/05.png)
