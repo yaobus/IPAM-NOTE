@@ -55,5 +55,8 @@ namespace IPAM_NOTE
 		/// 数据导入界面，网段ComboBox数据源
 		/// </summary>
 		public static List<string> ComboBoxAddressList = new List<string>();
+
+
+		public static int SelectButtonTag;
 	}
 }

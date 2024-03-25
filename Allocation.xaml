@@ -74,7 +74,8 @@
 
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="400"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
@@ -89,12 +90,12 @@
                         <Button
                             Grid.Column="1"
                             x:Name="PingButton"
-                            Margin="10"
+                            Margin="10,5,5,5"
                             Height="50"
                             Foreground="AliceBlue"
                             
                             Style="{StaticResource MaterialDesignOutlinedButton}"
-                            ToolTip="保存分配" 
+                            ToolTip="PING测试" 
                             Click="PingButton_OnClick"
                             materialDesign:ButtonAssist.CornerRadius="15"
                         >
@@ -108,6 +109,33 @@
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     Text="  Ping -t"
+
+                                />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Grid.Column="2"
+                            x:Name="WebOpen"
+                            Margin="5"
+                            Height="50"
+                            Foreground="AliceBlue"
+                            
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            ToolTip="PING测试" 
+                            Click="WebOpen_OnClick"
+                            materialDesign:ButtonAssist.CornerRadius="15"
+                            >
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                                <materialDesign:PackIcon 
+                                    Kind="Web" 
+                                    VerticalAlignment="Center"
+                                    Height="32"
+                                    Width="32"
+                                />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Text="网页访问"
 
                                 />
                             </StackPanel>

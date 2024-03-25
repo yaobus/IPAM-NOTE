@@ -463,6 +463,8 @@ namespace IPAM_NOTE
 
 			int x = ipAddressInfos.Count;
 
+			//int firstIp = ipAddressInfos[0].Address;
+
 			for (int i = 0; i < x; i++)
 			{
 				//bool status = false;
@@ -543,6 +545,93 @@ namespace IPAM_NOTE
 
 			}
 
+
+
+			#region Backup
+
+			//int x = ipAddressInfos.Count;
+
+			//for (int i = 0; i < x; i++)
+			//{
+			//	//bool status = false;
+
+			//	string description = null;
+			//	Brush colorBrush = null;
+			//	int status = ipAddressInfos[i].AddressStatus;
+
+			//	Brush fontBrush = null;
+
+
+			//	IPStatus pingStatus = ipAddressInfos[i].PingStatus;
+
+			//	switch (status)
+			//	{
+			//		case 0:
+			//			colorBrush = Brushes.DimGray;
+			//			description = "类型：网段IP地址";
+
+			//			break;
+
+			//		case 1:
+			//			colorBrush = Brushes.LightSeaGreen;
+			//			description = "类型：可选IP地址" + "\r当前在线主机：" + ipAddressInfos[i].HostName + "\rMAC：" +
+			//			              ipAddressInfos[i].MacAddress;
+
+			//			break;
+
+			//		case 2:
+			//			colorBrush = Brushes.Coral;
+			//			description = "类型：已用IP地址\r分配：" + ipAddressInfos[i].User + "\r备注：" +
+			//			              ipAddressInfos[i].Description + "\r当前在线主机：" + ipAddressInfos[i].HostName +
+			//			              "\rMAC：" + ipAddressInfos[i].MacAddress;
+
+			//			break;
+
+			//	}
+
+
+			//	if (pingStatus == IPStatus.Success)
+			//	{
+			//		fontBrush = Brushes.Red;
+
+			//	}
+			//	else
+			//	{
+			//		fontBrush = Brushes.AliceBlue;
+
+			//	}
+
+
+			//	Button newButton = new Button()
+			//	{
+			//		Width = 60,
+			//		Height = 30,
+			//		Background = colorBrush,
+			//		Foreground = fontBrush,
+			//		FontWeight = FontWeights.Bold,
+			//		Content = ipAddressInfos[i].Address,
+			//		ToolTip = description,
+			//		Tag = i.ToString(),
+			//		Style = (Style)this.FindResource("MaterialDesignRaisedButton"),
+			//		Margin = new Thickness(5),
+
+			//	};
+
+
+
+			//	newButton.Click += NewButton_Click;
+			//	;
+
+
+
+
+
+			//	//显示到图形化区域
+			//	GraphicsPlan.Children.Add(newButton);
+
+			//}
+
+			#endregion
 		}
 
 
@@ -605,8 +694,12 @@ namespace IPAM_NOTE
 				//SelectIpNum.Text = CountIp().ToString();
 				#endregion
 
+				DataBrige.SelectButtonTag = Convert.ToInt32(button.Tag);
 
-				IpAddressInfo ipAddressInfo = DataBrige.ipAddressInfos[Convert.ToInt32(button.Tag)] as IpAddressInfo;
+				IpAddressInfo ipAddressInfo = DataBrige.ipAddressInfos[DataBrige.SelectButtonTag] as IpAddressInfo;
+				
+
+
 				int ip = ipAddressInfo.Address;
 
 				if (ip != 0)

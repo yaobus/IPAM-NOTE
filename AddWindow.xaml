@@ -13,7 +13,7 @@
         mc:Ignorable="d"
         Title="" 
         Style="{DynamicResource MaterialDesignWindow}"
-        Height="300"
+        Height="320"
         Width="600"
         WindowStartupLocation="CenterScreen"
         Loaded="AddWindow_OnLoaded"
@@ -23,7 +23,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-           
+            <ColumnDefinition Width="180"/>
         </Grid.ColumnDefinitions>
         
         
@@ -63,29 +63,7 @@
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="NoWrap" 
                     />
-                <StackPanel
-                    Margin="5"
-                    Orientation="Horizontal"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    materialDesign:HintAssist.Hint="网段地址数量"
-                >
 
-                    <TextBox
-                        Width="160"
-                        x:Name="NumBox"
-                        Margin="0"
-                        Text="256"
-                        MaxHeight="55"
-                        IsEnabled="False"
-                        VerticalAlignment="Top"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"   
-                        materialDesign:ButtonAssist.CornerRadius="15"
-                        TextWrapping="NoWrap" 
-                    />
-
-                </StackPanel>
 
 
             </StackPanel>
@@ -122,29 +100,7 @@
                 </StackPanel>
 
 
-                <StackPanel
-                    Margin="0,5"
-                    Orientation="Horizontal"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    materialDesign:HintAssist.Hint="子网掩码"
-                >
 
-                    <TextBox
-                        Width="160"
-                        x:Name="MaskText"
-                        Margin="5"
-                        Text="255.255.255.0"
-                        MaxHeight="55"
-                        IsEnabled="False"
-                        VerticalAlignment="Top"
-                        AcceptsReturn="True"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"   
-                        materialDesign:ButtonAssist.CornerRadius="15"
-                        TextWrapping="NoWrap" 
-                    />
-
-                </StackPanel>
 
 
                 <!--<TextBox
@@ -194,17 +150,41 @@
                     TextWrapping="Wrap" 
                     />
 
+
+
+
+            </StackPanel>
+
+
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="网段备注"
+            >
+
+                <materialDesign:PackIcon 
+                    Kind="ContentSaveEdit" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                />
+
+
+
+
                 <Button
                     Grid.Column="1"
                     x:Name="SaveButton"
                     Margin="5"
                     Height="50"
-                    Width="160"
+                    Width="340"
                     Style="{StaticResource MaterialDesignOutlinedButton}"
                     ToolTip="保存" 
                     Click="SaveButton_Click"
                     materialDesign:ButtonAssist.CornerRadius="5"
-                >
+                    >
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                         <materialDesign:PackIcon 
                             Kind="ContentSave" 
@@ -219,11 +199,21 @@
                 </Button>
 
 
+
+
+
+
             </StackPanel>
 
 
 
+
+
+
         </StackPanel>
+
+
+
 
         <StackPanel 
             Orientation="Vertical"
@@ -232,11 +222,62 @@
             HorizontalAlignment="Left"
             >
 
+            <TextBox
+                x:Name="Network"
+                Width="160"
+                Margin="0,3"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="地址所属网络"
+                IsEnabled="False"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+            <TextBox
+                x:Name="MaskText"
+                Margin="0"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="子网掩码"
+                IsEnabled="False"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+            <TextBox
+                x:Name="First"
+                Margin="0"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="第一个可用IP"
+                IsEnabled="False"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+
+            <TextBox
+                x:Name="Last"
+                Margin="0"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="最后一个可用IP"
+                IsEnabled="False"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+            <TextBox
+                x:Name="Broadcast"
+                Margin="0"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="广播地址"
+                IsEnabled="False"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+            <TextBox
+                x:Name="NumBox"
+                Margin="0"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="地址数量"
+                IsEnabled="False"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
 
 
 
-            
 
         </StackPanel>
 

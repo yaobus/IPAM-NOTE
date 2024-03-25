@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static IPAM_NOTE.ViewMode;
+using Button = System.Web.UI.WebControls.Button;
 
 namespace IPAM_NOTE
 {
@@ -42,8 +43,8 @@ namespace IPAM_NOTE
 			if (DataBrige.LoadType == 1)
 
 			{
-				
-				
+
+
 				NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
 
 
@@ -63,9 +64,9 @@ namespace IPAM_NOTE
 			else
 			{
 				NetworkBlock.Text = "所选网段:" + DataBrige.TempAddress.Network;
-				
-				
-				
+
+
+
 				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 				{
 					UserTextBox.Text = DataBrige.IpAddress.HostName;
@@ -78,15 +79,6 @@ namespace IPAM_NOTE
 					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
 				}
 			}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -111,43 +103,45 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void SaveButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			if (UserTextBox.Text != "" && UserTextBox.Text != "N/A" && DescriptionTextBox.Text != "" && DescriptionTextBox.Text != "N/A")
-			{
-				string tableName = DataBrige.TempAddress.TableName;
 
-				string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2' , \"Description\" = '{2}' WHERE Address = {3}", tableName, UserTextBox.Text, DescriptionTextBox.Text, DataBrige.SelectIp);
 
-				if (DataBrige.LoadType == 0)
+				if (UserTextBox.Text != "" && UserTextBox.Text != "N/A" && DescriptionTextBox.Text != "" && DescriptionTextBox.Text != "N/A")
 				{
-					DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].User = UserTextBox.Text;
-					DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].Description = DescriptionTextBox.Text;
-					DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIp)].AddressStatus = 2;
+					string tableName = DataBrige.TempAddress.TableName;
+
+					string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2' , \"Description\" = '{2}' WHERE Address = {3}", tableName, UserTextBox.Text, DescriptionTextBox.Text, DataBrige.SelectIp);
+
+					if (DataBrige.LoadType == 0)
+					{
+						DataBrige.ipAddressInfos[DataBrige.SelectButtonTag].User = UserTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectButtonTag].Description = DescriptionTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectButtonTag].AddressStatus = 2;
+					}
+					else
+					{
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].User = UserTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].Description = DescriptionTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].AddressStatus = 2;
+					}
+
+
+
+
+					//Console.WriteLine(sql);
+
+					dbClass.ExecuteQuery(sql);
+
+
+
+					this.Close();
+
 				}
 				else
 				{
-					DataBrige.ipAddressInfos[DataBrige.SelectIndex].User = UserTextBox.Text;
-					DataBrige.ipAddressInfos[DataBrige.SelectIndex].Description = DescriptionTextBox.Text;
-					DataBrige.ipAddressInfos[DataBrige.SelectIndex].AddressStatus = 2;
+					MessageBox.Show("请填写地址分配信息！", "信息不完整", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 
-
-
-
-				//Console.WriteLine(sql);
-
-				dbClass.ExecuteQuery(sql);
-
-
-
-				this.Close();
-
-			}
-			else
-			{
-				MessageBox.Show("请填写地址分配信息！", "信息不完整", MessageBoxButton.OK, MessageBoxImage.Information);
-			}
-
-
+			
 		}
 
 		/// <summary>
@@ -164,7 +158,7 @@ namespace IPAM_NOTE
 			{
 				string tableName = DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].TableName;
 
-				Console.WriteLine("TableName:" +tableName) ;
+				Console.WriteLine("TableName:" + tableName);
 
 
 				string sql = string.Format("UPDATE {0} SET \"User\" = '', \"AddressStatus\" = '1' , \"Description\" = '' WHERE Address = {1}", tableName, DataBrige.SelectIp);
@@ -173,7 +167,7 @@ namespace IPAM_NOTE
 
 				dbClass.ExecuteQuery(sql);
 				Console.WriteLine("DataBrige.ipAddressInfos.Count=" + DataBrige.ipAddressInfos.Count);
-				Console.WriteLine("DataBrige.SelectIp="+ DataBrige.SelectIp);
+				Console.WriteLine("DataBrige.SelectIp=" + DataBrige.SelectIp);
 
 				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].User = "";
 				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].Description = "";
@@ -220,6 +214,14 @@ namespace IPAM_NOTE
 
 			// 启动进程
 			process.Start();
+		}
+
+
+
+		private void WebOpen_OnClick(object sender, RoutedEventArgs e)
+		{
+			string ip = DataBrige.TempAddress.Network.Replace("*", "") + DataBrige.SelectIp;
+			Process.Start("http://" + ip);
 		}
 	}
 }

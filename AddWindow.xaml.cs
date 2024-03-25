@@ -80,19 +80,24 @@ namespace IPAM_NOTE
 			//添加网段
 			if (DataBrige.AddStatus == 0)
 			{
+
 				//判断是不是瞎几把写的IP地址
 				if (IsValidIp(IpTextBox.Text) == true)
 				{
-					//规范化IP输入
-					string ip = IpTextBox.Text.Substring(0, IpTextBox.Text.LastIndexOf(".") + 1) + "*";
+					//计算IP
+					UpdateIPCalculations();
 
+					//网段地址
+					string ip = Network.Text;
+					string netMask = MaskText.Text;
 
 					if (IpDescription.Text != "")
 					{
 						string tableName;
 
-						string sqlTemp = string.Format("SELECT COUNT(*) FROM Network WHERE `Network` = '{0}' ", ip);
+						string sqlTemp = string.Format("SELECT COUNT(*) FROM Network WHERE `Network` = '{0}' AND `Netmask` = '{1}'", ip, netMask);
 
+						
 
 						int num = DbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
 
@@ -108,12 +113,13 @@ namespace IPAM_NOTE
 							{
 								// 用户点击了"是"按钮，执行相关操作
 								tableName = CreateTableName(ip) + "_" + (num + 1).ToString();
-
+								
+								Console.WriteLine(tableName);
 
 								//插入网段信息总表的数据
 								string sql = string.Format(
 									"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
-									tableName, ip, MaskText.Text, IpDescription.Text, 0);
+									tableName, ip, netMask, IpDescription.Text, 0);
 
 								dbClass.ExecuteQuery(sql);
 
@@ -142,11 +148,12 @@ namespace IPAM_NOTE
 
 							tableName = CreateTableName(ip) + "_1";
 
+							Console.WriteLine(tableName);
 
 							//插入网段信息总表的数据
 							string sql = string.Format(
 								"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
-								tableName, ip, MaskText.Text, IpDescription.Text, 0);
+								tableName, ip, netMask, IpDescription.Text, 0);
 
 							dbClass.ExecuteQuery(sql);
 
@@ -208,7 +215,139 @@ namespace IPAM_NOTE
 
 
 
+			#region Backup
 
+			//添加网段
+			//if (DataBrige.AddStatus == 0)
+			//{
+			//	//判断是不是瞎几把写的IP地址
+			//	if (IsValidIp(IpTextBox.Text) == true)
+			//	{
+			//		//规范化IP输入
+			//		string ip = IpTextBox.Text.Substring(0, IpTextBox.Text.LastIndexOf(".") + 1) + "*";
+
+
+			//		if (IpDescription.Text != "")
+			//		{
+			//			string tableName;
+
+			//			string sqlTemp = string.Format("SELECT COUNT(*) FROM Network WHERE `Network` = '{0}' ", ip);
+
+
+			//			int num = DbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
+
+			//			//IP地址段已存在
+			//			if (num > 0)
+			//			{
+			//				string msg = string.Format("已存在同配置网段{0}个，是否继续添加同配置网段？", num.ToString());
+
+			//				MessageBoxResult result = MessageBox.Show(msg, "确认", MessageBoxButton.YesNo,
+			//					MessageBoxImage.Information);
+
+			//				if (result == MessageBoxResult.Yes)
+			//				{
+			//					// 用户点击了"是"按钮，执行相关操作
+			//					tableName = CreateTableName(ip) + "_" + (num + 1).ToString();
+
+
+			//					//插入网段信息总表的数据
+			//					string sql = string.Format(
+			//						"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
+			//						tableName, ip, MaskText.Text, IpDescription.Text, 0);
+
+			//					dbClass.ExecuteQuery(sql);
+
+			//					//创建表
+			//					CreateTable(tableName);
+
+			//					//装载初始化数据
+			//					InitializedData(tableName);
+
+			//					this.Close();
+
+
+
+			//				}
+			//				else if (result == MessageBoxResult.No)
+			//				{
+			//					// 用户点击了"否"按钮，取消操作或进行其他处理
+
+
+			//				}
+
+
+			//			}
+			//			else
+			//			{
+
+			//				tableName = CreateTableName(ip) + "_1";
+
+
+			//				//插入网段信息总表的数据
+			//				string sql = string.Format(
+			//					"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
+			//					tableName, ip, MaskText.Text, IpDescription.Text, 0);
+
+			//				dbClass.ExecuteQuery(sql);
+
+			//				//插入网段信息总表的数据
+
+			//				//创建表
+			//				CreateTable(tableName);
+
+			//				//装载初始化数据
+			//				InitializedData(tableName);
+
+			//				this.Close();
+
+
+
+			//			}
+
+
+			//		}
+			//		else
+			//		{
+
+			//			MessageBox.Show("为了便于后期管理，必须填写网段说明!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+			//		}
+
+			//	}
+			//	else
+			//	{
+			//		MessageBox.Show("IP地址不合法，请检查IP地址是否正确!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
+			//	}
+
+			//}
+			//else//编辑网段
+			//{
+
+			//	if (IpDescription.Text != "")
+			//	{
+			//		string tableName = DataBrige.TempAddress.TableName;
+
+			//		string sqlTemp = string.Format("UPDATE \"Network\" SET \"Description\" = '{0}' WHERE TableName = '{1}'", IpDescription.Text, tableName);
+
+			//		Console.WriteLine(sqlTemp);
+
+			//		dbClass.ExecuteQuery(sqlTemp);
+
+
+
+			//		this.Close();
+			//	}
+
+
+
+
+
+			//}
+
+
+
+			#endregion
 
 
 
@@ -231,7 +370,7 @@ namespace IPAM_NOTE
 		/// <returns></returns>
 		private string CreateTableName(string address)
 		{
-			string name = address.Substring(0, IpTextBox.Text.LastIndexOf(".") + 1) + "1";
+			string name = Network.Text;
 			name = "tb_" + name.Replace(".", "_");
 
 			return name;
@@ -258,9 +397,19 @@ namespace IPAM_NOTE
 		/// </summary>
 		private void InitializedData(string tableName)
 		{
-			//需要写入的IP数量
-			//int x = 255;
-			//需要写入的IP数量
+			string[] parts = Network.Text.Split('.');
+			
+			//取出第一个IP
+			int  firstIp =Convert.ToInt32( parts[3]);
+
+
+			parts = Broadcast.Text.Split('.');
+
+			//取出最后一个IP,广播IP
+			int LastIp = Convert.ToInt32(parts[3]);
+
+
+
 			int x = Convert.ToInt32(NumBox.Text);
 
 			for (int i = 0; i < x; i++)
@@ -268,19 +417,20 @@ namespace IPAM_NOTE
 				//IP地址锁定状态：0不可用IP，1可用IP
 				int addressStatus = 0;
 
-				//string description;
+				int ip = firstIp + i;
 
+				
 
 				List<string> lockip = new List<string>();
 
-				if (i == 0)
+				if (ip == firstIp)
 				{
 					addressStatus = 0;
 
 				}
 				else
 				{
-					if (i == x )
+					if (ip == LastIp )
 					{
 
 						addressStatus = 0;
@@ -292,7 +442,7 @@ namespace IPAM_NOTE
 				}
 
 				string sql = string.Format("INSERT INTO `{0}` (`Address`, `AddressStatus`) VALUES ({1}, {2})",
-					tableName, i, addressStatus);
+					tableName, ip, addressStatus);
 
 
 				//Console.WriteLine(sql);
@@ -344,6 +494,10 @@ namespace IPAM_NOTE
 			int t = Convert.ToInt32(str, 2);
 			MaskText.Text = "255.255.255." + t.ToString();
 			NumBox.Text = (256 - t).ToString();
+			Network.Text = IpTextBox.Text;
+			
+
+
 
 			string ipStr = IpTextBox.Text;
 			int index = ipStr.LastIndexOf(".") + 1;
@@ -363,12 +517,23 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void MaskSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			if (LoadStatus==true)
+			if (LoadStatus == true)
 			{
-				CalculateIpAddress();
+				//判断是不是瞎几把写的IP地址
+				if (IsValidIp(IpTextBox.Text) == true)
+				{
+					UpdateIPCalculations();
+				}
+				else
+				{
+					IpTextBox.Text = "";
+					MessageBox.Show("IP地址不合法，请检查IP地址是否正确!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
+				}
+
+				
 			}
 
-			
+
 		}
 
 
@@ -404,6 +569,115 @@ namespace IPAM_NOTE
 
 			MaskSlider.Value = 32 - str2.Length;
 		}
+
+
+		private void UpdateIPCalculations()
+		{
+			try
+			{
+				IPAddress ip;
+				if (IPAddress.TryParse(IpTextBox.Text, out ip))
+				{
+					int maskLength = (int)MaskSlider.Value;
+					IPAddress mask = IPAddressCalculations.SubnetMaskFromPrefixLength(maskLength);
+					MaskText.Text = mask.ToString();
+
+					IPAddress networkAddress = ip.GetNetworkAddress(mask);
+					Network.Text = networkAddress.ToString();
+
+					IPAddress firstAddress = networkAddress.GetFirstUsable(ip.AddressFamily);
+					First.Text = firstAddress.ToString();
+
+					IPAddress lastAddress = networkAddress.GetLastUsable(ip.AddressFamily, maskLength);
+
+					Last.Text = lastAddress.ToString();
+
+					IPAddress broadcastAddress = networkAddress.GetBroadcastAddress(maskLength);
+					Broadcast.Text = broadcastAddress.ToString();
+
+
+					long addressCount = IPAddressCalculations.AddressCount(maskLength);
+					NumBox.Text = addressCount.ToString();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+
+	}
+	public static class IPAddressCalculations
+	{
+		public static long AddressCount(int maskLength)
+		{
+			return (long)Math.Pow(2, 32 - maskLength);
+		}
+
+		public static IPAddress SubnetMaskFromPrefixLength(int prefixLength)
+		{
+			uint subnet = 0xffffffff;
+			subnet <<= (32 - prefixLength);
+			byte[] bytes = BitConverter.GetBytes(subnet);
+			Array.Reverse(bytes);
+			return new IPAddress(bytes);
+		}
+
+		public static IPAddress GetNetworkAddress(this IPAddress address, IPAddress subnetMask)
+		{
+			byte[] ipBytes = address.GetAddressBytes();
+			byte[] maskBytes = subnetMask.GetAddressBytes();
+
+			byte[] result = new byte[ipBytes.Length];
+			for (int i = 0; i < ipBytes.Length; i++)
+			{
+				result[i] = (byte)(ipBytes[i] & maskBytes[i]);
+			}
+
+			return new IPAddress(result);
+		}
+
+		public static IPAddress GetFirstUsable(this IPAddress networkAddress, System.Net.Sockets.AddressFamily addressFamily)
+		{
+			byte[] bytes = networkAddress.GetAddressBytes();
+			bytes[bytes.Length - 1] += 1; // Increment last byte
+			return new IPAddress(bytes);
+		}
+
+		public static IPAddress GetLastUsable(this IPAddress networkAddress, System.Net.Sockets.AddressFamily addressFamily, int maskLength)
+		{
+			byte[] bytes = networkAddress.GetAddressBytes();
+			int usableAddresses = (int)Math.Pow(2, 32 - maskLength) - 2; // Calculate the number of usable addresses
+			int lastByteIndex = bytes.Length - 1;
+			int carry = usableAddresses / 256;
+			bytes[lastByteIndex] += (byte)(usableAddresses % 256); // Add remainder to last byte
+			for (int i = lastByteIndex - 1; i >= 0 && carry > 0; i--)
+			{
+				int sum = bytes[i] + carry;
+				bytes[i] = (byte)(sum % 256);
+				carry = sum / 256;
+			}
+			return new IPAddress(bytes);
+		}
+
+
+		public static IPAddress GetBroadcastAddress(this IPAddress networkAddress, int maskLength)
+		{
+			byte[] bytes = networkAddress.GetAddressBytes();
+			int lastByteIndex = bytes.Length - 1;
+			int subnetBits = 32 - maskLength;
+
+			for (int i = 0; i < subnetBits; i++)
+			{
+				int byteIndex = i / 8;
+				int bitOffset = i % 8;
+				bytes[lastByteIndex - byteIndex] |= (byte)(1 << bitOffset);
+			}
+
+			return new IPAddress(bytes);
+		}
+
 
 	}
 }

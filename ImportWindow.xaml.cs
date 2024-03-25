@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static IPAM_NOTE.ViewMode;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+using Path = System.IO.Path;
 
 namespace IPAM_NOTE
 {
@@ -113,78 +114,140 @@ namespace IPAM_NOTE
 			dbFilePath = dbFilePath + dbName;
 
 			// 打开 SQLite 数据库连接
-			string connectionString = string.Format("Data Source={0};Version=3;", dbFilePath); 
+			string connectionString = string.Format("Data Source={0};Version=3;", dbFilePath);
 
-			using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+			try
 			{
-				connection.Open();
+				// 检查CSV文件编码并转换为UTF-8
+				string utf8CsvFilePath = CheckAndConvertCsvToUtf8(csvFilePath);
 
-				// 创建一个 SQLiteCommand 对象来执行 SQL 查询和命令
-				using (SQLiteCommand command = connection.CreateCommand())
+
+				using (SQLiteConnection connection = new SQLiteConnection(connectionString))
 				{
+					connection.Open();
 
-					// 将 CSV 文件中的数据读取到一个列表中
-					List<ViewMode.IpAddressInfoFromCsv> records;
-
-					using (var reader = new StreamReader(csvFilePath))
-					using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+					// 创建一个 SQLiteCommand 对象来执行 SQL 查询和命令
+					using (SQLiteCommand command = connection.CreateCommand())
 					{
-						records = csv.GetRecords<ViewMode.IpAddressInfoFromCsv>().ToList();
 
-						
+						// 将 CSV 文件中的数据读取到一个列表中
+						List<ViewMode.IpAddressInfoFromCsv> records;
 
-						// 遍历 CSV 文件中的每一行数据
-						foreach (var record in records)
+						using (var reader = new StreamReader(utf8CsvFilePath))
+						using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
 						{
-							// 从 CSV 记录中获取需要插入或更新到数据库的字段值
-							string address = record.Address.ToString();
+							records = csv.GetRecords<ViewMode.IpAddressInfoFromCsv>().ToList();
 
 
 
-							// 获取其他字段的值...
-
-							// 检查数据库中是否已存在相同的 IpAddress
-
-							command.CommandText = string.Format("SELECT COUNT(*) FROM {0} WHERE Address = {1}", tableName, address);
-
-							int count = Convert.ToInt32(command.ExecuteScalar());
-
-							
-
-							int addressStatus = record.AddressStatus;
-							string user = record.User;
-							string description = record.Description;
-
-
-							if (count > 0)
+							// 遍历 CSV 文件中的每一行数据
+							foreach (var record in records)
 							{
-								// 数据库中已存在相同的 IpAddress，执行更新操作
-								command.CommandText = string.Format("UPDATE {0} SET AddressStatus = {1}, User = '{2}', Description = '{3}'  WHERE Address = {4}", tableName, addressStatus, user, description, address);
+								// 从 CSV 记录中获取需要插入或更新到数据库的字段值
+								string address = record.Address.ToString();
 
-								
+
+
+								// 获取其他字段的值...
+
+								// 检查数据库中是否已存在相同的 IpAddress
+
+								command.CommandText = string.Format("SELECT COUNT(*) FROM {0} WHERE Address = {1}",
+									tableName, address);
+
+								int count = Convert.ToInt32(command.ExecuteScalar());
+
+
+
+								int addressStatus = record.AddressStatus;
+								string user = record.User;
+								string description = record.Description;
+
+
+								if (count > 0)
+								{
+									// 数据库中已存在相同的 IpAddress，执行更新操作
+									command.CommandText =
+										string.Format(
+											"UPDATE {0} SET AddressStatus = {1}, User = '{2}', Description = '{3}'  WHERE Address = {4}",
+											tableName, addressStatus, user, description, address);
+
+
+								}
+								else
+								{
+									// 数据库中不存在相同的 IpAddress，执行插入操作
+									command.CommandText =
+										string.Format(
+											"INSERT INTO {0} (Address, AddressStatus, User, Description) VALUES ({0}, {1}, {2}, {3})",
+											tableName, address, user, description);
+								}
+
+
+								Console.WriteLine(command.CommandText);
+
+								command.ExecuteNonQuery();
 							}
-							else
-							{
-								// 数据库中不存在相同的 IpAddress，执行插入操作
-								command.CommandText = string.Format("INSERT INTO {0} (Address, AddressStatus, User, Description) VALUES ({0}, {1}, {2}, {3})", tableName, address, user, description);
-							}
 
-
-							Console.WriteLine(command.CommandText);
-
-							command.ExecuteNonQuery();
+							ProgressBar.IsIndeterminate = false;
 						}
 
-						ProgressBar.IsIndeterminate = false;
 					}
 
+					MessageBox.Show("数据导入完毕，请检查数据是否正常。", "导入完成", MessageBoxButton.OK,
+						MessageBoxImage.Information);
+					connection.Close();
+					this.Close();
 				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"导入CSV文件时出错：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
 
-				connection.Close();
+		private string CheckAndConvertCsvToUtf8(string csvFilePath)
+		{
+			// 检查文件编码
+			Encoding encoding = GetCsvFileEncoding(csvFilePath);
+
+			// 如果不是UTF-8，则转换为UTF-8并返回新的文件路径
+			if (encoding != Encoding.UTF8)
+			{
+				string utf8CsvFilePath = Path.GetTempFileName();
+				ConvertCsvToUtf8(csvFilePath, utf8CsvFilePath);
+				return utf8CsvFilePath;
 			}
 
-			this.Close();
+			// 文件已经是UTF-8编码，直接返回原始文件路径
+			return csvFilePath;
 		}
+
+		/// <summary>
+		/// 检测CSV文件编码
+		/// </summary>
+		/// <param name="filePath"></param>
+		/// <returns></returns>
+		private Encoding GetCsvFileEncoding(string filePath)
+		{
+			using (var reader = new PinnedStreamReader(filePath))
+			{
+				return reader.CurrentEncoding;
+			}
+		}
+
+		/// <summary>
+		/// 转换CSV为UTF-8编码
+		/// </summary>
+		/// <param name="sourceFilePath"></param>
+		/// <param name="targetFilePath"></param>
+		private void ConvertCsvToUtf8(string sourceFilePath, string targetFilePath)
+		{
+			string csvContent = File.ReadAllText(sourceFilePath, Encoding.Default);
+			File.WriteAllText(targetFilePath, csvContent, Encoding.UTF8);
+		}
+
+
 
 		private void ImportWindow_OnClosing(object sender, CancelEventArgs e)
 		{
@@ -398,5 +461,55 @@ namespace IPAM_NOTE
 			}
 		}
 
+
+
+
+
+		public class PinnedStreamReader : StreamReader
+		{
+			public PinnedStreamReader(string path) : base(path, true)
+			{
+			}
+
+			public Encoding CurrentEncoding { get; private set; }
+
+			public override int Peek()
+			{
+				CurrentEncoding = this.CurrentEncoding ?? DetectEncoding();
+				return base.Peek();
+			}
+
+			private Encoding DetectEncoding()
+			{
+				byte[] preamble = new byte[5];
+				this.BaseStream.Position = 0;
+				this.BaseStream.Read(preamble, 0, 5);
+
+				if (preamble[0] == 0xEF && preamble[1] == 0xBB && preamble[2] == 0xBF)
+				{
+					return Encoding.UTF8;
+				}
+				else if (preamble[0] == 0xFE && preamble[1] == 0xFF)
+				{
+					return Encoding.BigEndianUnicode; // UTF-16 BE
+				}
+				else if (preamble[0] == 0xFF && preamble[1] == 0xFE)
+				{
+					return Encoding.Unicode; // UTF-16 LE
+				}
+				else if (preamble[0] == 0 && preamble[1] == 0 && preamble[2] == 0xFE && preamble[3] == 0xFF)
+				{
+					return Encoding.UTF32; // UTF-32 BE
+				}
+				else if (preamble[0] == 0xFF && preamble[1] == 0xFE && preamble[2] == 0 && preamble[3] == 0)
+				{
+					return Encoding.UTF32; // UTF-32 LE
+				}
+				else
+				{
+					return Encoding.Default; // Default ANSI encoding
+				}
+			}
+		}
 	}
 }
