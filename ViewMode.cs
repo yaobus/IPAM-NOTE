@@ -147,13 +147,15 @@ namespace IPAM_NOTE
 
 			public string Network { get; set; }
 
+			public string NetMask { get; set; }
 
 
-			public ComBoxAddressInfo(string tableName, string network)
+			public ComBoxAddressInfo(string tableName, string network,string netMask)
 			{
 
 				TableName = tableName;
 				Network = network;
+				NetMask=netMask;
 				
 			}
 
@@ -180,10 +182,29 @@ namespace IPAM_NOTE
 			public string TableName { get; set; }
 			public string Network { get; set; }
 			public string Netmask { get; set; }
+			public int Address { get; set; }
+			public int AddressStatus { get; set; }
+			public string User { get; set; }
+			public string Description { get; set; }
+			public string HostName { get; set; }
+			public string MacAddress { get; set; }
+		}
+
+		/// <summary>
+		/// 需要导出的通过全局搜索获取到的数据类型
+		/// </summary>
+		public class SearchExportInfo
+		{
+			// SearchInfo类的定义
+			public string TableName { get; set; }
+			public string Network { get; set; }
+			public string Netmask { get; set; }
 			public string Address { get; set; }
 			public string AddressStatus { get; set; }
 			public string User { get; set; }
 			public string Description { get; set; }
+			public string PingStatus { get; set; }
+			public string PingTime { get; set; }
 			public string HostName { get; set; }
 			public string MacAddress { get; set; }
 		}

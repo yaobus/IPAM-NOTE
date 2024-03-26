@@ -433,7 +433,7 @@ namespace IPAM_NOTE
 					if (ip == LastIp )
 					{
 
-						addressStatus = 0;
+						addressStatus = 3;
 					}
 					else
 					{

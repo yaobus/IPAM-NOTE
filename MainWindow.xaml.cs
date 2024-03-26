@@ -11,6 +11,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -85,6 +86,9 @@ namespace IPAM_NOTE
 
 		private List<string> domainList = new List<string>();
 
+		/// <summary>
+		/// 创建搜索范围表项
+		/// </summary>
 		private void CreatDomainList()
 		{
 			domainList.Add("用户");
@@ -131,7 +135,7 @@ namespace IPAM_NOTE
 					string description = reader["Description"].ToString();
 					string del = reader["Del"].ToString();
 					AddressInfos.Add(new AddressInfo(id, tableName, network, netmask, description, del));
-					DataBrige.ComBoxAddressInfos.Add(new ComBoxAddressInfo(tableName, network));
+					DataBrige.ComBoxAddressInfos.Add(new ComBoxAddressInfo(tableName, network, netmask));
 					ComBoxAddressList.Add(network);
 				}
 
@@ -215,12 +219,12 @@ namespace IPAM_NOTE
 			gridView.Columns.Add(
 				new GridViewColumn { Header = "备注", DisplayMemberBinding = new Binding("Description") });
 			gridView.Columns.Add(new GridViewColumn
-			{ Header = "PING状态", DisplayMemberBinding = new Binding("PingStatus") });
+				{ Header = "PING状态", DisplayMemberBinding = new Binding("PingStatus") });
 			gridView.Columns.Add(new GridViewColumn
-			{ Header = "PING耗时", DisplayMemberBinding = new Binding("PingTime") });
+				{ Header = "PING耗时", DisplayMemberBinding = new Binding("PingTime") });
 			gridView.Columns.Add(new GridViewColumn { Header = "主机名", DisplayMemberBinding = new Binding("HostName") });
 			gridView.Columns.Add(new GridViewColumn
-			{ Header = "MAC地址", DisplayMemberBinding = new Binding("MacAddress") });
+				{ Header = "MAC地址", DisplayMemberBinding = new Binding("MacAddress") });
 
 			// 将 GridView 设置为 ListView 的 View
 			listView.View = gridView;
@@ -251,6 +255,7 @@ namespace IPAM_NOTE
 			GraphicsPlan.Children.Add(scrollViewer);
 
 		}
+
 
 		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
@@ -299,12 +304,12 @@ namespace IPAM_NOTE
 		{
 			if (sender is ListView listView)
 			{
-				Console.WriteLine("当前表项INDEX：" + listView.SelectedIndex);
+				//Console.WriteLine("当前表项INDEX：" + listView.SelectedIndex);
 				if (listView.SelectedIndex != -1)
 				{
 					IpAddressInfo ipAddressInfo = listView.SelectedItem as IpAddressInfo;
 					int ip = ipAddressInfo.Address;
-					Console.WriteLine("当前表项IP：" + ip);
+					//Console.WriteLine("当前表项IP：" + ip);
 					if (ip != 0)
 					{
 						DataBrige.SelectIp = ip.ToString();
@@ -312,6 +317,10 @@ namespace IPAM_NOTE
 						Console.WriteLine("DataBrige.SelectIndex=" + DataBrige.SelectIndex);
 						DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[listView.SelectedIndex].HostName;
 						DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[listView.SelectedIndex].MacAddress;
+
+
+
+
 					}
 				}
 			}
@@ -333,7 +342,18 @@ namespace IPAM_NOTE
 
 					int ip = ipAddressInfo.Address;
 
-					if (ip != 0)
+					//计算广播IP
+					string[] parts = Broadcast.Text.Split('.');
+					int broadcast = Convert.ToInt32(parts[3]);
+
+
+
+					//计算网段IP
+					string[] parts2 = Network.Text.Split('.');
+					int firstIp = Convert.ToInt32(parts2[3]);
+
+
+					if (ip != firstIp && ip !=broadcast)
 					{
 
 
@@ -375,6 +395,7 @@ namespace IPAM_NOTE
 		private void AddressListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			DataBrige.LoadType = 0;
+			DataBrige.SearchType = 1;
 			ExportButton.IsEnabled = true;
 			GraphicsPlan.Children.Clear();
 			GraphicsButton.IsEnabled = true;
@@ -387,7 +408,8 @@ namespace IPAM_NOTE
 			string tableName;
 
 			if (index != -1)
-			{   //清空状态栏计算结果
+			{
+				//清空状态栏计算结果
 				ClearStatusBox();
 
 
@@ -468,7 +490,8 @@ namespace IPAM_NOTE
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK,
+					MessageBoxImage.Error);
 			}
 		}
 
@@ -568,18 +591,23 @@ namespace IPAM_NOTE
 					case 1:
 						colorBrush = Brushes.LightSeaGreen;
 						description = "类型：可选IP地址" + "\r当前在线主机：" + ipAddressInfos[i].HostName + "\rMAC：" +
-									  ipAddressInfos[i].MacAddress;
+						              ipAddressInfos[i].MacAddress;
 
 						break;
 
 					case 2:
 						colorBrush = Brushes.Coral;
 						description = "类型：已用IP地址\r分配：" + ipAddressInfos[i].User + "\r备注：" +
-									  ipAddressInfos[i].Description + "\r当前在线主机：" + ipAddressInfos[i].HostName +
-									  "\rMAC：" + ipAddressInfos[i].MacAddress;
+						              ipAddressInfos[i].Description + "\r当前在线主机：" + ipAddressInfos[i].HostName +
+						              "\rMAC：" + ipAddressInfos[i].MacAddress;
 
 						break;
 
+					case 3:
+						colorBrush = Brushes.DarkViolet;
+						description = "类型：广播IP地址";
+
+						break;
 				}
 
 
@@ -771,6 +799,7 @@ namespace IPAM_NOTE
 
 				//统计已选择IP数量
 				//SelectIpNum.Text = CountIp().ToString();
+
 				#endregion
 
 				DataBrige.SelectButtonTag = Convert.ToInt32(button.Tag);
@@ -781,7 +810,22 @@ namespace IPAM_NOTE
 
 				int ip = ipAddressInfo.Address;
 
-				if (ip != 0)
+
+				//计算广播IP
+				string[] parts = Broadcast.Text.Split('.');
+				int broadcast = Convert.ToInt32(parts[3]);
+
+
+
+				//计算网段IP
+				string[] parts2 = Network.Text.Split('.');
+				int firstIp = Convert.ToInt32(parts2[3]);
+
+
+
+
+
+				if (ip != firstIp && ip != broadcast)
 				{
 					DataBrige.SelectIp = ip.ToString();
 					DataBrige.SelectIndex = Convert.ToInt32(button.Tag);
@@ -968,16 +1012,20 @@ namespace IPAM_NOTE
 
 
 
-			string baseIP = DataBrige.TempAddress.Network.ToString().Replace("*", "");
+			string baseIP = GetFirstThreeSegments(DataBrige.TempAddress.Network);
 
 
 
 			List<Task<IPInfo>> pingTasks = new List<Task<IPInfo>>();
 
 
-			for (int i = 1; i <= 255; i++)
+			
+
+			for (int i = 0; i <= DataBrige.ipAddressInfos.Count-1; i++)
 			{
-				string ip = baseIP + i.ToString(); // 构建要ping的IP地址
+				
+				string ip = baseIP + DataBrige.ipAddressInfos[i].Address; // 构建要ping的IP地址
+				//Console.WriteLine(ip);
 
 				pingTasks.Add(PingAndGetInfo(ip)); // 启动ping并获取信息任务
 
@@ -989,7 +1037,30 @@ namespace IPAM_NOTE
 			return results;
 		}
 
-
+		/// <summary>
+		/// 取出IP地址前三部分
+		/// </summary>
+		/// <param name="ipAddressString"></param>
+		/// <returns></returns>
+		static string GetFirstThreeSegments(string ipAddressString)
+		{
+			if (IPAddress.TryParse(ipAddressString, out IPAddress ipAddress))
+			{
+				string[] segments = ipAddress.ToString().Split('.');
+				if (segments.Length >= 3)
+				{
+					return $"{segments[0]}.{segments[1]}.{segments[2]}.";
+				}
+				else
+				{
+					return "Invalid IP address";
+				}
+			}
+			else
+			{
+				return "Invalid IP address format";
+			}
+		}
 
 
 		private async Task<IPInfo> PingAndGetInfo(string ip)
@@ -998,7 +1069,7 @@ namespace IPAM_NOTE
 
 			Ping ping = new Ping();
 
-			PingReply reply = await ping.SendPingAsync(ip, 1000); // 异步执行ping操作
+			PingReply reply = await ping.SendPingAsync(ip, 600); // 异步执行ping操作
 
 			if (reply.Status == IPStatus.Success)
 			{
@@ -1069,7 +1140,6 @@ namespace IPAM_NOTE
 
 
 
-
 					// 写入标题行
 					sheet.Cells[1, 1].Value = "Address";
 					sheet.Cells[1, 2].Value = "AddressStatus";
@@ -1095,6 +1165,12 @@ namespace IPAM_NOTE
 						rowIndex++;
 					}
 
+
+
+
+
+
+
 					// 保存Excel文件
 					FileInfo excelFile = new FileInfo(filePath);
 
@@ -1112,8 +1188,6 @@ namespace IPAM_NOTE
 				using (var package = new ExcelPackage())
 				{
 					var sheet = package.Workbook.Worksheets.Add(DataBrige.TempAddress.TableName);
-
-
 
 
 					// 写入标题行
@@ -1158,6 +1232,79 @@ namespace IPAM_NOTE
 		}
 
 
+		public void ListViewExportToExcel(List<SearchInfo> dataList, string filePath)
+		{
+
+
+			using (var package = new ExcelPackage())
+			{
+				var sheet = package.Workbook.Worksheets.Add(DataBrige.SelectTableName);
+
+
+
+				// 写入标题行
+				sheet.Cells[1, 1].Value = "Network";
+				sheet.Cells[1, 2].Value = "NetMask";
+				sheet.Cells[1, 3].Value = "Address";
+				sheet.Cells[1, 4].Value = "AddressStatus";
+				sheet.Cells[1, 5].Value = "User";
+				sheet.Cells[1, 6].Value = "Description";
+				sheet.Cells[1, 7].Value = "PingStatus";
+				sheet.Cells[1, 8].Value = "PingTime";
+				sheet.Cells[1, 9].Value = "HostName";
+				sheet.Cells[1, 10].Value = "MacAddress";
+
+				// 写入数据
+				int rowIndex = 2;
+				foreach (var ipAddressInfo in dataList)
+				{
+					sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Network;
+					sheet.Cells[rowIndex, 2].Value = ipAddressInfo.Netmask;
+					sheet.Cells[rowIndex, 3].Value = ipAddressInfo.Address;
+					sheet.Cells[rowIndex, 4].Value = ipAddressInfo.AddressStatus;
+					sheet.Cells[rowIndex, 5].Value = ipAddressInfo.User;
+					sheet.Cells[rowIndex, 6].Value = ipAddressInfo.Description;
+					sheet.Cells[rowIndex, 7].Value = "";
+					sheet.Cells[rowIndex, 8].Value = "";
+					sheet.Cells[rowIndex, 9].Value = ipAddressInfo.HostName;
+					sheet.Cells[rowIndex, 10].Value = ipAddressInfo.MacAddress;
+					rowIndex++;
+				}
+
+
+
+
+
+
+
+				// 保存Excel文件
+				FileInfo excelFile = new FileInfo(filePath);
+
+
+
+
+
+
+
+				package.SaveAs(excelFile);
+
+
+			}
+
+
+
+
+
+
+		}
+
+		
+	
+
+
+
+
+
 
 		private void ExportButton_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -1181,7 +1328,7 @@ namespace IPAM_NOTE
 			else
 			{
 				// 设置默认文件名
-				saveFileDialog.FileName = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName + "_Search_" + KeyWord.Text + ".xlsx";
+				saveFileDialog.FileName = DataBrige.SelectTableName  + KeyWord.Text + ".xlsx";
 			}
 
 
@@ -1194,7 +1341,18 @@ namespace IPAM_NOTE
 			{
 				// 获取用户选择的文件路径
 				string filePath = saveFileDialog.FileName;
-				ExportToExcel(DataBrige.ipAddressInfos, filePath);
+
+
+				if (DataBrige.SearchType == 0)
+				{
+					ListViewExportToExcel(DataBrige.searchInfos,filePath);
+				}
+				else
+				{
+					ExportToExcel(DataBrige.ipAddressInfos, filePath);
+				}
+
+
 
 			}
 
@@ -1228,6 +1386,8 @@ namespace IPAM_NOTE
 			//索引为-1的时候搜索全部网段，不为-1的时候搜索指定网段
 			if (AddressBox.SelectedIndex != -1)
 			{
+				DataBrige.SearchType = 1;
+
 				DataBrige.SelectTableName = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName + "_Search_" + KeyWord.Text;
 
 				//清空图表
@@ -1292,7 +1452,7 @@ namespace IPAM_NOTE
 			}
 			else//搜索全部网段
 			{
-
+				DataBrige.SearchType = 0;
 
 				DataBrige.SelectTableName = "Search_All_Table_" + KeyWord.Text;
 
@@ -1342,16 +1502,16 @@ namespace IPAM_NOTE
 
 
 
-				
+
 
 
 				listView.Margin = new Thickness(10);
 
-				 
 
-				//listView.SelectionChanged += ListView_SelectionChanged;
 
-				//listView.MouseDoubleClick += ListView_MouseDoubleClick;
+				listView.SelectionChanged += ListView_SelectionChanged1; ;
+
+				listView.MouseDoubleClick += ListView_MouseDoubleClick1; ;
 
 				scrollViewer.PreviewMouseWheel += ScrollViewer_PreviewMouseWheel;
 
@@ -1359,9 +1519,9 @@ namespace IPAM_NOTE
 
 				//LoadAddressSearch(DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName, KeyWord.Text);
 
-				searchInfos = SearchInTables();
+				DataBrige.searchInfos = SearchInTables();
 
-				listView.ItemsSource = searchInfos;
+				listView.ItemsSource = DataBrige.searchInfos;
 
 				ListButton.IsChecked = true;
 				GraphicsButton.IsEnabled = false;
@@ -1386,7 +1546,125 @@ namespace IPAM_NOTE
 
 		}
 
-		private List<ViewMode.SearchInfo> searchInfos = new List<SearchInfo>();
+
+		/// <summary>
+		/// 双击全局搜索的表单表项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ListView_MouseDoubleClick1(object sender, MouseButtonEventArgs e)
+		{
+			if (sender is ListView listView)
+			{
+				if (listView.SelectedIndex != -1)
+				{
+					SearchInfo ipAddressInfo = listView.SelectedItem as SearchInfo;
+
+					int ip = ipAddressInfo.Address;
+
+					//计算广播IP
+					string[] parts = Broadcast.Text.Split('.');
+					int broadcast = Convert.ToInt32(parts[3]);
+
+
+
+					//计算网段IP
+					string[] parts2 = Network.Text.Split('.');
+					int firstIp = Convert.ToInt32(parts2[3]);
+
+
+					if (ip != firstIp && ip != broadcast)
+					{
+
+						Window allocation = new Allocation();
+						//allocation.ShowDialog();
+
+						if (allocation.ShowDialog() == true)
+						{
+							listView.ItemsSource = null;
+
+							if (DataBrige.SearchType == 0)
+							{
+								
+								listView.ItemsSource = DataBrige.searchInfos;
+							}
+							else
+							{
+
+								listView.ItemsSource = DataBrige.IpAddressInfos;
+							}
+
+
+							//ListLoad(ip);
+
+						}
+					}
+
+
+
+
+				}
+
+
+
+			}
+		}
+
+		/// <summary>
+		/// 单击全局搜索的表单表项
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ListView_SelectionChanged1(object sender, SelectionChangedEventArgs e)
+		{
+			if (sender is ListView listView)
+			{
+				//Console.WriteLine("当前表项INDEX：" + listView.SelectedIndex);
+				if (listView.SelectedIndex != -1)
+				{
+					SearchInfo ipAddressInfo = listView.SelectedItem as SearchInfo;
+					int ip = ipAddressInfo.Address;
+
+					//计算广播IP
+					int broadcast = 0;
+					IPAddress ipAddress;
+					IPAddress mask = IPAddress.Parse(ipAddressInfo.Netmask);
+					if (IPAddress.TryParse(ipAddressInfo.Network, out ipAddress))
+					{
+						IPAddress networkAddress = ipAddress.GetNetworkAddress(mask);
+						int maskLength = IPAddressCalculations.CalculateSubnetMaskLength(mask);
+						IPAddress broadcastAddress = networkAddress.GetBroadcastAddress(maskLength);
+						
+						string[] parts = broadcastAddress.ToString().Split('.');
+
+						//取出广播IP
+						broadcast = Convert.ToInt32(parts[3]);
+						Console.WriteLine(broadcast);
+					}
+
+
+
+					if (ip != 0 && ip != broadcast)
+					{
+						DataBrige.SelectIp = ip.ToString();
+						DataBrige.SelectIndex = listView.SelectedIndex;
+						DataBrige.SelectSearchInfo = ipAddressInfo;
+
+					}
+
+					Network.Text = ipAddressInfo.Network;
+					MaskText.Text = ipAddressInfo.Netmask;
+					UpdateIPCalculations();
+
+				}
+			}
+		}
+
+
+
+
+
+		
 
 		public List<SearchInfo> SearchInTables()
 		{
@@ -1401,9 +1679,9 @@ namespace IPAM_NOTE
 					while (reader.Read())
 					{
 						string tableName = reader["TableName"].ToString();
-						string network= reader["Network"].ToString();
-						string netmask= reader["Netmask"].ToString();
-						List<SearchInfo> tableSearchResults = SearchInTable(tableName,network, netmask);
+						string network = reader["Network"].ToString();
+						string netmask = reader["Netmask"].ToString();
+						List<SearchInfo> tableSearchResults = SearchInTable(tableName, network, netmask);
 						searchResults.AddRange(tableSearchResults);
 					}
 				}
@@ -1429,7 +1707,7 @@ namespace IPAM_NOTE
 					while (reader.Read())
 					{
 						// 将查询结果映射到SearchInfo对象
-						SearchInfo searchInfo = MapToSearchInfo(reader,  tableName,  network,  netmask);
+						SearchInfo searchInfo = MapToSearchInfo(reader, tableName, network, netmask);
 						tableSearchResults.Add(searchInfo);
 					}
 				}
@@ -1451,7 +1729,7 @@ namespace IPAM_NOTE
 
 			string keyword = KeyWord.Text;
 
-			string sql ;
+			string sql;
 
 
 			//判断是精确搜索还是模糊搜索,选中为精确，非选中为模糊
@@ -1482,7 +1760,7 @@ namespace IPAM_NOTE
 
 
 				case 2://搜索主机名
-						
+
 					return string.Format("SELECT * FROM  {0} WHERE `AddressStatus`=2 AND `HostName` {1}", tableName, sql);
 
 
@@ -1503,8 +1781,15 @@ namespace IPAM_NOTE
 
 		}
 
-
-		private SearchInfo MapToSearchInfo(SQLiteDataReader reader,string tableName,string network,string netmask)
+		/// <summary>
+		/// 映射搜索结果
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <param name="tableName"></param>
+		/// <param name="network"></param>
+		/// <param name="netmask"></param>
+		/// <returns></returns>
+		private SearchInfo MapToSearchInfo(SQLiteDataReader reader, string tableName, string network, string netmask)
 		{
 			// 将查询结果映射到SearchInfo对象的方法，根据数据库字段和SearchInfo属性的映射自定义
 			SearchInfo searchInfo = new SearchInfo
@@ -1512,8 +1797,8 @@ namespace IPAM_NOTE
 				TableName = tableName,
 				Network = network,
 				Netmask = netmask,
-				Address = reader["Address"].ToString(),
-				AddressStatus = reader["AddressStatus"].ToString(),
+				Address =Convert.ToInt32(reader["Address"]),
+				AddressStatus = Convert.ToInt32( reader["AddressStatus"]),
 				User = reader["User"].ToString(),
 				Description = reader["Description"].ToString(),
 				HostName = reader["HostName"].ToString(),
@@ -1585,14 +1870,35 @@ namespace IPAM_NOTE
 		{
 			string tableName;
 
-			if (AddressListView.SelectedIndex == -1)
+			if (AddressListView.SelectedIndex != -1)
 			{
-				tableName = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName;
+
+				tableName = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].TableName;
+				Network.Text = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].Network;
+				MaskText.Text = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].NetMask;
 			}
 			else
 			{
-				tableName = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].TableName;
+				if (AddressBox.SelectedIndex != -1)
+				{
+
+					tableName = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].TableName;
+					Network.Text = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].Network;
+					MaskText.Text = DataBrige.ComBoxAddressInfos[AddressBox.SelectedIndex].NetMask;
+
+				}
+				else
+				{
+					tableName = DataBrige.ComBoxAddressInfos[0].TableName;
+					Network.Text = DataBrige.ComBoxAddressInfos[0].Network;
+					MaskText.Text = DataBrige.ComBoxAddressInfos[0].NetMask;
+				}
+
 			}
+
+
+
+
 
 
 			GraphicsButton.IsEnabled = true;
@@ -1603,6 +1909,12 @@ namespace IPAM_NOTE
 			SearchClear.IsEnabled = false;
 			AddressBox.SelectedIndex = -1;
 			DomainComboBox.SelectedIndex = -1;
+
+
+
+
+			//计算IP地址信息
+			UpdateIPCalculations();
 		}
 
 
@@ -1725,6 +2037,14 @@ namespace IPAM_NOTE
 
 					return StructuralComparisons.StructuralEqualityComparer.Equals(hash1, hash2);
 				}
+			}
+		}
+
+		private void AddressBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (AddressBox.SelectedIndex != -1)
+			{
+				DataBrige.SearchType = 1;
 			}
 		}
 	}

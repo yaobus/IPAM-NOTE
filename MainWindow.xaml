@@ -282,6 +282,7 @@
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         Width="120"
                         VerticalAlignment="Bottom"
+                        SelectionChanged="AddressBox_OnSelectionChanged"
                         >
                         <ComboBox.SelectedItem>
                             <Binding
@@ -351,7 +352,7 @@
                         ToolTip="精确搜索" >
 
                         <materialDesign:PackIcon
-                            Kind="Spellcheck"  Width="24" Height="24"/>
+                            Kind="WindowClose"  Width="24" Height="24"/>
 
                     </ToggleButton>
 

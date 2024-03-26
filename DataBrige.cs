@@ -56,7 +56,26 @@ namespace IPAM_NOTE
 		/// </summary>
 		public static List<string> ComboBoxAddressList = new List<string>();
 
-
+		/// <summary>
+		/// 被选择的按钮的标记
+		/// </summary>
 		public static int SelectButtonTag;
+
+		/// <summary>
+		/// 搜索的类型，0为全局搜索，1为指定搜索
+		/// </summary>
+		public static int SearchType;
+
+
+		/// <summary>
+		/// 全局搜索时点击搜索结果被选中的表项
+		/// </summary>
+		public static ViewMode.SearchInfo SelectSearchInfo = new ViewMode.SearchInfo();
+
+
+		/// <summary>
+		/// 全局搜索时候获取的结果列表
+		/// </summary>
+		public static List<ViewMode.SearchInfo> searchInfos = new List<SearchInfo>();
 	}
 }

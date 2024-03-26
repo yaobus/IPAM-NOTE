@@ -82,7 +82,7 @@
                             Grid.Column="0"
                             x:Name="NetworkBlock"
                         
-                            Margin="16,16,16,4"
+                            Margin="16,10,16,4"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                             Text="" />
 
@@ -95,9 +95,10 @@
                     <TextBlock
                         x:Name="AddressBlock"
                         Grid.Row="2"
-                        Margin="16,0,16,8"
+                        Margin="16,5,16,8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
+                        FontWeight="Bold"
                         Style="{StaticResource MaterialDesignBody2TextBlock}"
                         Text="" />
 

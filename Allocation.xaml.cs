@@ -38,63 +38,100 @@ namespace IPAM_NOTE
 		{
 
 
-			AddressBlock.Text = "当前所选IP为:" + DataBrige.SelectIp + " 目前使用该IP的主机为:" + DataBrige.IpAddress.HostName + " MAC为:" + DataBrige.IpAddress.MacAddress;
 
-			if (DataBrige.LoadType == 1)
 
+			if (DataBrige.SearchType == 0)
 			{
+				NetworkBlock.Text = "当前网段:" + DataBrige.SelectSearchInfo.Network;
 
-				NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
+				AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.SelectSearchInfo.Network) + DataBrige.SelectIp;
 
-
-				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
+				if (DataBrige.SelectSearchInfo.User == "")
 				{
-					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+					UserTextBox.Text = "";
 
-					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+					DescriptionTextBox.Text = "";
 
-					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+					HostNameTextBox.Text = DataBrige.SelectSearchInfo.HostName;
 
-					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+					MacTextBox.Text = DataBrige.SelectSearchInfo.MacAddress;
 				}
 				else
 				{
-					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+					UserTextBox.Text = DataBrige.SelectSearchInfo.User;
 
-					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+					DescriptionTextBox.Text = DataBrige.SelectSearchInfo.Description;
 
-					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+					HostNameTextBox.Text = DataBrige.SelectSearchInfo.HostName;
 
-					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+					MacTextBox.Text = DataBrige.SelectSearchInfo.MacAddress;
 				}
+
 
 			}
 			else
 			{
-				NetworkBlock.Text = "所选网段:" + DataBrige.TempAddress.Network;
+				if (DataBrige.LoadType == 1)
 
-
-
-				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 				{
-					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
 
-					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+					NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
+
+					AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network) + DataBrige.SelectIp;
+
+					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
+					{
+						UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+
+						DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+
+						HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+
+						MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+					}
+					else
+					{
+						UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+
+						DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+
+						HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+
+						MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+					}
+
 				}
 				else
 				{
-					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+					NetworkBlock.Text = "所选网段:" + DataBrige.TempAddress.Network;
 
-					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+					AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.TempAddress.Network) + DataBrige.SelectIp;
 
-					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
+					{
+						HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
 
-					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+						MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+					}
+					else
+					{
+						UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+
+						DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+
+						HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+
+						MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+					}
 				}
+
+
+
+
+
+
+
 			}
-
-
-
 
 
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
@@ -103,10 +140,36 @@ namespace IPAM_NOTE
 			dbFilePath = dbFilePath + dbName;
 
 			dbClass = new DbClass(dbFilePath);
+
 			dbClass.OpenConnection();
 
-
 		}
+
+		/// <summary>
+		/// 取出IP地址前三部分
+		/// </summary>
+		/// <param name="ipAddressString"></param>
+		/// <returns></returns>
+		static string GetFirstThreeSegments(string ipAddressString)
+		{
+			if (IPAddress.TryParse(ipAddressString, out IPAddress ipAddress))
+			{
+				string[] segments = ipAddress.ToString().Split('.');
+				if (segments.Length >= 3)
+				{
+					return $"{segments[0]}.{segments[1]}.{segments[2]}.";
+				}
+				else
+				{
+					return "Invalid IP address";
+				}
+			}
+			else
+			{
+				return "Invalid IP address format";
+			}
+		}
+
 
 
 		/// <summary>
@@ -118,11 +181,30 @@ namespace IPAM_NOTE
 		{
 
 
-				if (UserTextBox.Text != "" && UserTextBox.Text != "N/A" && DescriptionTextBox.Text != "" && DescriptionTextBox.Text != "N/A")
+			if (UserTextBox.Text != "" && UserTextBox.Text != "N/A" && DescriptionTextBox.Text != "" && DescriptionTextBox.Text != "N/A")
+			{
+				string sql;
+
+				if (DataBrige.SearchType == 0)
+				{
+					string tableName = DataBrige.SelectSearchInfo.TableName;
+
+					sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2'  , \"Description\" = '{2}' , \"HostName\" = '{3}', \"MacAddress\" = '{4}' WHERE Address = {5}", tableName, UserTextBox.Text, DescriptionTextBox.Text, HostNameTextBox.Text, MacTextBox.Text, DataBrige.SelectIp);
+
+					
+
+					DataBrige.searchInfos[DataBrige.SelectIndex].User = UserTextBox.Text;
+					DataBrige.searchInfos[DataBrige.SelectIndex].Description = DescriptionTextBox.Text;
+					DataBrige.searchInfos[DataBrige.SelectIndex].AddressStatus = 2;
+					DataBrige.searchInfos[DataBrige.SelectIndex].HostName = HostNameTextBox.Text;
+					DataBrige.searchInfos[DataBrige.SelectIndex].MacAddress = MacTextBox.Text;
+
+				}
+				else
 				{
 					string tableName = DataBrige.TempAddress.TableName;
 
-					string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2'  , \"Description\" = '{2}' , \"HostName\" = '{3}', \"MacAddress\" = '{4}' WHERE Address = {5}", tableName, UserTextBox.Text, DescriptionTextBox.Text,HostNameTextBox.Text,MacTextBox.Text, DataBrige.SelectIp);
+					sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2'  , \"Description\" = '{2}' , \"HostName\" = '{3}', \"MacAddress\" = '{4}' WHERE Address = {5}", tableName, UserTextBox.Text, DescriptionTextBox.Text, HostNameTextBox.Text, MacTextBox.Text, DataBrige.SelectIp);
 
 					if (DataBrige.LoadType == 0)
 					{
@@ -141,24 +223,28 @@ namespace IPAM_NOTE
 						DataBrige.ipAddressInfos[DataBrige.SelectIndex].MacAddress = MacTextBox.Text;
 					}
 
-
-
-
-					//Console.WriteLine(sql);
-
-					dbClass.ExecuteQuery(sql);
-
-
-
-					this.Close();
-
-				}
-				else
-				{
-					MessageBox.Show("请填写地址分配信息！", "信息不完整", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 
-			
+
+
+
+
+
+				//Console.WriteLine(sql);
+
+				dbClass.ExecuteQuery(sql);
+
+
+				this.DialogResult = true;
+				this.Close();
+
+			}
+			else
+			{
+				MessageBox.Show("请填写地址分配信息！", "信息不完整", MessageBoxButton.OK, MessageBoxImage.Information);
+			}
+
+
 		}
 
 		/// <summary>
@@ -173,27 +259,52 @@ namespace IPAM_NOTE
 
 			if (result == MessageBoxResult.Yes)
 			{
-				string tableName = DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].TableName;
+				string tableName;
 
-				Console.WriteLine("TableName:" + tableName);
+				if (DataBrige.SearchType==0)
+				{
+					 tableName = DataBrige.SelectSearchInfo.TableName;
+					 DataBrige.searchInfos[DataBrige.SelectIndex].User = "";
+					 DataBrige.searchInfos[DataBrige.SelectIndex].Description = "";
+					 DataBrige.searchInfos[DataBrige.SelectIndex].HostName = "";
+					 DataBrige.searchInfos[DataBrige.SelectIndex].MacAddress = "";
+					 DataBrige.searchInfos[DataBrige.SelectIndex].AddressStatus = 1;
+
+				}
+				else
+				{
+					 tableName = DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].TableName;
+					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].User = "";
+					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].Description = "";
+					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].HostName = "";
+					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].MacAddress = "";
+					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].AddressStatus = 1;
+				}
 
 
-				string sql = string.Format("UPDATE {0} SET \"User\" = '', \"AddressStatus\" = '1' , \"Description\" = '' , \"HostName\" = '' , \"MacAddress\" = '' WHERE Address = {1}", tableName, DataBrige.SelectIp);
+				
 
-				Console.WriteLine(sql);
+				//Console.WriteLine("TableName:" + tableName);
+
+
+				string sql = string.Format("UPDATE {0} SET \"User\" = '', \"AddressStatus\" = 1 , \"Description\" = '' , \"HostName\" = '' , \"MacAddress\" = '' WHERE Address = {1}", tableName, DataBrige.SelectIp);
+
+				//Console.WriteLine(sql);
 
 				dbClass.ExecuteQuery(sql);
-				Console.WriteLine("DataBrige.ipAddressInfos.Count=" + DataBrige.ipAddressInfos.Count);
-				Console.WriteLine("DataBrige.SelectIp=" + DataBrige.SelectIp);
+				//Console.WriteLine("DataBrige.ipAddressInfos.Count=" + DataBrige.ipAddressInfos.Count);
+				//Console.WriteLine("DataBrige.SelectIp=" + DataBrige.SelectIp);
 
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].User = "";
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].Description = "";
-				DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].AddressStatus = 1;
+
 
 				this.Close();
 			}
 
 		}
+
+
+
+
 
 		/// <summary>
 		/// 窗口关闭
