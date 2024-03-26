@@ -169,5 +169,23 @@ namespace IPAM_NOTE
 			public string FileName { get; set; }
 			public string BackupTime { get; set; }
 		}
+
+
+		/// <summary>
+		/// 通过全局搜索获取到的数据类型
+		/// </summary>
+		public  class SearchInfo
+		{
+			// SearchInfo类的定义
+			public string TableName { get; set; }
+			public string Network { get; set; }
+			public string Netmask { get; set; }
+			public string Address { get; set; }
+			public string AddressStatus { get; set; }
+			public string User { get; set; }
+			public string Description { get; set; }
+			public string HostName { get; set; }
+			public string MacAddress { get; set; }
+		}
 	}
 }

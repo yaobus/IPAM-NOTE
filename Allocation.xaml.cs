@@ -44,20 +44,28 @@ namespace IPAM_NOTE
 
 			{
 
-
 				NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
 
 
 				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 				{
-					UserTextBox.Text = DataBrige.IpAddress.HostName;
-					DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
+					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+
+					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+
+					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+
+					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
 				}
 				else
 				{
 					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
 
 					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+
+					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+
+					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
 				}
 
 			}
@@ -69,14 +77,19 @@ namespace IPAM_NOTE
 
 				if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 				{
-					UserTextBox.Text = DataBrige.IpAddress.HostName;
-					DescriptionTextBox.Text = DataBrige.IpAddress.MacAddress;
+					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+
+					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
 				}
 				else
 				{
 					UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
 
 					DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+
+					HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+
+					MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
 				}
 			}
 
@@ -109,19 +122,23 @@ namespace IPAM_NOTE
 				{
 					string tableName = DataBrige.TempAddress.TableName;
 
-					string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2' , \"Description\" = '{2}' WHERE Address = {3}", tableName, UserTextBox.Text, DescriptionTextBox.Text, DataBrige.SelectIp);
+					string sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2'  , \"Description\" = '{2}' , \"HostName\" = '{3}', \"MacAddress\" = '{4}' WHERE Address = {5}", tableName, UserTextBox.Text, DescriptionTextBox.Text,HostNameTextBox.Text,MacTextBox.Text, DataBrige.SelectIp);
 
 					if (DataBrige.LoadType == 0)
 					{
-						DataBrige.ipAddressInfos[DataBrige.SelectButtonTag].User = UserTextBox.Text;
-						DataBrige.ipAddressInfos[DataBrige.SelectButtonTag].Description = DescriptionTextBox.Text;
-						DataBrige.ipAddressInfos[DataBrige.SelectButtonTag].AddressStatus = 2;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].User = UserTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].Description = DescriptionTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].AddressStatus = 2;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].HostName = HostNameTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].MacAddress = MacTextBox.Text;
 					}
 					else
 					{
 						DataBrige.ipAddressInfos[DataBrige.SelectIndex].User = UserTextBox.Text;
 						DataBrige.ipAddressInfos[DataBrige.SelectIndex].Description = DescriptionTextBox.Text;
 						DataBrige.ipAddressInfos[DataBrige.SelectIndex].AddressStatus = 2;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].HostName = HostNameTextBox.Text;
+						DataBrige.ipAddressInfos[DataBrige.SelectIndex].MacAddress = MacTextBox.Text;
 					}
 
 
@@ -161,7 +178,7 @@ namespace IPAM_NOTE
 				Console.WriteLine("TableName:" + tableName);
 
 
-				string sql = string.Format("UPDATE {0} SET \"User\" = '', \"AddressStatus\" = '1' , \"Description\" = '' WHERE Address = {1}", tableName, DataBrige.SelectIp);
+				string sql = string.Format("UPDATE {0} SET \"User\" = '', \"AddressStatus\" = '1' , \"Description\" = '' , \"HostName\" = '' , \"MacAddress\" = '' WHERE Address = {1}", tableName, DataBrige.SelectIp);
 
 				Console.WriteLine(sql);
 

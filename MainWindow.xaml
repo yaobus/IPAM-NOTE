@@ -203,7 +203,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="520"/>
+                    <ColumnDefinition Width="750"/>
 
                 </Grid.ColumnDefinitions>
 
@@ -263,6 +263,7 @@
                 </StackPanel>
 
 
+
                 <StackPanel
                     Grid.Column="1"
                     HorizontalAlignment="Right"
@@ -270,6 +271,9 @@
                     Orientation="Horizontal"
                     materialDesign:HintAssist.Hint="被搜索网段"
                     >
+
+
+
 
                     <ComboBox
                         Margin="5"
@@ -289,8 +293,35 @@
                         </ComboBox.SelectedItem>
                     </ComboBox>
 
-
                     <StackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal"
+                        materialDesign:HintAssist.Hint="搜索范围"
+                        >
+
+                        <ComboBox
+                            Margin="5"
+                            x:Name="DomainComboBox"
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            Width="120"
+                            VerticalAlignment="Bottom"
+                            >
+                            <ComboBox.SelectedItem>
+                                <Binding
+                                    Path="SelectedValidationOutlined"
+                                    Mode="TwoWay"
+                                    UpdateSourceTrigger="PropertyChanged">
+
+                                </Binding>
+                            </ComboBox.SelectedItem>
+
+
+                        </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Orientation="Horizontal"
@@ -312,7 +343,19 @@
 
                     </StackPanel>
 
-                    <Button
+                    <ToggleButton
+                        x:Name="Accurate"
+                        Margin="5"
+                        IsChecked="False"
+                        Style="{StaticResource MaterialDesignActionToggleButton}"
+                        ToolTip="精确搜索" >
+
+                        <materialDesign:PackIcon
+                            Kind="Spellcheck"  Width="24" Height="24"/>
+
+                    </ToggleButton>
+
+                        <Button
                         x:Name="SearchButton"
                         Click="SearchButton_OnClick"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
