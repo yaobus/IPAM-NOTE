@@ -68,7 +68,7 @@
                     Height="50"
                     Width="160"
                     Style="{StaticResource MaterialDesignOutlinedButton}"
-                    ToolTip="导出模板" 
+                    ToolTip="导出数据模板" 
                     Click="ExportButton_OnClick"
                     materialDesign:ButtonAssist.CornerRadius="5"
                 >
@@ -81,7 +81,7 @@
                         />
                         <TextBlock
                             VerticalAlignment="Center"
-                        >导出</TextBlock>
+                        >导出模板</TextBlock>
                     </StackPanel>
                 </Button>
 
@@ -143,7 +143,7 @@
                             />
                         <TextBlock
                                 VerticalAlignment="Center"
-                            >浏览</TextBlock>
+                            >浏览文件</TextBlock>
                         </StackPanel>
                     </Button>
 
@@ -200,7 +200,7 @@
                         />
                         <TextBlock
                             VerticalAlignment="Center"
-                        >导入</TextBlock>
+                        >导入数据</TextBlock>
                     </StackPanel>
                 </Button>
 

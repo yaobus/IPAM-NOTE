@@ -118,7 +118,7 @@
                           Text="程序UI简介" />
 
                         <Image
-                            Width="1150"
+                            Width="1350"
                             Height="690"
                             Source="Resources/UI.png"
                             Stretch="Uniform" />
@@ -219,6 +219,38 @@
                             Width="1150"
                             Height="690"
                             Source="Resources/DATAHELP.png"
+                            Stretch="Uniform" />
+
+
+
+                    </StackPanel>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel
+                            Width="auto"
+                            Height="auto">
+                            <materialDesign:PackIcon
+                                Width="32"
+                                Height="32"
+                                HorizontalAlignment="Center"
+                                Kind="CheckBoxesOutline" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Text="分配帮助" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel
+                        Margin="16">
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                            Text="数据导入帮助" />
+
+                        <Image
+                            Width="1150"
+                            Height="690"
+                            Source="Resources/ALLOCATION.png"
                             Stretch="Uniform" />
 
 
