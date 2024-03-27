@@ -162,15 +162,16 @@ namespace IPAM_NOTE
 								int addressStatus = record.AddressStatus;
 								string user = record.User;
 								string description = record.Description;
-
+								string hostName = record.HostName;
+								string macAddress=record.MacAddress;
 
 								if (count > 0)
 								{
 									// 数据库中已存在相同的 IpAddress，执行更新操作
 									command.CommandText =
 										string.Format(
-											"UPDATE {0} SET AddressStatus = {1}, User = '{2}', Description = '{3}'  WHERE Address = {4}",
-											tableName, addressStatus, user, description, address);
+											"UPDATE {0} SET AddressStatus = {1}, User = '{2}', Description = '{3}', HostName = '{4}', MacAddress = '{5}' WHERE Address = {6}",
+											tableName, addressStatus, user, description, hostName,macAddress,address);
 
 
 								}
@@ -179,8 +180,8 @@ namespace IPAM_NOTE
 									// 数据库中不存在相同的 IpAddress，执行插入操作
 									command.CommandText =
 										string.Format(
-											"INSERT INTO {0} (Address, AddressStatus, User, Description) VALUES ({0}, {1}, {2}, {3})",
-											tableName, address, user, description);
+											"INSERT INTO {0} (Address, AddressStatus, User, Description,HostName,MacAddress) VALUES ({0}, {1}, {2}, {3}, {4}, {5})",
+											tableName, address, user, description, hostName, macAddress);
 								}
 
 

@@ -309,16 +309,61 @@ namespace IPAM_NOTE
 				{
 					IpAddressInfo ipAddressInfo = listView.SelectedItem as IpAddressInfo;
 					int ip = ipAddressInfo.Address;
-					//Console.WriteLine("当前表项IP：" + ip);
-					if (ip != 0)
+					Console.WriteLine("当前表项IP：" + ip);
+
+
+					//计算广播IP
+					int broadcast = 0;
+					IPAddress ipAddress;
+					IPAddress mask = IPAddress.Parse(DataBrige.TempAddress.NetMask);
+
+					MaskText.Text = DataBrige.TempAddress.NetMask;
+
+
+
+					//如果网段IP中有*则替换为0
+					string tempNetwork = DataBrige.TempAddress.Network;
+
+					if (tempNetwork.IndexOf("*") != -1)
+					{
+						tempNetwork = tempNetwork.Replace("*", "0");
+						
+					}
+
+					Network.Text = tempNetwork;
+					
+					//计算IP地址
+					UpdateIPCalculations();
+
+					if (IPAddress.TryParse(tempNetwork, out ipAddress))
+					{
+						IPAddress networkAddress = ipAddress.GetNetworkAddress(mask);
+						int maskLength = IPAddressCalculations.CalculateSubnetMaskLength(mask);
+						IPAddress broadcastAddress = networkAddress.GetBroadcastAddress(maskLength);
+
+						string[] parts = broadcastAddress.ToString().Split('.');
+
+						//取出广播IP
+						broadcast = Convert.ToInt32(parts[3]);
+						Console.WriteLine(broadcast);
+					}
+
+
+					//取出网段IP
+					string[] parts2 = tempNetwork.Split('.');
+
+					
+					int firstIp = Convert.ToInt32(parts2[3]);
+
+
+
+					if (ip != firstIp && ip != broadcast)
 					{
 						DataBrige.SelectIp = ip.ToString();
 						DataBrige.SelectIndex = listView.SelectedIndex;
 						Console.WriteLine("DataBrige.SelectIndex=" + DataBrige.SelectIndex);
 						DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[listView.SelectedIndex].HostName;
 						DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[listView.SelectedIndex].MacAddress;
-
-
 
 
 					}
@@ -342,6 +387,8 @@ namespace IPAM_NOTE
 
 					int ip = ipAddressInfo.Address;
 
+
+
 					//计算广播IP
 					string[] parts = Broadcast.Text.Split('.');
 					int broadcast = Convert.ToInt32(parts[3]);
@@ -353,7 +400,7 @@ namespace IPAM_NOTE
 					int firstIp = Convert.ToInt32(parts2[3]);
 
 
-					if (ip != firstIp && ip !=broadcast)
+					if (ip != firstIp && ip != broadcast)
 					{
 
 
@@ -401,6 +448,7 @@ namespace IPAM_NOTE
 			GraphicsButton.IsEnabled = true;
 			int index = AddressListView.SelectedIndex;
 
+			AddressBox.SelectedIndex = -1;
 			//AddressBox.SelectedIndex = AddressListView.SelectedIndex;
 
 			DataBrige.TempAddress = (ViewMode.AddressInfo)AddressListView.SelectedItem;
@@ -423,7 +471,18 @@ namespace IPAM_NOTE
 				LoadAddressConfig(tableName);
 				StatusTestButton.IsEnabled = true;
 
-				Network.Text = AddressInfos[index].Network;
+
+				//如果网段IP中有*则替换为0
+				string tempNetwork = AddressInfos[index].Network;
+
+				if (tempNetwork.IndexOf("*") != -1)
+				{
+					tempNetwork = tempNetwork.Replace("*", "0");
+				}
+
+
+				Network.Text = tempNetwork;
+				
 				MaskText.Text = AddressInfos[index].NetMask;
 
 				//计算IP地址信息
@@ -811,21 +870,47 @@ namespace IPAM_NOTE
 				int ip = ipAddressInfo.Address;
 
 
-				//计算广播IP
-				string[] parts = Broadcast.Text.Split('.');
-				int broadcast = Convert.ToInt32(parts[3]);
+
+				//try
+				//{
+
+				//	//计算广播IP
+				//	string[] parts = Broadcast.Text.Split('.');
+				//	int broadcast = Convert.ToInt32(parts[3]);
+
+				//}
+				//catch (Exception exception)
+				//{
+				//	Console.WriteLine(exception);
+					
+				//}
 
 
 
-				//计算网段IP
-				string[] parts2 = Network.Text.Split('.');
-				int firstIp = Convert.ToInt32(parts2[3]);
+				////计算网段IP
+
+				//string networkText = Network.Text;
+
+				//string[] parts2;
+
+				//if (networkText.IndexOf("*") != -1)
+				//{
+
+				//	parts2 =networkText.Replace("*","1").Split('.');
+				//}
+				//else
+				//{
+				//	parts2 = Network.Text.Split('.');
+				//}
+
+				
+				//int firstIp = Convert.ToInt32(parts2[3]);
 
 
 
 
 
-				if (ip != firstIp && ip != broadcast)
+				if (ip != DataBrige.ipAddressInfos[0].Address && ip != DataBrige.ipAddressInfos[DataBrige.ipAddressInfos.Count-1].Address)
 				{
 					DataBrige.SelectIp = ip.ToString();
 					DataBrige.SelectIndex = Convert.ToInt32(button.Tag);
@@ -981,12 +1066,12 @@ namespace IPAM_NOTE
 			//	Console.WriteLine($"Address: {item.IPAddress}, Status: {item.PingStatus}, Description: {item.PingTime}, HostName: {item.HostName}, MacAddress: {item.MACAddress}");
 			//}
 
-			for (int i = 1; i < DataBrige.ipAddressInfos.Count; i++)
+			for (int i = 0; i < DataBrige.ipAddressInfos.Count; i++)
 			{
-				DataBrige.ipAddressInfos[i].PingStatus = results[i - 1].PingStatus;
-				DataBrige.ipAddressInfos[i].PingTime = results[i - 1].PingTime;
-				DataBrige.ipAddressInfos[i].HostName = results[i - 1].HostName;
-				DataBrige.ipAddressInfos[i].MacAddress = results[i - 1].MACAddress;
+				DataBrige.ipAddressInfos[i].PingStatus = results[i ].PingStatus;
+				DataBrige.ipAddressInfos[i].PingTime = results[i ].PingTime;
+				DataBrige.ipAddressInfos[i].HostName = results[i ].HostName;
+				DataBrige.ipAddressInfos[i].MacAddress = results[i ].MACAddress;
 
 			}
 
@@ -1010,22 +1095,28 @@ namespace IPAM_NOTE
 		{
 			//string baseIP = "10.0.0."; // 设置基本IP地址
 
+			string baseIP = DataBrige.TempAddress.Network;
 
+			if (baseIP.IndexOf("*") != -1)
+			{
+				baseIP = baseIP.Replace("*", "0");
+			}
 
-			string baseIP = GetFirstThreeSegments(DataBrige.TempAddress.Network);
+			baseIP = GetFirstThreeSegments(baseIP);
 
-
+		
 
 			List<Task<IPInfo>> pingTasks = new List<Task<IPInfo>>();
 
 
-			
 
-			for (int i = 0; i <= DataBrige.ipAddressInfos.Count-1; i++)
+
+			for (int i = 0; i <= DataBrige.ipAddressInfos.Count - 1; i++)
 			{
-				
+
 				string ip = baseIP + DataBrige.ipAddressInfos[i].Address; // 构建要ping的IP地址
-				//Console.WriteLine(ip);
+				
+				Console.WriteLine(ip);
 
 				pingTasks.Add(PingAndGetInfo(ip)); // 启动ping并获取信息任务
 
@@ -1068,8 +1159,11 @@ namespace IPAM_NOTE
 
 
 			Ping ping = new Ping();
-
+			
 			PingReply reply = await ping.SendPingAsync(ip, 600); // 异步执行ping操作
+			
+
+
 
 			if (reply.Status == IPStatus.Success)
 			{
@@ -1629,7 +1723,18 @@ namespace IPAM_NOTE
 					int broadcast = 0;
 					IPAddress ipAddress;
 					IPAddress mask = IPAddress.Parse(ipAddressInfo.Netmask);
-					if (IPAddress.TryParse(ipAddressInfo.Network, out ipAddress))
+
+					//如果网段IP中有*则替换为0
+					string tempNetwork = ipAddressInfo.Network;
+
+					if (tempNetwork.IndexOf("*") != -1)
+					{
+						tempNetwork = tempNetwork.Replace("*", "0");
+					}
+
+
+
+					if (IPAddress.TryParse(tempNetwork, out ipAddress))
 					{
 						IPAddress networkAddress = ipAddress.GetNetworkAddress(mask);
 						int maskLength = IPAddressCalculations.CalculateSubnetMaskLength(mask);
@@ -1643,8 +1748,16 @@ namespace IPAM_NOTE
 					}
 
 
+					//取出网段IP
+					string[] parts2 = tempNetwork.Split('.');
 
-					if (ip != 0 && ip != broadcast)
+					//取出广播IP
+					int	firstIp = Convert.ToInt32(parts2[3]);
+
+
+
+
+					if (ip != firstIp && ip != broadcast)
 					{
 						DataBrige.SelectIp = ip.ToString();
 						DataBrige.SelectIndex = listView.SelectedIndex;
@@ -1652,7 +1765,8 @@ namespace IPAM_NOTE
 
 					}
 
-					Network.Text = ipAddressInfo.Network;
+
+					Network.Text = tempNetwork;
 					MaskText.Text = ipAddressInfo.Netmask;
 					UpdateIPCalculations();
 
@@ -2045,6 +2159,7 @@ namespace IPAM_NOTE
 			if (AddressBox.SelectedIndex != -1)
 			{
 				DataBrige.SearchType = 1;
+				DataBrige.TempAddress = (ViewMode.AddressInfo)AddressInfos[AddressBox.SelectedIndex];
 			}
 		}
 	}

@@ -77,6 +77,7 @@ namespace IPAM_NOTE
 
 					NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
 
+
 					AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network) + DataBrige.SelectIp;
 
 					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
@@ -104,7 +105,7 @@ namespace IPAM_NOTE
 				else
 				{
 					NetworkBlock.Text = "所选网段:" + DataBrige.TempAddress.Network;
-
+					
 					AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.TempAddress.Network) + DataBrige.SelectIp;
 
 					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
@@ -261,9 +262,9 @@ namespace IPAM_NOTE
 			{
 				string tableName;
 
-				if (DataBrige.SearchType==0)
+				if (DataBrige.SearchType == 0)
 				{
-					 tableName = DataBrige.SelectSearchInfo.TableName;
+					tableName = DataBrige.SelectSearchInfo.TableName;
 					 DataBrige.searchInfos[DataBrige.SelectIndex].User = "";
 					 DataBrige.searchInfos[DataBrige.SelectIndex].Description = "";
 					 DataBrige.searchInfos[DataBrige.SelectIndex].HostName = "";
@@ -273,7 +274,7 @@ namespace IPAM_NOTE
 				}
 				else
 				{
-					 tableName = DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].TableName;
+					 tableName = DataBrige.TempAddress.TableName;
 					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].User = "";
 					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].Description = "";
 					 DataBrige.ipAddressInfos[Convert.ToInt32(DataBrige.SelectIndex)].HostName = "";
@@ -289,7 +290,7 @@ namespace IPAM_NOTE
 
 				string sql = string.Format("UPDATE {0} SET \"User\" = '', \"AddressStatus\" = 1 , \"Description\" = '' , \"HostName\" = '' , \"MacAddress\" = '' WHERE Address = {1}", tableName, DataBrige.SelectIp);
 
-				//Console.WriteLine(sql);
+				Console.WriteLine(sql);
 
 				dbClass.ExecuteQuery(sql);
 				//Console.WriteLine("DataBrige.ipAddressInfos.Count=" + DataBrige.ipAddressInfos.Count);

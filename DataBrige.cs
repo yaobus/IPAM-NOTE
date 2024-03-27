@@ -77,5 +77,7 @@ namespace IPAM_NOTE
 		/// 全局搜索时候获取的结果列表
 		/// </summary>
 		public static List<ViewMode.SearchInfo> searchInfos = new List<SearchInfo>();
+
+
 	}
 }

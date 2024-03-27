@@ -57,7 +57,7 @@ namespace IPAM_NOTE
 
 				string[] backupFiles = Directory.GetFiles(backupDirectoryPath, "*.bak")
 					.OrderByDescending(f => File.GetLastWriteTime(f))
-					.Take(10)
+					.Take(20)
 					.ToArray();
 
 				for (int i = 0; i < backupFiles.Length; i++)
