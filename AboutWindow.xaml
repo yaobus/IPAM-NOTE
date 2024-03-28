@@ -381,7 +381,7 @@
                         </StackPanel>
 
                         <ListView
-                            Height="580"
+                            Height="570"
                             x:Name="BackupListView"
                             SelectionChanged="BackupListView_OnSelectionChanged"
                             >

@@ -28,7 +28,28 @@ namespace IPAM_NOTE
 
 		private void AboutWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
+			backupList.Clear();
 
+			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
+
+			string backupDirectoryPath = Path.Combine(dbFilePath, "Backup");
+
+
+			string[] backupFiles = Directory.GetFiles(backupDirectoryPath, "*.bak")
+				.OrderByDescending(f => File.GetLastWriteTime(f))
+				.Take(20)
+				.ToArray();
+
+			for (int i = 0; i < backupFiles.Length; i++)
+			{
+				string fileName = Path.GetFileName(backupFiles[i]);
+				DateTime backupTime = File.GetLastWriteTime(backupFiles[i]);
+				backupList.Add(new ViewMode.BackupInfo
+					{ Index = i + 1, FileName = fileName, BackupTime = backupTime.ToString("yyyy年M月d日HH:mm") });
+			}
+
+
+			BackupListView.ItemsSource = backupList;
 		}
 
 		private void IpamNote_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -48,28 +69,7 @@ namespace IPAM_NOTE
 		{
 			if (AboutTabControl.SelectedIndex == 5)
 			{
-				backupList.Clear();
 
-				string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
-
-				string backupDirectoryPath = Path.Combine(dbFilePath, "Backup");
-
-
-				string[] backupFiles = Directory.GetFiles(backupDirectoryPath, "*.bak")
-					.OrderByDescending(f => File.GetLastWriteTime(f))
-					.Take(20)
-					.ToArray();
-
-				for (int i = 0; i < backupFiles.Length; i++)
-				{
-					string fileName = Path.GetFileName(backupFiles[i]);
-					DateTime backupTime = File.GetLastWriteTime(backupFiles[i]);
-					backupList.Add(new ViewMode.BackupInfo
-						{ Index = i + 1, FileName = fileName, BackupTime = backupTime.ToString("yyyy年M月d日HH:mm") });
-				}
-
-
-				BackupListView.ItemsSource = backupList;
 
 
 			}
@@ -78,6 +78,11 @@ namespace IPAM_NOTE
 				//RestoreBackup.IsEnabled = false;
 			}
 		}
+
+
+
+
+
 
 
 		private void BackupListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
