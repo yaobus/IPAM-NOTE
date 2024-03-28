@@ -60,8 +60,8 @@
             <materialDesign:ColorZone
                 
                 Padding="0"
-                Background="#03a9f4"
-                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+                Background="#009688"
+                Foreground="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition
@@ -82,8 +82,8 @@
                             Grid.Column="0"
                             x:Name="NetworkBlock"
                         
-                            Margin="16,10,16,4"
-                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                            Margin="16,5,16,5"
+                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                             Text="" />
 
 
@@ -95,11 +95,11 @@
                     <TextBlock
                         x:Name="AddressBlock"
                         Grid.Row="2"
-                        Margin="16,5,16,8"
+                        Margin="16,5,16,5"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
-                        Style="{StaticResource MaterialDesignBody2TextBlock}"
+                        Style="{StaticResource MaterialDesignHeadline5TextBlock }"
                         Text="" />
 
                 </Grid>
@@ -121,10 +121,13 @@
                 >
 
                 <materialDesign:PackIcon 
+                    Margin="5"
                     Kind="User" 
                     VerticalAlignment="Center"
                     Height="32"
                     Width="32"
+                    
+
                 />
 
 
@@ -154,10 +157,12 @@
                 >
 
                 <materialDesign:PackIcon 
+                    Margin="5"
                     Kind="NoteEdit" 
                     VerticalAlignment="Center"
                     Height="32"
                     Width="32"
+                   
                 />
 
 
@@ -187,10 +192,12 @@
             >
 
                 <materialDesign:PackIcon 
+                    Margin="5"
                     Kind="Computer" 
                     VerticalAlignment="Center"
                     Height="32"
                     Width="32"
+                    
                 />
 
 
@@ -220,10 +227,12 @@
             >
 
                 <materialDesign:PackIcon 
+                    Margin="5"
                     Kind="Numeric" 
                     VerticalAlignment="Center"
                     Height="32"
                     Width="32"
+                    
                 />
 
 

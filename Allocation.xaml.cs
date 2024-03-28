@@ -42,7 +42,7 @@ namespace IPAM_NOTE
 
 			if (DataBrige.SearchType == 0)
 			{
-				NetworkBlock.Text = "当前网段:" + DataBrige.SelectSearchInfo.Network;
+				NetworkBlock.Text = "所在网段:" + DataBrige.SelectSearchInfo.Network;
 
 				//如果网段IP中有*则替换为0
 				string tempNetwork = DataBrige.SelectSearchInfo.Network;
@@ -55,7 +55,7 @@ namespace IPAM_NOTE
 
 				PingAddress = GetFirstThreeSegments(tempNetwork) + DataBrige.SelectIp;
 
-				AddressBlock.Text = "当前所选IP为:" + PingAddress;
+				AddressBlock.Text = "所选地址:" + PingAddress;
 
 
 				if (DataBrige.SelectSearchInfo.User == "")
@@ -87,7 +87,7 @@ namespace IPAM_NOTE
 
 				{
 
-					NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
+					NetworkBlock.Text = "所在网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
 
 					//如果网段IP中有*则替换为0
 					string tempNetwork = DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
@@ -97,12 +97,12 @@ namespace IPAM_NOTE
 						tempNetwork = tempNetwork.Replace("*", "0");
 					}
 
-					Console.WriteLine("网段地址:"+ GetFirstThreeSegments(tempNetwork));
+					Console.WriteLine("所在网段:" + GetFirstThreeSegments(tempNetwork));
 
 
 					PingAddress= GetFirstThreeSegments(tempNetwork) + DataBrige.SelectIp;
 
-					AddressBlock.Text = "当前所选IP为:" + PingAddress;
+					AddressBlock.Text = "所选地址:" + PingAddress;
 
 
 
@@ -130,7 +130,7 @@ namespace IPAM_NOTE
 				}
 				else
 				{
-					NetworkBlock.Text = "所选网段:" + DataBrige.TempAddress.Network;
+					NetworkBlock.Text = "所在网段:" + DataBrige.TempAddress.Network;
 					
 					
 
@@ -145,7 +145,7 @@ namespace IPAM_NOTE
 
 					PingAddress= GetFirstThreeSegments(tempNetwork) + DataBrige.SelectIp;
 
-					AddressBlock.Text = "当前所选IP为:" + PingAddress;
+					AddressBlock.Text = "所选地址:" + PingAddress;
 
 
 
@@ -167,13 +167,6 @@ namespace IPAM_NOTE
 						MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
 					}
 				}
-
-
-
-
-
-
-
 			}
 
 

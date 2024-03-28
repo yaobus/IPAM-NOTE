@@ -70,8 +70,8 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             >
-                          
-                            <materialDesign:PackIcon Kind="Number0BoxOutline" Width="32" Height="32"/>
+
+                            <materialDesign:PackIcon Kind="Number0BoxOutline" Width="32" Height="32" />
 
 
                         </StackPanel>
@@ -88,7 +88,7 @@
                             HorizontalAlignment="Left"
                             >
 
-                            <materialDesign:PackIcon Kind="IpNetworkOutline" Width="32" Height="32"/>
+                            <materialDesign:PackIcon Kind="IpNetworkOutline" Width="32" Height="32" />
 
                         </StackPanel>
 
@@ -105,7 +105,7 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             >
-                            <materialDesign:PackIcon Kind="InfoBoxOutline" Width="32" Height="32"/>
+                            <materialDesign:PackIcon Kind="InfoBoxOutline" Width="32" Height="32" />
                         </StackPanel>
 
 
