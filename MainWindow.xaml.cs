@@ -47,6 +47,7 @@ namespace IPAM_NOTE
 		public MainWindow()
 		{
 			InitializeComponent();
+			WindowsShow();
 		}
 
 		private DbClass dbClass;
@@ -56,6 +57,7 @@ namespace IPAM_NOTE
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
+
 			AddressListView.ItemsSource = AddressInfos;
 
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
@@ -84,6 +86,33 @@ namespace IPAM_NOTE
 
 
 		}
+
+		/// <summary>
+		/// 设置窗口显示方式，分辨率小于1080P就全屏显示，否则居中显示
+		/// </summary>
+		private void WindowsShow()
+		{
+
+			// 获取屏幕的宽度和高度
+			double screenWidth = SystemParameters.PrimaryScreenWidth;
+			double screenHeight = SystemParameters.PrimaryScreenHeight;
+
+			// 设定最大分辨率
+			double maxResolutionWidth = 1920;
+			double maxResolutionHeight = 1080;
+
+			// 如果分辨率小于等于1920x1080，则最大化窗口
+			if (screenWidth <= maxResolutionWidth && screenHeight <= maxResolutionHeight)
+			{
+				WindowState = WindowState.Maximized;
+			}
+			else // 否则，居中显示窗口
+			{
+				WindowStartupLocation = WindowStartupLocation.CenterScreen;
+			}
+		}
+
+
 
 		private List<string> domainList = new List<string>();
 
