@@ -357,8 +357,9 @@ namespace IPAM_NOTE
 					if (tempNetwork.IndexOf("*") != -1)
 					{
 						tempNetwork = tempNetwork.Replace("*", "0");
-						
+
 					}
+
 
 					Network.Text = tempNetwork;
 					
@@ -417,18 +418,21 @@ namespace IPAM_NOTE
 
 					int ip = ipAddressInfo.Address;
 
+					//Console.WriteLine("MouseDoubleClickIp="+ip.ToString());
 
 
 					//计算广播IP
 					string[] parts = Broadcast.Text.Split('.');
 					int broadcast = Convert.ToInt32(parts[3]);
 
-
+					//Console.WriteLine("broadcast=" + broadcast.ToString());
 
 					//计算网段IP
 					string[] parts2 = Network.Text.Split('.');
 					int firstIp = Convert.ToInt32(parts2[3]);
 
+
+					//Console.WriteLine("firstIp=" + firstIp.ToString());
 
 					if (ip != firstIp && ip != broadcast)
 					{

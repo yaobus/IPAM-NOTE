@@ -33,18 +33,30 @@ namespace IPAM_NOTE
 
 		private DbClass dbClass;
 
+		private string PingAddress;
+
 
 		private void Allocation_OnLoaded(object sender, RoutedEventArgs e)
 		{
-
-
 
 
 			if (DataBrige.SearchType == 0)
 			{
 				NetworkBlock.Text = "当前网段:" + DataBrige.SelectSearchInfo.Network;
 
-				AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.SelectSearchInfo.Network) + DataBrige.SelectIp;
+				//如果网段IP中有*则替换为0
+				string tempNetwork = DataBrige.SelectSearchInfo.Network;
+
+				if (tempNetwork.IndexOf("*") != -1)
+				{
+					tempNetwork = tempNetwork.Replace("*", "0");
+
+				}
+
+				PingAddress = GetFirstThreeSegments(tempNetwork) + DataBrige.SelectIp;
+
+				AddressBlock.Text = "当前所选IP为:" + PingAddress;
+
 
 				if (DataBrige.SelectSearchInfo.User == "")
 				{
@@ -77,8 +89,22 @@ namespace IPAM_NOTE
 
 					NetworkBlock.Text = "当前网段:" + DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
 
+					//如果网段IP中有*则替换为0
+					string tempNetwork = DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network;
 
-					AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.ComBoxAddressInfos[DataBrige.SelectNetwork].Network) + DataBrige.SelectIp;
+					if (tempNetwork.IndexOf("*") != -1)
+					{
+						tempNetwork = tempNetwork.Replace("*", "0");
+					}
+
+					Console.WriteLine("网段地址:"+ GetFirstThreeSegments(tempNetwork));
+
+
+					PingAddress= GetFirstThreeSegments(tempNetwork) + DataBrige.SelectIp;
+
+					AddressBlock.Text = "当前所选IP为:" + PingAddress;
+
+
 
 					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 					{
@@ -106,7 +132,23 @@ namespace IPAM_NOTE
 				{
 					NetworkBlock.Text = "所选网段:" + DataBrige.TempAddress.Network;
 					
-					AddressBlock.Text = "当前所选IP为:" + GetFirstThreeSegments(DataBrige.TempAddress.Network) + DataBrige.SelectIp;
+					
+
+					//如果网段IP中有*则替换为0
+					string tempNetwork = DataBrige.TempAddress.Network;
+
+					if (tempNetwork.IndexOf("*") != -1)
+					{
+						tempNetwork = tempNetwork.Replace("*", "0");
+
+					}
+
+					PingAddress= GetFirstThreeSegments(tempNetwork) + DataBrige.SelectIp;
+
+					AddressBlock.Text = "当前所选IP为:" + PingAddress;
+
+
+
 
 					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 					{
@@ -162,12 +204,12 @@ namespace IPAM_NOTE
 				}
 				else
 				{
-					return "Invalid IP address";
+					return "不正确的IP地址";
 				}
 			}
 			else
 			{
-				return "Invalid IP address format";
+				return "不正确的IP格式";
 			}
 		}
 
@@ -322,9 +364,9 @@ namespace IPAM_NOTE
 		private void PingButton_OnClick(object sender, RoutedEventArgs e)
 		{
 			//int lastIndex = DataBrige.TempAddress.Network.LastIndexOf('.');
-			string ip = DataBrige.TempAddress.Network.Replace("*", "") + DataBrige.SelectIp;
+			
 
-			string arguments = $"-t {ip}";
+			string arguments = $"-t {PingAddress}";
 
 			// 创建一个新的ProcessStartInfo对象
 			ProcessStartInfo processStartInfo = new ProcessStartInfo
@@ -349,8 +391,8 @@ namespace IPAM_NOTE
 
 		private void WebOpen_OnClick(object sender, RoutedEventArgs e)
 		{
-			string ip = DataBrige.TempAddress.Network.Replace("*", "") + DataBrige.SelectIp;
-			Process.Start("http://" + ip);
+			
+			Process.Start("http://" + PingAddress);
 		}
 	}
 }

@@ -245,7 +245,7 @@
                         <TextBlock
                             Margin="0,0,0,8"
                             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                            Text="数据导入帮助" />
+                            Text="地址分配帮助" />
 
                         <Image
                             Width="1150"
