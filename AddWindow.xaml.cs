@@ -56,7 +56,7 @@ namespace IPAM_NOTE
 				IpTextBox.IsEnabled = false;
 				MaskText.IsEnabled = false;
 				MaskSlider.IsEnabled=false;
-
+				UpdateIPCalculations();
 			}
 
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
@@ -190,6 +190,7 @@ namespace IPAM_NOTE
 			}
 			else//编辑网段
 			{
+				
 
 				if (IpDescription.Text!="")
 				{
@@ -215,139 +216,6 @@ namespace IPAM_NOTE
 
 
 
-			#region Backup
-
-			//添加网段
-			//if (DataBrige.AddStatus == 0)
-			//{
-			//	//判断是不是瞎几把写的IP地址
-			//	if (IsValidIp(IpTextBox.Text) == true)
-			//	{
-			//		//规范化IP输入
-			//		string ip = IpTextBox.Text.Substring(0, IpTextBox.Text.LastIndexOf(".") + 1) + "*";
-
-
-			//		if (IpDescription.Text != "")
-			//		{
-			//			string tableName;
-
-			//			string sqlTemp = string.Format("SELECT COUNT(*) FROM Network WHERE `Network` = '{0}' ", ip);
-
-
-			//			int num = DbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
-
-			//			//IP地址段已存在
-			//			if (num > 0)
-			//			{
-			//				string msg = string.Format("已存在同配置网段{0}个，是否继续添加同配置网段？", num.ToString());
-
-			//				MessageBoxResult result = MessageBox.Show(msg, "确认", MessageBoxButton.YesNo,
-			//					MessageBoxImage.Information);
-
-			//				if (result == MessageBoxResult.Yes)
-			//				{
-			//					// 用户点击了"是"按钮，执行相关操作
-			//					tableName = CreateTableName(ip) + "_" + (num + 1).ToString();
-
-
-			//					//插入网段信息总表的数据
-			//					string sql = string.Format(
-			//						"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
-			//						tableName, ip, MaskText.Text, IpDescription.Text, 0);
-
-			//					dbClass.ExecuteQuery(sql);
-
-			//					//创建表
-			//					CreateTable(tableName);
-
-			//					//装载初始化数据
-			//					InitializedData(tableName);
-
-			//					this.Close();
-
-
-
-			//				}
-			//				else if (result == MessageBoxResult.No)
-			//				{
-			//					// 用户点击了"否"按钮，取消操作或进行其他处理
-
-
-			//				}
-
-
-			//			}
-			//			else
-			//			{
-
-			//				tableName = CreateTableName(ip) + "_1";
-
-
-			//				//插入网段信息总表的数据
-			//				string sql = string.Format(
-			//					"INSERT INTO Network (TableName,Network,Netmask,Description,Del) VALUES ('{0}','{1}','{2}','{3}','{4}')",
-			//					tableName, ip, MaskText.Text, IpDescription.Text, 0);
-
-			//				dbClass.ExecuteQuery(sql);
-
-			//				//插入网段信息总表的数据
-
-			//				//创建表
-			//				CreateTable(tableName);
-
-			//				//装载初始化数据
-			//				InitializedData(tableName);
-
-			//				this.Close();
-
-
-
-			//			}
-
-
-			//		}
-			//		else
-			//		{
-
-			//			MessageBox.Show("为了便于后期管理，必须填写网段说明!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
-
-
-			//		}
-
-			//	}
-			//	else
-			//	{
-			//		MessageBox.Show("IP地址不合法，请检查IP地址是否正确!", "确定", MessageBoxButton.OK, MessageBoxImage.Information);
-			//	}
-
-			//}
-			//else//编辑网段
-			//{
-
-			//	if (IpDescription.Text != "")
-			//	{
-			//		string tableName = DataBrige.TempAddress.TableName;
-
-			//		string sqlTemp = string.Format("UPDATE \"Network\" SET \"Description\" = '{0}' WHERE TableName = '{1}'", IpDescription.Text, tableName);
-
-			//		Console.WriteLine(sqlTemp);
-
-			//		dbClass.ExecuteQuery(sqlTemp);
-
-
-
-			//		this.Close();
-			//	}
-
-
-
-
-
-			//}
-
-
-
-			#endregion
 
 
 
@@ -470,44 +338,6 @@ namespace IPAM_NOTE
 		/// </summary>
 		public bool LoadStatus = false;
 
-		/// <summary>
-		/// 计算IP地址数量
-		/// </summary>
-		public void CalculateIpAddress()
-		{
-			int value = (int)MaskSlider.Value;
-			int num = 32 - value;
-			string str = null;
-			int tempStr = 8 - num;
-
-			//计算子网掩码二进制数
-			for (int i = 0; i < tempStr; i++)
-			{
-				str += "1";
-			}
-
-			for (int i = 0; i < num; i++)
-			{
-				str += "0";
-			}
-
-			int t = Convert.ToInt32(str, 2);
-			MaskText.Text = "255.255.255." + t.ToString();
-			NumBox.Text = (256 - t).ToString();
-			Network.Text = IpTextBox.Text;
-			
-
-
-
-			string ipStr = IpTextBox.Text;
-			int index = ipStr.LastIndexOf(".") + 1;
-
-			string strTemp = ipStr.Substring(0, index);
-
-
-
-
-		}
 
 
 		/// <summary>
