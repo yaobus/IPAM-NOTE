@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace IPAM_NOTE.DatabaseOperation
 {
@@ -18,8 +20,17 @@ namespace IPAM_NOTE.DatabaseOperation
 
 		public DbClass(string dbPath)
 		{
+
 			connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+		
+
 		}
+
+
+
+
+
+
 
 		public void OpenConnection()
 		{

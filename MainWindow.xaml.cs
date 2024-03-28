@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.IO;
@@ -2141,6 +2142,8 @@ namespace IPAM_NOTE
 		{
 			using (var hashAlgorithm = SHA256.Create())
 			{
+
+				
 				using (var stream1 = File.OpenRead(file1))
 				using (var stream2 = File.OpenRead(file2))
 				{
@@ -2151,6 +2154,9 @@ namespace IPAM_NOTE
 
 					return StructuralComparisons.StructuralEqualityComparer.Equals(hash1, hash2);
 				}
+
+
+
 			}
 		}
 
