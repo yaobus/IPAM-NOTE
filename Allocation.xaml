@@ -288,7 +288,7 @@
                             Foreground="AliceBlue"
                             
                             Style="{StaticResource MaterialDesignOutlinedButton}"
-                            ToolTip="PING测试" 
+                            ToolTip="在浏览器中打开该IP地址" 
                             Click="WebOpen_OnClick"
                             materialDesign:ButtonAssist.CornerRadius="15"
                             >
