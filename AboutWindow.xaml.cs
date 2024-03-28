@@ -75,7 +75,7 @@ namespace IPAM_NOTE
 			}
 			else
 			{
-				RestoreBackup.IsEnabled = false;
+				//RestoreBackup.IsEnabled = false;
 			}
 		}
 
@@ -83,6 +83,7 @@ namespace IPAM_NOTE
 		private void BackupListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 
+			Console.WriteLine(BackupListView.SelectedIndex);
 
 			if (BackupListView.SelectedIndex != -1)
 			{
