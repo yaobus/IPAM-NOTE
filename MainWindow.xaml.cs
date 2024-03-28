@@ -658,7 +658,7 @@ namespace IPAM_NOTE
 					case 2:
 						colorBrush = Brushes.Coral;
 						description = "类型：已用IP地址\r分配：" + ipAddressInfos[i].User + "\r备注：" +
-						              ipAddressInfos[i].Description + "\r当前在线主机：" + ipAddressInfos[i].HostName +
+						              ipAddressInfos[i].Description + "\r主机名：" + ipAddressInfos[i].HostName +
 						              "\rMAC：" + ipAddressInfos[i].MacAddress;
 
 						break;
