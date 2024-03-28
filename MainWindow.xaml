@@ -348,10 +348,10 @@
                         Margin="5"
                         IsChecked="False"
                         Style="{StaticResource MaterialDesignActionToggleButton}"
-                        ToolTip="精确搜索" >
+                        ToolTip="启用精确搜索？" >
 
                         <materialDesign:PackIcon
-                            Kind="WindowClose"  Width="24" Height="24"/>
+                            Kind="ApproximatelyEqual"  Width="24" Height="24"/>
 
                     </ToggleButton>
 
