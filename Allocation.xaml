@@ -85,7 +85,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="130"/>
                                     <ColumnDefinition Width="*"/>
                                      <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="40"/>
@@ -109,7 +109,7 @@
                                    
                                     VerticalAlignment="Center"
                                     Grid.Column="2"
-                                    Margin="16 0 0 0" Text="当前该IP的主机:"/>
+                                    Margin="5 0 0 0" Text="当前该主机的MAC:"/>
 
                                 <TextBox
                                     x:Name="PingMacBox"
