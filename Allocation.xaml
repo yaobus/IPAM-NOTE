@@ -85,7 +85,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="125"/>
                                     <ColumnDefinition Width="*"/>
                                      <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="40"/>
@@ -114,7 +114,7 @@
                                 <TextBox
                                     x:Name="PingMacBox"
                                     Grid.Column="3"
-                                    Margin="8 0 0 0"
+                                    Margin="0 0 0 0"
                                     materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                     BorderThickness="0"
                                     Width="140"
