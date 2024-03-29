@@ -60,7 +60,7 @@
                             Margin="0,10"
                             FontSize="16"
                             Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="软件版本号：Ver1.08-Beta" />
+                            Text="软件版本号：Ver1.09-Beta" />
 
                         <TextBlock
                             FontSize="16"
@@ -75,21 +75,6 @@
                             MouseDown="IpamNote_OnMouseDown"
                             Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                             Text="Github主页：https://github.com/yaobus/IPAM-NOTE.git" />
-
-                        <TextBlock
-                            Margin="0,10"
-                            FontSize="16"
-                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="本软件有多用户版本SIPAM" />
-
-                        <TextBlock
-                            x:Name="Sipam"
-                            Margin="0,10"
-                            FontSize="16"
-                            MouseDown="Sipam_OnMouseDown"
-                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="SIPAM主页：https://github.com/yaobus/SIPAM.git" />
-
 
 
 
