@@ -47,6 +47,12 @@ namespace IPAM_NOTE
 
 		public static List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();
 
+		/// <summary>
+		/// PING检测获取到的信息
+		/// </summary>
+		public static List<IpAddressInfo> ipAddressPingInfos = new List<IpAddressInfo>();
+
+
 
 		//搜索区网段列表
 		public static ObservableCollection<ComBoxAddressInfo> ComBoxAddressInfos = new ObservableCollection<ComBoxAddressInfo>();

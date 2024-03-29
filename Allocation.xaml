@@ -13,7 +13,7 @@
         mc:Ignorable="d"
         Title="分配地址" 
         Style="{DynamicResource MaterialDesignWindow}"
-        Height="400"
+        Height="440"
         Width="600"
         WindowStartupLocation="CenterScreen"
         Loaded="Allocation_OnLoaded"
@@ -22,7 +22,7 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
@@ -32,24 +32,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!--<StackPanel
-            Grid.Row="0"
-            >
-            <TextBox
-                x:Name="InfoTextBox"
-                Margin="5"
-                TextWrapping="Wrap"
-                VerticalAlignment="Stretch"
-                MinWidth="280"
-                AcceptsReturn="True"
-                VerticalScrollBarVisibility="Auto"
-                SpellCheck.IsEnabled="True"
-                materialDesign:HintAssist.Hint="当前选中地址信息如下："
-                Height="60"
-                Text="" />
-
-
-        </StackPanel>-->
+       
 
         <StackPanel
             Grid.Row="0"
@@ -64,27 +47,105 @@
                 Foreground="WhiteSmoke">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="30" />
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0">
+                    <Grid Grid.Row="0"
+                          Grid.RowSpan="3"
+                          Grid.Column="0"
+                          
+                          >
                         <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="300"/>
-
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-
-                        <TextBlock
-                            Grid.Column="0"
-                            x:Name="NetworkBlock"
                         
-                            Margin="16,5,16,5"
-                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                            Text="" />
+   
+                            <TextBlock
+                                x:Name="NetworkBlock"
+                                Margin="16,5,16,5"
+                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                Text="" />
+
+                            <TextBlock
+                                x:Name="AddressBlock"
+                                Margin="16,5,16,5"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Style="{StaticResource MaterialDesignHeadline5TextBlock }"
+                                Text="" />
+
+
+                            <Grid
+                               
+                                VerticalAlignment="Bottom"
+                                >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                     <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                                <TextBlock
+                                   
+                                    VerticalAlignment="Center"
+                                    Grid.Column="0"
+                                    Margin="16 0 0 0" Text="当前该IP的主机:"/>
+
+                                <TextBox
+                                    x:Name="PingHostNameBox"
+                                    Grid.Column="1"
+                                    Margin="0 0 0 0"
+                                    materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                    BorderThickness="0"
+                                    Width="140"
+                                    VerticalAlignment="Center" />
+
+                                <TextBlock
+                                   
+                                    VerticalAlignment="Center"
+                                    Grid.Column="2"
+                                    Margin="16 0 0 0" Text="当前该IP的主机:"/>
+
+                                <TextBox
+                                    x:Name="PingMacBox"
+                                    Grid.Column="3"
+                                    Margin="8 0 0 0"
+                                    materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                    BorderThickness="0"
+                                    Width="140"
+                                    VerticalAlignment="Center" />
+
+                            <Button
+                                x:Name="StatusPing"
+                                Click="StatusPing_OnClick"
+                                Style="{DynamicResource MaterialDesignToolButton}"
+                                Grid.Column="4">
+                                <materialDesign:PackIcon
+                                    Kind="Timelapse"
+                                    Margin="8 0 0 0" />
+                            </Button>
+
+                            <Button
+                                x:Name="CopyHostInfo"
+                                Click="CopyHostInfo_OnClick"
+                                Style="{DynamicResource MaterialDesignToolButton}"
+                                Grid.Column="5">
+                                <materialDesign:PackIcon
+                                    Kind="EyedropperRemove"
+                                    Margin="8 0 0 0" />
+                            </Button>
+
+                        </Grid>
+
+                   
+
+
+
 
 
 
@@ -92,17 +153,14 @@
 
 
 
-                    <TextBlock
-                        x:Name="AddressBlock"
-                        Grid.Row="2"
-                        Margin="16,5,16,5"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Style="{StaticResource MaterialDesignHeadline5TextBlock }"
-                        Text="" />
+
+
+
+
 
                 </Grid>
+
+
             </materialDesign:ColorZone>
 
         </StackPanel>
@@ -224,7 +282,7 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
                 materialDesign:HintAssist.Hint="MAC地址"
-            >
+                >
 
                 <materialDesign:PackIcon 
                     Margin="5"
@@ -234,8 +292,6 @@
                     Width="32"
                     
                 />
-
-
 
 
                 <TextBox
@@ -366,6 +422,10 @@
             </Button>
 
         </StackPanel>
+
+
+
+
 
 
     </Grid>

@@ -155,12 +155,12 @@ namespace IPAM_NOTE
 				SortSql = query;
 				SQLiteCommand command = new SQLiteCommand(query, connection);
 				SQLiteDataReader reader = command.ExecuteReader();
-
+				int i = 0;
 				while (reader.Read())
 				{
-
+					i++;
 					// 读取数据行中的每一列
-					int id = Convert.ToInt32(reader["Id"]);
+					int id = i;
 					string tableName = reader["TableName"].ToString();
 					string network = reader["Network"].ToString();
 					string netmask = reader["Netmask"].ToString();
@@ -477,6 +477,7 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void AddressListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			DataBrige.ipAddressPingInfos.Clear();
 			DataBrige.LoadType = 0;
 			DataBrige.SearchType = 1;
 			ExportButton.IsEnabled = true;
@@ -1022,7 +1023,8 @@ namespace IPAM_NOTE
 			{
 				string tableName = DataBrige.TempAddress.TableName;
 
-				string sql = string.Format("UPDATE \"Network\" SET \"Del\" = '1' WHERE  TableName = '{0}'", tableName);
+				//string sql = string.Format("DELETE \"Network\" SET \"Del\" = '1' WHERE  TableName = '{0}'", tableName);
+				string sql = string.Format("DELETE FROM Network WHERE  TableName = '{0}'", tableName);
 
 				string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 				string dbName = "Address_database.db";
@@ -1031,6 +1033,9 @@ namespace IPAM_NOTE
 
 				dbClass = new DbClass(dbFilePath);
 				dbClass.OpenConnection();
+
+				dbClass.ExecuteQuery(sql);
+				sql= string.Format("DROP TABLE '{0}'", tableName);
 
 				dbClass.ExecuteQuery(sql);
 
@@ -1098,17 +1103,16 @@ namespace IPAM_NOTE
 			Console.WriteLine(results.Length);
 			Console.WriteLine(DataBrige.ipAddressInfos.Count);
 
-			//foreach (var item in results)
-			//{
-			//	Console.WriteLine($"Address: {item.IPAddress}, Status: {item.PingStatus}, Description: {item.PingTime}, HostName: {item.HostName}, MacAddress: {item.MACAddress}");
-			//}
+
+			DataBrige.ipAddressPingInfos = DataBrige.ipAddressInfos;
+
 
 			for (int i = 0; i < DataBrige.ipAddressInfos.Count; i++)
 			{
-				DataBrige.ipAddressInfos[i].PingStatus = results[i ].PingStatus;
-				DataBrige.ipAddressInfos[i].PingTime = results[i ].PingTime;
-				DataBrige.ipAddressInfos[i].HostName = results[i ].HostName;
-				DataBrige.ipAddressInfos[i].MacAddress = results[i ].MACAddress;
+				DataBrige.ipAddressInfos[i].PingStatus = results[i].PingStatus;
+				DataBrige.ipAddressInfos[i].PingTime = results[i].PingTime;
+				DataBrige.ipAddressPingInfos[i].HostName = results[i].HostName;
+				DataBrige.ipAddressPingInfos[i].MacAddress = results[i].MACAddress;
 
 			}
 
@@ -1499,6 +1503,9 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void SearchButton_OnClick(object sender, RoutedEventArgs e)
 		{
+			//清空PING结果
+			DataBrige.ipAddressPingInfos.Clear();
+
 			//启用清空搜索按钮
 			SearchClear.IsEnabled = true;
 
@@ -1977,10 +1984,10 @@ namespace IPAM_NOTE
 
 			DataBrige.ipAddressInfos.Clear();
 
-
+			
 			while (reader.Read())
 			{
-
+				
 				int address = Convert.ToInt32(reader["Address"]);
 				int addressStatus = Convert.ToInt32(reader["AddressStatus"]);
 				string user = reader["User"].ToString();
@@ -2200,6 +2207,7 @@ namespace IPAM_NOTE
 		{
 			if (AddressBox.SelectedIndex != -1)
 			{
+				DataBrige.ipAddressPingInfos.Clear();
 				DataBrige.SearchType = 1;
 				DataBrige.TempAddress = (ViewMode.AddressInfo)AddressInfos[AddressBox.SelectedIndex];
 			}
@@ -2261,12 +2269,12 @@ namespace IPAM_NOTE
 				
 				SQLiteCommand command = new SQLiteCommand(query, connection);
 				SQLiteDataReader reader = command.ExecuteReader();
-
+				int i = 0;
 				while (reader.Read())
 				{
-
+					i++;
 					// 读取数据行中的每一列
-					int id = Convert.ToInt32(reader["Id"]);
+					int id = i;
 					string tableName = reader["TableName"].ToString();
 					string network = reader["Network"].ToString();
 					string netmask = reader["Netmask"].ToString();

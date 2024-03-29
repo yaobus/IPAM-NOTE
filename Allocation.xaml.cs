@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -16,8 +17,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ControlzEx.Standard;
 using static IPAM_NOTE.ViewMode;
 using Button = System.Web.UI.WebControls.Button;
+using System.Runtime.InteropServices;
 
 namespace IPAM_NOTE
 {
@@ -64,9 +67,10 @@ namespace IPAM_NOTE
 
 					DescriptionTextBox.Text = "";
 
-					HostNameTextBox.Text = DataBrige.SelectSearchInfo.HostName;
+					HostNameTextBox.Text = "";
 
-					MacTextBox.Text = DataBrige.SelectSearchInfo.MacAddress;
+					MacTextBox.Text = "";
+					
 				}
 				else
 				{
@@ -83,6 +87,7 @@ namespace IPAM_NOTE
 			}
 			else
 			{
+				//1为指定网段搜索加载，0为指定网段全部加载
 				if (DataBrige.LoadType == 1)
 
 				{
@@ -108,13 +113,15 @@ namespace IPAM_NOTE
 
 					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 					{
-						UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
 
-						DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+						UserTextBox.Text = "";
 
-						HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+						DescriptionTextBox.Text = "";
 
-						MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+						HostNameTextBox.Text = "";
+
+						MacTextBox.Text = "";
+
 					}
 					else
 					{
@@ -152,9 +159,26 @@ namespace IPAM_NOTE
 
 					if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
 					{
-						HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+						//if (DataBrige.ipAddressPingInfos.Count > 0)
+						//{
+						//	PingHostNameBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].HostName;
 
-						MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+						//	PingMacBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].MacAddress;
+						//}
+
+						UserTextBox.Text = "";
+
+						DescriptionTextBox.Text = "";
+
+						HostNameTextBox.Text = "";
+
+						MacTextBox.Text = "";
+
+						//PingHostNameBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].HostName;
+
+						//PingMacBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].MacAddress;
+
+
 					}
 					else
 					{
@@ -169,6 +193,12 @@ namespace IPAM_NOTE
 				}
 			}
 
+			if (DataBrige.ipAddressPingInfos.Count > 0)
+			{
+				PingHostNameBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].HostName;
+
+				PingMacBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].MacAddress;
+			}
 
 			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 			string dbName = "Address_database.db";
@@ -387,5 +417,119 @@ namespace IPAM_NOTE
 			
 			Process.Start("http://" + PingAddress);
 		}
+
+
+
+		/// <summary>
+		/// 提取主机信息
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void CopyHostInfo_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (PingHostNameBox.Text != "N/A" && PingHostNameBox.Text != "")
+			{
+				HostNameTextBox.Text= PingHostNameBox.Text;
+			}
+
+			if (PingMacBox.Text != "N/A" && PingMacBox.Text != "")
+			{
+				MacTextBox.Text= PingMacBox.Text;
+			}
+		}
+
+
+		/// <summary>
+		/// 直接PING测试
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private async void StatusPing_OnClick(object sender, RoutedEventArgs e)
+		{
+
+
+
+			string ipAddress = PingAddress; // 要检测的IP地址
+			try
+			{
+				IPAddress ip = IPAddress.Parse(ipAddress);
+
+				// 获取主机名
+				string hostName = await GetHostNameAsync(ip);
+				PingHostNameBox.Text = hostName;
+
+				// 获取MAC地址
+				string macAddress = await GetMacAddressAsync(ip);
+				PingMacBox.Text = macAddress;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("获取主机名失败");
+			}
+
+
+
+		}
+
+
+
+
+
+
+		private Task<string> GetHostNameAsync(IPAddress ipAddress)
+		{
+			return Task.Run(() =>
+			{
+				
+				try
+				{
+					return Dns.GetHostEntry(ipAddress).HostName;
+				}
+				catch (Exception e)
+				{
+					return "N/A";
+				}
+
+			});
+		}
+
+		private Task<string> GetMacAddressAsync(IPAddress ipAddress)
+		{
+			return Task.Run(() =>
+			{
+				try
+				{
+					byte[] macAddr = new byte[6];
+					uint macAddrLen = (uint)macAddr.Length;
+					StringBuilder strAddr = new StringBuilder();
+
+					// 调用 SendARP 函数获取 MAC 地址
+					uint result = SendARP(BitConverter.ToUInt32(ipAddress.GetAddressBytes(), 0), 0, macAddr, ref macAddrLen);
+					if (result == 0)
+					{
+						for (int i = 0; i < macAddr.Length; i++)
+						{
+							strAddr.AppendFormat("{0:X2}", macAddr[i]);
+							if (i != macAddr.Length - 1)
+							{
+								strAddr.Append(":");
+							}
+						}
+					}
+					return strAddr.ToString();
+				}
+				catch (Exception e)
+				{
+					return "N/A";
+				}
+
+
+
+			});
+		}
+
+
+		[DllImport("iphlpapi.dll", SetLastError = true)]
+		private static extern uint SendARP(uint destIp, uint srcIp, byte[] pMacAddr, ref uint phyAddrLen);
 	}
 }
