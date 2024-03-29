@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Common;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Data.SQLite;
@@ -151,6 +152,7 @@ namespace IPAM_NOTE
 			try
 			{
 				string query = "SELECT * FROM Network WHERE Del = 0";
+				SortSql = query;
 				SQLiteCommand command = new SQLiteCommand(query, connection);
 				SQLiteDataReader reader = command.ExecuteReader();
 
@@ -994,7 +996,7 @@ namespace IPAM_NOTE
 			{
 
 				// 当子窗口关闭后执行这里的代码
-				LoadNetworkInfo(dbClass.connection);
+				LoadNetworkInfoSort(dbClass.connection,SortSql);
 
 			}
 
@@ -1032,7 +1034,8 @@ namespace IPAM_NOTE
 
 				dbClass.ExecuteQuery(sql);
 
-				MainWindow_OnLoaded(null, null);
+				LoadNetworkInfoSort(dbClass.connection,SortSql);
+				//MainWindow_OnLoaded(null, null);
 
 			}
 
@@ -1054,7 +1057,7 @@ namespace IPAM_NOTE
 			if (addWindow.ShowDialog() == true)
 			{
 				// 当子窗口关闭后执行这里的代码
-				LoadNetworkInfo(dbClass.connection);
+				LoadNetworkInfoSort(dbClass.connection,SortSql);
 			}
 
 
@@ -2200,6 +2203,131 @@ namespace IPAM_NOTE
 				DataBrige.SearchType = 1;
 				DataBrige.TempAddress = (ViewMode.AddressInfo)AddressInfos[AddressBox.SelectedIndex];
 			}
+		}
+
+
+		//按索引排序
+		private int IdSort = 0;
+
+		//按网段排序
+		private int NetworkSort = 0;
+
+		//按备注排序
+		private int DescriptionSort = 0;
+
+		private string SortSql;
+
+		/// <summary>
+		/// 按索引排序
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void IndexButton_OnClick(object sender, RoutedEventArgs e)
+		{
+
+			string query;
+			if (IdSort == 0)
+			{
+				query = "SELECT * FROM Network WHERE Del = 0 ORDER BY Id DESC";
+
+				IdSort = 1;
+			}
+			else
+			{
+				query = "SELECT * FROM Network WHERE Del = 0 ORDER BY Id ASC";
+				IdSort = 0;
+			}
+
+			
+
+			LoadNetworkInfoSort(dbClass.connection, query);
+
+		}
+
+		/// <summary>
+		/// 加载网段信息列表
+		/// </summary>
+		/// <param name="connection"></param>
+		public void LoadNetworkInfoSort(SQLiteConnection connection,string query)
+		{
+			SortSql = query;
+
+			AddressInfos.Clear();
+			DataBrige.ComBoxAddressInfos.Clear();
+			ComBoxAddressList.Clear();
+			GraphicsPlan.Children.Clear();
+			try
+			{
+				
+				SQLiteCommand command = new SQLiteCommand(query, connection);
+				SQLiteDataReader reader = command.ExecuteReader();
+
+				while (reader.Read())
+				{
+
+					// 读取数据行中的每一列
+					int id = Convert.ToInt32(reader["Id"]);
+					string tableName = reader["TableName"].ToString();
+					string network = reader["Network"].ToString();
+					string netmask = reader["Netmask"].ToString();
+					string description = reader["Description"].ToString();
+					string del = reader["Del"].ToString();
+					AddressInfos.Add(new AddressInfo(id, tableName, network, netmask, description, del));
+					DataBrige.ComBoxAddressInfos.Add(new ComBoxAddressInfo(tableName, network, netmask));
+					ComBoxAddressList.Add(network);
+				}
+
+				DataBrige.ComboBoxAddressList = ComBoxAddressList;
+
+				reader.Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Error: {ex.Message}");
+			}
+		}
+
+
+		/// <summary>
+		/// 按IP地址排序
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void NetworkButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			string query;
+			if (NetworkSort == 0)
+			{
+				query = "SELECT * FROM Network WHERE Del = 0 ORDER BY Network DESC";
+
+				NetworkSort = 1;
+			}
+			else
+			{
+				query = "SELECT * FROM Network WHERE Del = 0 ORDER BY Network ASC";
+				NetworkSort = 0;
+			}
+
+			LoadNetworkInfoSort(dbClass.connection, query);
+		}
+
+
+		private void DescriptionButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			string query;
+			if (DescriptionSort == 0)
+			{
+				query = "SELECT * FROM Network WHERE Del = 0 ORDER BY Description DESC";
+
+				DescriptionSort = 1;
+			}
+			else
+			{
+				query = "SELECT * FROM Network WHERE Del = 0 ORDER BY Description ASC";
+				DescriptionSort = 0;
+			}
+
+			LoadNetworkInfoSort(dbClass.connection, query);
 		}
 	}
 }

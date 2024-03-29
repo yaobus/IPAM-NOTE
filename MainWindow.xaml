@@ -63,15 +63,21 @@
 
                     <GridViewColumn DisplayMemberBinding ="{Binding Id}"
                        
-                        
                         >
+                        <StackPanel VerticalAlignment="Center">
+                            <Button
+                                x:Name="IndexButton"
+                                Margin="-20,0"
+                                Click="IndexButton_OnClick"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="MaterialDesignFloatingActionMiniLightButton">
+                                <materialDesign:PackIcon
+                                    Kind="Numbers"
+                                    Width="24"
+                                    Height="24"
+                                    />
+                            </Button>
 
-                        <StackPanel
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            >
-
-                            <materialDesign:PackIcon Kind="Number0BoxOutline" Width="32" Height="32" />
 
 
                         </StackPanel>
@@ -84,12 +90,21 @@
                         
                         >
                         <StackPanel
+                            Margin="-10,0"
                             Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             >
 
-                            <materialDesign:PackIcon Kind="IpNetworkOutline" Width="32" Height="32" />
 
+                            <Button
+                                x:Name="NetworkButton"
+                                Height="30"
+                                Click="NetworkButton_OnClick"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="MaterialDesignIconButton">
+                                <materialDesign:PackIcon
+                                    Kind="IpNetwork" Width="24" Height="24"/>
+                            </Button>
                         </StackPanel>
 
 
@@ -105,7 +120,16 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             >
-                            <materialDesign:PackIcon Kind="InfoBoxOutline" Width="32" Height="32" />
+
+                            <Button
+                                x:Name="DescriptionButton"
+                                Height="30"
+                               Click="DescriptionButton_OnClick"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="MaterialDesignIconButton">
+                                <materialDesign:PackIcon
+                                    Kind="Notebook" Width="24" Height="24"/>
+                            </Button>
                         </StackPanel>
 
 
@@ -229,7 +253,7 @@
                        
                         Style="{StaticResource MaterialDesignTabRadioButton}" >
 
-                        <materialDesign:PackIcon Kind="Apps" Width="32" Height="32"/>
+                        <materialDesign:PackIcon Kind="Apps" Width="24" Height="24"/>
 
                     </RadioButton>
                     <RadioButton
@@ -242,7 +266,7 @@
                         
                         >
 
-                        <materialDesign:PackIcon Kind="FormatListText" Width="32" Height="32"/>
+                        <materialDesign:PackIcon Kind="FormatListText" Width="24" Height="24"/>
 
                     </RadioButton>
                     <RadioButton
@@ -255,7 +279,7 @@
                         Click="StatusTestButton_OnClick"
                         >
 
-                        <materialDesign:PackIcon Kind="Timelapse" Width="32" Height="32"/>
+                        <materialDesign:PackIcon Kind="Timelapse" Width="24" Height="24"/>
 
                     </RadioButton>
 

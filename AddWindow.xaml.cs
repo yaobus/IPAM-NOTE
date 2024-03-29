@@ -129,6 +129,8 @@ namespace IPAM_NOTE
 								//装载初始化数据
 								InitializedData(tableName);
 
+
+								this.DialogResult = true;
 								this.Close();
 
 
@@ -165,6 +167,8 @@ namespace IPAM_NOTE
 							//装载初始化数据
 							InitializedData(tableName);
 
+
+							this.DialogResult = true;
 							this.Close();
 
 
