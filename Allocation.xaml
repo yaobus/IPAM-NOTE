@@ -10,6 +10,7 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         ResizeMode="NoResize"
+        FontFamily="SimHei"
         mc:Ignorable="d"
         Title="分配地址" 
         Style="{DynamicResource MaterialDesignWindow}"
@@ -19,6 +20,8 @@
         Loaded="Allocation_OnLoaded"
         Closing="Allocation_OnClosing"
         >
+
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -123,6 +126,7 @@
                             <Button
                                 x:Name="StatusPing"
                                 Click="StatusPing_OnClick"
+                                ToolTip="尝试获取主机名和MAC地址" 
                                 Style="{DynamicResource MaterialDesignToolButton}"
                                 Grid.Column="4">
                                 <materialDesign:PackIcon
@@ -133,6 +137,7 @@
                             <Button
                                 x:Name="CopyHostInfo"
                                 Click="CopyHostInfo_OnClick"
+                                ToolTip="提取获取到的主机名和MAC地址" 
                                 Style="{DynamicResource MaterialDesignToolButton}"
                                 Grid.Column="5">
                                 <materialDesign:PackIcon

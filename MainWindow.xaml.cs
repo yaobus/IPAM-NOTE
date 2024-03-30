@@ -277,6 +277,7 @@ namespace IPAM_NOTE
 			listView.ItemsSource = DataBrige.ipAddressInfos;
 			listView.SelectionChanged += ListView_SelectionChanged;
 			listView.MouseDoubleClick += ListView_MouseDoubleClick;
+			
 
 
 
@@ -287,7 +288,6 @@ namespace IPAM_NOTE
 			GraphicsPlan.Children.Add(scrollViewer);
 
 		}
-
 
 		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
@@ -685,7 +685,7 @@ namespace IPAM_NOTE
 						break;
 
 					case 1:
-						colorBrush = Brushes.LightSeaGreen;
+						colorBrush = Brushes.DarkCyan;
 						description = "类型：可选IP地址" + "\r当前在线主机：" + ipAddressInfos[i].HostName + "\rMAC：" +
 						              ipAddressInfos[i].MacAddress;
 
@@ -700,7 +700,7 @@ namespace IPAM_NOTE
 						break;
 
 					case 3:
-						colorBrush = Brushes.DarkViolet;
+						colorBrush = Brushes.DarkMagenta;
 						description = "类型：广播IP地址";
 
 						break;
@@ -729,7 +729,8 @@ namespace IPAM_NOTE
 					Content = ipAddressInfos[i].Address,
 					ToolTip = description,
 					Tag = i.ToString(),
-					Style = (Style)this.FindResource("MaterialDesignRaisedButton"),
+					Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+					BorderThickness = new Thickness(0),
 					Margin = new Thickness(5),
 
 				};

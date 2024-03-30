@@ -9,6 +9,7 @@
         Foreground="{DynamicResource MaterialDesignDarkForeground}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
+        FontFamily="SimHei"
         ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="数据导入向导" 
@@ -136,7 +137,7 @@
                         >
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                             <materialDesign:PackIcon 
-                                Kind="SearchExpand" 
+                                Kind="Search" 
                                 VerticalAlignment="Center"
                                 Height="32"
                                 Width="32"

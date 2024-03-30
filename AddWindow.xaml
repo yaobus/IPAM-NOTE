@@ -9,6 +9,7 @@
         Foreground="{DynamicResource MaterialDesignDarkForeground}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
+        FontFamily="SimHei"
         ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="" 
