@@ -1097,7 +1097,9 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private async void StatusTestButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			Bar.Visibility = Visibility.Visible;
+			
+			ButtonProgressAssist.SetIsIndeterminate(StatusTestButton, true);
+			
 
 			IPInfo[] results = await Task.Run(() => StartPingAndGetResults());
 
@@ -1116,8 +1118,8 @@ namespace IPAM_NOTE
 				DataBrige.ipAddressPingInfos[i].MacAddress = results[i].MACAddress;
 
 			}
-
-			Bar.Visibility = Visibility.Hidden;
+			ButtonProgressAssist.SetIsIndeterminate(StatusTestButton, false);
+			
 
 			if (LoadMode == 0)
 			{

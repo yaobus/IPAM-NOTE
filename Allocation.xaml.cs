@@ -21,6 +21,7 @@ using ControlzEx.Standard;
 using static IPAM_NOTE.ViewMode;
 using Button = System.Web.UI.WebControls.Button;
 using System.Runtime.InteropServices;
+using MaterialDesignThemes.Wpf;
 
 namespace IPAM_NOTE
 {
@@ -447,7 +448,7 @@ namespace IPAM_NOTE
 		private async void StatusPing_OnClick(object sender, RoutedEventArgs e)
 		{
 
-
+			ButtonProgressAssist.SetIsIndeterminate(StatusPing, true);
 
 			string ipAddress = PingAddress; // 要检测的IP地址
 			try
@@ -467,7 +468,7 @@ namespace IPAM_NOTE
 				Console.WriteLine("获取主机名失败");
 			}
 
-
+			ButtonProgressAssist.SetIsIndeterminate(StatusPing, false);
 
 		}
 

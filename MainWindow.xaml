@@ -226,7 +226,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="750"/>
+                    <ColumnDefinition Width="690"/>
 
                 </Grid.ColumnDefinitions>
 
@@ -246,7 +246,7 @@
                     >
                     <RadioButton
                         x:Name="GraphicsButton"
-                        Margin="4"
+                        Margin="0"
                         IsChecked="True"
                         Click="GraphicsButton_OnClick"
                         ToolTip="以图形方式显示所选网段地址"
@@ -258,7 +258,7 @@
                     </RadioButton>
                     <RadioButton
                         x:Name="ListButton"
-                        Margin="4"
+                        Margin="0"
                         IsChecked="False"
                         Click="ListButton_OnClick"
                         ToolTip="以列表方式显示所选网段地址"
@@ -269,21 +269,35 @@
                         <materialDesign:PackIcon Kind="FormatListText" Width="24" Height="24"/>
 
                     </RadioButton>
-                    <RadioButton
+
+
+                    <Button
                         x:Name="StatusTestButton"
-                        Margin="4"
-                        IsChecked="False"
-                        ToolTip="检测所选网段地址在线状态"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" 
+                        Margin="20,5,5,5"
+                        Width="24"
+                        Height="24"
                         Click="StatusTestButton_OnClick"
-                        >
-
-                        <materialDesign:PackIcon Kind="Timelapse" Width="24" Height="24"/>
-
-                    </RadioButton>
+                        ToolTip="检测所选网段地址在线状态"
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="False"
+                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                        materialDesign:ButtonProgressAssist.Value="-1"
+                        Content="{materialDesign:PackIcon Radar}"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Style="{StaticResource MaterialDesignFloatingActionButton}" />
 
                 </StackPanel>
+
+
+                    <ToggleButton
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
+                        x:Name="Multiple"
+                        Margin="5"
+                        IsChecked="False"
+                        materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=HexagonMultipleOutline}"
+                        Content="{materialDesign:PackIcon Kind=HexagonOutline}"
+                        Style="{StaticResource MaterialDesignActionToggleButton}"
+                        ToolTip="单选/多选" />
 
 
 
@@ -294,9 +308,6 @@
                     Orientation="Horizontal"
                     materialDesign:HintAssist.Hint="被搜索网段"
                     >
-
-
-
 
                     <ComboBox
                         Margin="5"
@@ -367,19 +378,19 @@
 
                     </StackPanel>
 
+
+
                     <ToggleButton
                         x:Name="Accurate"
                         Margin="5"
                         IsChecked="False"
+                        materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=Equal}"
+                        Content="{materialDesign:PackIcon Kind=ApproximatelyEqual}"
                         Style="{StaticResource MaterialDesignActionToggleButton}"
-                        ToolTip="启用精确搜索？" >
+                        ToolTip="模糊/精确" />
 
-                        <materialDesign:PackIcon
-                            Kind="ApproximatelyEqual"  Width="24" Height="24"/>
 
-                    </ToggleButton>
-
-                        <Button
+                    <Button
                         x:Name="SearchButton"
                         Click="SearchButton_OnClick"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
@@ -464,16 +475,6 @@
             Grid.Column="2"
             VerticalAlignment="Bottom"
             >
-
-
-            <ProgressBar
-                x:Name="Bar"
-                Height="5"
-                Maximum="100"
-                Visibility="Hidden"
-                Orientation="Horizontal"
-                IsIndeterminate="True" />
-
 
         </StackPanel>
         <StackPanel 

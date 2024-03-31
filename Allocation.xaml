@@ -52,7 +52,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
                         <RowDefinition Height="50" />
-                        <RowDefinition Height="30" />
+                        <RowDefinition Height="20" />
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0"
@@ -123,27 +123,40 @@
                                     Width="140"
                                     VerticalAlignment="Center" />
 
-                            <Button
-                                x:Name="StatusPing"
-                                Click="StatusPing_OnClick"
-                                ToolTip="尝试获取主机名和MAC地址" 
-                                Style="{DynamicResource MaterialDesignToolButton}"
-                                Grid.Column="4">
-                                <materialDesign:PackIcon
-                                    Kind="Timelapse"
-                                    Margin="8 0 0 0" />
-                            </Button>
+                                <Button
+                                    Grid.Column="4"
+                                    x:Name="StatusPing"
+                                    Margin="8 0 0 0" 
+                                    Width="24"
+                                    Height="24"
+                                    Click="StatusPing_OnClick"
+                                    ToolTip="尝试获取主机名和MAC地址" 
+                                    materialDesign:ButtonProgressAssist.IsIndeterminate="False"
+                                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                    materialDesign:ButtonProgressAssist.Value="-1"
+                                    Content="{materialDesign:PackIcon Radar}"
+                                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                    Style="{StaticResource MaterialDesignFloatingActionButton}" />
 
-                            <Button
-                                x:Name="CopyHostInfo"
-                                Click="CopyHostInfo_OnClick"
-                                ToolTip="提取获取到的主机名和MAC地址" 
-                                Style="{DynamicResource MaterialDesignToolButton}"
-                                Grid.Column="5">
-                                <materialDesign:PackIcon
-                                    Kind="EyedropperRemove"
-                                    Margin="8 0 0 0" />
-                            </Button>
+
+
+                                <Button
+                                    Grid.Column="5"
+                                    Width="32"
+                                    Height="32"
+                                    Margin="8 0 0 0"
+                                    x:Name="CopyHostInfo"
+                                    Click="CopyHostInfo_OnClick"
+                                    ToolTip="提取获取到的主机名和MAC地址" 
+                                    Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                    Style="{StaticResource MaterialDesignIconButton}"
+                                   >
+                                    <materialDesign:PackIcon
+                                        Kind="EyedropperRemove" Width="24" Height="24"/>
+                                </Button>
+
+  
 
                         </Grid>
 
