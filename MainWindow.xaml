@@ -554,7 +554,7 @@
 
             <TextBox
                 x:Name="Network"
-                Width="160"
+                Width="140"
                 Margin="5,0,5,10"
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.Hint="当前网络"
@@ -564,7 +564,7 @@
             <TextBox
                 x:Name="MaskText"
                 Margin="5,0,5,10"
-                Width="160"
+                Width="140"
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.Hint="子网掩码"
                 IsEnabled="False"
@@ -574,7 +574,7 @@
             <TextBox
                 x:Name="First"
                 Margin="5,0,5,10"
-                Width="160"
+                Width="140"
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.Hint="第一个可用IP"
                 IsEnabled="False"
@@ -585,7 +585,7 @@
             <TextBox
                 x:Name="Last"
                 Margin="5,0,5,10"
-                Width="160"
+                Width="140"
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.Hint="最后一个可用IP"
                 IsEnabled="False"
@@ -594,7 +594,7 @@
             <TextBox
                 x:Name="Broadcast"
                 Margin="5,0,5,10"
-                Width="160"
+                Width="140"
                 VerticalAlignment="Center"
                 materialDesign:HintAssist.Hint="广播地址"
                 IsEnabled="False"
