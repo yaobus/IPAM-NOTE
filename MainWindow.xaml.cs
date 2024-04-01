@@ -207,7 +207,9 @@ namespace IPAM_NOTE
 		private void ListButton_OnClick(object sender, RoutedEventArgs e)
 		{
 			LoadMode = 1;
-			//AddressListView_OnSelectionChanged(null, null);
+
+			DataBrige.SelectMode = 0;//单选多选状态清空
+									
 			ListLoad();
 		}
 
@@ -477,6 +479,9 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void AddressListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			DataBrige.SelectMode = 0;//单选多选状态清空
+			DataBrige.SelectedIpaddress.Clear();//多选地址列表清空
+
 			DataBrige.ipAddressPingInfos.Clear();
 			DataBrige.LoadType = 0;
 			DataBrige.SearchType = 1;
@@ -843,142 +848,144 @@ namespace IPAM_NOTE
 		{
 			if (sender is Button button)
 			{
-				#region MyRegion
-
-
-
-
-				//int tag = Convert.ToInt32(button.Tag);
-
-
-
-				//if (tag == 2)
-				//{
-				//	string text = button.Content.ToString();
-
-				//	if (button.Background == Brushes.LimeGreen)
-				//	{
-				//		//紫色代表被选中
-				//		button.Background = Brushes.BlueViolet;
-
-				//		Button bt = new Button();
-
-
-				//		string name = "bt" + button.Content;
-
-				//		bt.Content = button.Content;
-				//		bt.Background = button.Background;
-				//		bt.Height = button.Height;
-				//		bt.Width = button.Width;
-				//		bt.Margin = button.Margin;
-				//		bt.Style = (Style)this.FindResource("StaticResource MaterialDesignFlatAccentBgButton");
-				//		//IpSelectPanel.Children.Add(bt);
-				//		//IpSelectPanel.RegisterName(name, bt);
-
-
-				//	}
-				//	else
-				//	{
-				//		//绿色代表未被选中
-				//		button.Background = Brushes.LimeGreen;
-
-				//		//Button bt = IpSelectPanel.FindName("bt" + button.Content.ToString()) as Button;
-
-				//		//if (bt != null)
-				//		//{
-				//			//IpSelectPanel.Children.Remove(bt);
-				//			//IpSelectPanel.UnregisterName("bt" + button.Content.ToString());
-				//		//}
-
-				//	}
-
-				//}
-
-				//统计已选择IP数量
-				//SelectIpNum.Text = CountIp().ToString();
-
-				#endregion
-
 				DataBrige.SelectButtonTag = Convert.ToInt32(button.Tag);
 
 				IpAddressInfo ipAddressInfo = DataBrige.ipAddressInfos[DataBrige.SelectButtonTag] as IpAddressInfo;
 
-
-
 				int ip = ipAddressInfo.Address;
 
-
-
-				//try
-				//{
-
-				//	//计算广播IP
-				//	string[] parts = Broadcast.Text.Split('.');
-				//	int broadcast = Convert.ToInt32(parts[3]);
-
-				//}
-				//catch (Exception exception)
-				//{
-				//	Console.WriteLine(exception);
-					
-				//}
-
-
-
-				////计算网段IP
-
-				//string networkText = Network.Text;
-
-				//string[] parts2;
-
-				//if (networkText.IndexOf("*") != -1)
-				//{
-
-				//	parts2 =networkText.Replace("*","1").Split('.');
-				//}
-				//else
-				//{
-				//	parts2 = Network.Text.Split('.');
-				//}
-
-				
-				//int firstIp = Convert.ToInt32(parts2[3]);
-
-
-
-
-
-				if (ip != DataBrige.ipAddressInfos[0].Address && ip != DataBrige.ipAddressInfos[DataBrige.ipAddressInfos.Count-1].Address)
+				if (MultipleSelect.IsChecked == false)//如果是单选
 				{
-					DataBrige.SelectIp = ip.ToString();
-					DataBrige.SelectIndex = Convert.ToInt32(button.Tag);
-					Console.WriteLine("DataBrige.SelectIndex=" + DataBrige.SelectIndex);
-					DataBrige.IpAddress.HostName = ipAddressInfo.HostName;
-					DataBrige.IpAddress.MacAddress = ipAddressInfo.MacAddress;
+
+					//DataBrige.SelectButtonTag = Convert.ToInt32(button.Tag);
+
+					//IpAddressInfo ipAddressInfo = DataBrige.ipAddressInfos[DataBrige.SelectButtonTag] as IpAddressInfo;
+
+					//int ip = ipAddressInfo.Address;
+
+					if (ip != DataBrige.ipAddressInfos[0].Address && ip != DataBrige.ipAddressInfos[DataBrige.ipAddressInfos.Count - 1].Address)
+					{
+						DataBrige.SelectIp = ip.ToString();
+						DataBrige.SelectIndex = Convert.ToInt32(button.Tag);
+						Console.WriteLine("DataBrige.SelectIndex=" + DataBrige.SelectIndex);
+						DataBrige.IpAddress.HostName = ipAddressInfo.HostName;
+						DataBrige.IpAddress.MacAddress = ipAddressInfo.MacAddress;
 
 
+						Window allocation = new Allocation();
 
+						if (allocation.ShowDialog() == true)
+						{
 
-					Window allocation = new Allocation();
+							if (LoadMode == 0)
+							{
+								WriteAddressConfig(DataBrige.ipAddressInfos);
+							}
+							else
+							{
+								ListLoad();
 
-					if (allocation.ShowDialog() == true)
+							}
+						}
+					}
+
+				}
+				else//如果是多选
+				{
+
+					if (ip != DataBrige.ipAddressInfos[0].Address && ip != DataBrige.ipAddressInfos[DataBrige.ipAddressInfos.Count - 1].Address)
 					{
 
-						if (LoadMode == 0)
+						if (DataBrige.SelectMode == 0)//初次选择
 						{
-							WriteAddressConfig(DataBrige.ipAddressInfos);
+							if (ipAddressInfo.AddressStatus == 1)//准备分配地址
+							{
+								DataBrige.SelectMode = 1;
+								button.Background = Brushes.DarkGreen;
+
+
+
+
+							}
+							else//准备释放地址
+							{
+								DataBrige.SelectMode = 2;
+								button.Background = Brushes.DarkRed;
+
+
+							}
+							DataBrige.SelectedIpaddress.Add(ipAddressInfo.Address);//添加第一个地址到列表
+						}
+						else//再次选择
+						{
+							if (ipAddressInfo.AddressStatus == DataBrige.SelectMode && ipAddressInfo.AddressStatus == 1)//准备分配地址
+							{
+
+								//地址不存在则添加
+								if (!DataBrige.SelectedIpaddress.Contains(ipAddressInfo.Address))
+								{
+									DataBrige.SelectedIpaddress.Add(ipAddressInfo.Address);
+									button.Background = Brushes.DarkGreen;
+								}
+								else//地址已存在，则删除
+								{
+									DataBrige.SelectedIpaddress.Remove(ipAddressInfo.Address);
+									button.Background = Brushes.DarkCyan;
+								}
+
+
+
+							}
+							else
+							{
+								if (ipAddressInfo.AddressStatus == DataBrige.SelectMode && ipAddressInfo.AddressStatus == 2)//准备释放地址
+								{
+
+									//地址不存在则添加
+									if (!DataBrige.SelectedIpaddress.Contains(ipAddressInfo.Address))
+									{
+										DataBrige.SelectedIpaddress.Add(ipAddressInfo.Address);
+										button.Background = Brushes.DarkRed;
+									}
+									else//地址已存在，则删除
+									{
+										DataBrige.SelectedIpaddress.Remove(ipAddressInfo.Address);
+										button.Background = Brushes.Coral;
+
+									}
+
+								}
+
+							}
+
+
+
+						}
+
+
+						if (DataBrige.SelectedIpaddress.Count > 0)
+						{
+							MultipleSelectStatus.Visibility = Visibility.Visible;
+							//GraphicsPlan.Height = GraphicsPlan.Height - 30;
+							CountBox.Text = DataBrige.SelectedIpaddress.Count.ToString();
 						}
 						else
 						{
-							ListLoad();
+							MultipleSelectStatus.Visibility = Visibility.Collapsed;
+							//GraphicsPlan.Height = GraphicsPlan.Height + 30;
+							DataBrige.SelectMode = 0;
 
 						}
+
+
+
+
+
+
+
+
 					}
 				}
-
-
-
-
 
 
 
@@ -1508,6 +1515,9 @@ namespace IPAM_NOTE
 		{
 			//清空PING结果
 			DataBrige.ipAddressPingInfos.Clear();
+
+			//单选多选状态清空
+			DataBrige.SelectMode = 0;
 
 			//启用清空搜索按钮
 			SearchClear.IsEnabled = true;
@@ -2339,6 +2349,23 @@ namespace IPAM_NOTE
 			}
 
 			LoadNetworkInfoSort(dbClass.connection, query);
+		}
+
+
+		private void MultipleSelect_Click(object sender, RoutedEventArgs e)
+		{
+			DataBrige.SelectMode = 0;
+			DataBrige.SelectedIpaddress.Clear();
+
+			if (LoadMode == 0)
+			{
+				WriteAddressConfig(DataBrige.ipAddressInfos);
+			}
+			else
+			{
+				ListLoad();
+
+			}
 		}
 	}
 }

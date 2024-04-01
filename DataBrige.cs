@@ -84,6 +84,16 @@ namespace IPAM_NOTE
 		/// </summary>
 		public static List<ViewMode.SearchInfo> searchInfos = new List<SearchInfo>();
 
+		
+		/// <summary>
+		/// 分配或者释放模式，0为未选择状态、1为选择未分配地址准备分配，2为选择已分配地址准备释放
+		/// </summary>
+		public static int SelectMode = 0;
 
+
+		/// <summary>
+		/// 多选模式下一并被选择的IP
+		/// </summary>
+		public static List<int>SelectedIpaddress = new List<int>();
 	}
 }
