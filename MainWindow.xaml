@@ -491,9 +491,6 @@
                     >
                     <TextBlock
                         
-                         VerticalAlignment="Center"
-                         Grid.Column="0"
-                         Margin="0" Text="已选IP地址数量:"/>
 
                     <TextBox
                          x:Name="CountBox"
