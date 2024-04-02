@@ -20,6 +20,21 @@ namespace IPAM_NOTE
 		public static List<IpAddressInfo> IpAddressInfos = new List<IpAddressInfo>();
 
 		/// <summary>
+		/// 当前软件版本号
+		/// </summary>
+		public static double Ver= 1.10;
+
+		/// <summary>
+		/// 最新版本号
+		/// </summary>
+		public static double LatestVersion = 0;
+
+		/// <summary>
+		/// 最新下载地址
+		/// </summary>
+		public static String DownloadUrl = "";
+
+		/// <summary>
 		/// 0为新建网段，1为编辑网段
 		/// </summary>
 		public static int AddStatus = 0;

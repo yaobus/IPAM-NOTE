@@ -1,4 +1,5 @@
-﻿using IPAM_NOTE.DatabaseOperation;
+﻿using ControlzEx.Standard;
+using IPAM_NOTE.DatabaseOperation;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using OfficeOpenXml;
@@ -19,6 +20,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows;
@@ -58,6 +60,7 @@ namespace IPAM_NOTE
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
+			CheckVer();
 
 			AddressListView.ItemsSource = AddressInfos;
 
@@ -88,12 +91,53 @@ namespace IPAM_NOTE
 
 		}
 
-		private float GetVer()
+
+		private async void CheckVer()
 		{
-			string url = "http://example.com/example.txt"; // 替换成你要获取的TXT文件的URL
+
+			var versionChecker = new GitHubVersionChecker("yaobus", "IPAM-NOTE");
+			string latestVersion = await versionChecker.GetLatestVersionAsync();
+			
+
+			
+
+			// 定义匹配版本号的正则表达式
+			Regex regex = new Regex(@"\d+\.\d+");
+
+			// 在输入字符串中搜索匹配的版本号
+			Match match = regex.Match(latestVersion);
+
+			// 如果找到匹配的版本号，则输出
+			if (match.Success)
+			{
+				double version = Convert.ToDouble( match.Value);
+
+				if (version > DataBrige.Ver)
+				{
+					
+					//发现新版本则闪烁提示
+					ButtonProgressAssist.SetIsIndeterminate(AboutButton, true);
+					AboutButton.ToolTip = "发现新版本:"+ latestVersion;
+					DataBrige.LatestVersion = version;
+
+					//获取下载地址
+					DataBrige.DownloadUrl = await versionChecker.GetDownloadUrlAsync();
+				}
+				else
+				{
+					ButtonProgressAssist.SetIsIndeterminate(AboutButton, false);
+					DataBrige.LatestVersion = 0;
+
+					//清空下载地址
+					DataBrige.DownloadUrl = "";
+				}
+
+			}
+
+
+
 
 		}
-
 
 
 		/// <summary>

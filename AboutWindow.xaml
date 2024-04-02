@@ -58,10 +58,50 @@
                             Text="软件名称：IPAM-NOTE" />
 
                         <TextBlock
+                            x:Name="NowVer"
                             Margin="0,10"
                             FontSize="16"
+                            MouseDown="NowVer_MouseDown"
                             Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="软件版本号：Ver1.10-Beta" />
+                            Text="" />
+
+                        <StackPanel
+                            x:Name="NewVerPlan"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Visibility="Visible"
+                            >
+                            <TextBlock
+                                 x:Name="NewVer"
+                                Margin="0,0,10,0"
+                                FontSize="16"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                Text="" />
+
+                            <Button
+                                x:Name="GithubDownloadButton"
+                              Height="24"
+                              Margin="10,0,10,0"
+                                Click="GithubDownloadButton_Click"
+                              Style="{StaticResource MaterialDesignOutlinedButton}"
+                              ToolTip="点击从Github下载"
+                              Content="Github下载" />
+
+                            <Button
+                                 x:Name="LanzouDownloadButton"
+                              Height="24"  
+                                Margin="10,0,10,0"
+                                Click="LanzouDownloadButton_Click"  
+                              Style="{StaticResource MaterialDesignOutlinedButton}"
+                              ToolTip="点击从蓝奏云下载"
+                              Content="蓝奏云下载" />
+
+                        </StackPanel>
+                        
+                        
+                        
+
 
                         <TextBlock
                             FontSize="16"
@@ -433,7 +473,7 @@
                                 Kind="HandHeartOutline" />
                             <TextBlock
                                 HorizontalAlignment="Center"
-                                Text="鸣谢" />
+                                Text="特别鸣谢" />
                         </StackPanel>
                     </TabItem.Header>
                     <StackPanel
@@ -443,56 +483,23 @@
                         >
                         <TextBlock
                             Margin="0,8,0,8"
-                            FontSize="16"
-                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="感谢以下给予我开发思路和支持的朋友" />
+                            FontSize="24"
+                            
+                            Text="感谢！" />
 
-                        <TextBlock
-                            Margin="0,8,0,8"
-                           FontSize="16"
-                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="感谢你们的意见和建议，才能使IPAM-NOTE这个小众软件的功能日益完善" />
+                       
 
                         <TextBox
                             Margin="0,8,0,8"
                             IsEnabled="False"
-                            Text="52破解论坛用户：waishr,liyuhuimuzi"
+                            FontSize="16"
+                        
                             >
-
-
-
-                        </TextBox>
-
-                        <TextBlock
-                            Margin="0,8,0,8"
-                            FontSize="16"
-                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="感谢你们的慷慨捐赠，让我本来是闲暇时间开发着玩的事情变得有点像在上班" />
-
-                        <TextBox
-                            Margin="0,8,0,8"
-                            IsEnabled="False"
-                            Text="52破解论坛用户：waishr"
-                            >
-
-
+                            感谢waishr提出的多项改进建议和支持
+                            
 
                         </TextBox>
 
-                        <TextBlock
-                            Margin="0,8,0,8"
-                            FontSize="16"
-                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="感谢持有以下工具的公司能让我白嫖" />
-
-                        <TextBox
-                            Margin="0,8,0,8"
-                            IsEnabled="False"
-                        >
-
-
-
-                        </TextBox>
 
                     </StackPanel>
                 </TabItem>

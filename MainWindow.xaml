@@ -195,27 +195,27 @@
 
             </Button>
 
-            <materialDesign:Badged
-                x:Name="VerStatus"
-                Badge="{materialDesign:PackIcon Kind=AlertDecagram}"
-                BadgeColorZoneMode="SecondaryMid">
+
                 <Button
-                x:Name="AboutButton"
-                Margin="10,0"
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="更多功能"
-                VerticalAlignment="Center"
-                materialDesign:ButtonAssist.CornerRadius="15"
-                Click="AboutButton_OnClick"
-                >
+                    x:Name="AboutButton"
+                    Margin="10,0"
+                    Style="{StaticResource MaterialDesignOutlinedButton}" 
+                    ToolTip="更多功能"
+                    VerticalAlignment="Center"
+                    materialDesign:ButtonAssist.CornerRadius="15"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="False"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Click="AboutButton_OnClick"
+                    >
 
                     <materialDesign:PackIcon Kind="MoreCircle" Width="24" Height="24"/>
 
                 </Button>
-            </materialDesign:Badged>
 
 
-
+            
 
 
 
