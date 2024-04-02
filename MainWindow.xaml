@@ -195,7 +195,11 @@
 
             </Button>
 
-            <Button
+            <materialDesign:Badged
+                x:Name="VerStatus"
+                Badge="{materialDesign:PackIcon Kind=AlertDecagram}"
+                BadgeColorZoneMode="SecondaryMid">
+                <Button
                 x:Name="AboutButton"
                 Margin="10,0"
                 Style="{StaticResource MaterialDesignOutlinedButton}"
@@ -205,9 +209,12 @@
                 Click="AboutButton_OnClick"
                 >
 
-                <materialDesign:PackIcon Kind="MoreCircle" Width="24" Height="24"/>
+                    <materialDesign:PackIcon Kind="MoreCircle" Width="24" Height="24"/>
 
-            </Button>
+                </Button>
+            </materialDesign:Badged>
+
+
 
 
 
@@ -457,22 +464,34 @@
         </materialDesign:ColorZone>
 
 
+        <ScrollViewer 
+            Grid.Column="2"
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+
+            <WrapPanel  
+                Margin="5"
+
+                x:Name="Graphics"
+           
+                >
+
+
+            </WrapPanel>
+        </ScrollViewer>
 
 
         <WrapPanel  
             Margin="5"
             Grid.Column="2"
             Grid.Row="1"
-           x:Name="GraphicsPlan"
+            x:Name="GraphicsPlan"
            
-            >
+                >
 
 
         </WrapPanel>
-
-
-
-
 
 
 

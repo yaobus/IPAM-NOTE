@@ -9,6 +9,7 @@
         Foreground="{DynamicResource MaterialDesignDarkForeground}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
+        FontFamily="SimHei"
         ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="IPAM-NOTE 帮助和数据库备份" 
@@ -60,7 +61,7 @@
                             Margin="0,10"
                             FontSize="16"
                             Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                            Text="软件版本号：Ver1.09-Beta" />
+                            Text="软件版本号：Ver1.10-Beta" />
 
                         <TextBlock
                             FontSize="16"
@@ -442,16 +443,20 @@
                         >
                         <TextBlock
                             Margin="0,8,0,8"
-                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                             Text="感谢以下给予我开发思路和支持的朋友" />
 
                         <TextBlock
                             Margin="0,8,0,8"
-                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                           FontSize="16"
+                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                             Text="感谢你们的意见和建议，才能使IPAM-NOTE这个小众软件的功能日益完善" />
 
                         <TextBox
                             Margin="0,8,0,8"
+                            IsEnabled="False"
+                            Text="52破解论坛用户：waishr,liyuhuimuzi"
                             >
 
 
@@ -460,12 +465,15 @@
 
                         <TextBlock
                             Margin="0,8,0,8"
-                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                             Text="感谢你们的慷慨捐赠，让我本来是闲暇时间开发着玩的事情变得有点像在上班" />
 
                         <TextBox
                             Margin="0,8,0,8"
-                        >
+                            IsEnabled="False"
+                            Text="52破解论坛用户：waishr"
+                            >
 
 
 
@@ -473,11 +481,13 @@
 
                         <TextBlock
                             Margin="0,8,0,8"
-                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            FontSize="16"
+                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                             Text="感谢持有以下工具的公司能让我白嫖" />
 
                         <TextBox
                             Margin="0,8,0,8"
+                            IsEnabled="False"
                         >
 
 

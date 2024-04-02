@@ -88,6 +88,14 @@ namespace IPAM_NOTE
 
 		}
 
+		private float GetVer()
+		{
+			string url = "http://example.com/example.txt"; // 替换成你要获取的TXT文件的URL
+
+		}
+
+
+
 		/// <summary>
 		/// 设置窗口显示方式，分辨率小于1080P就全屏显示，否则居中显示
 		/// </summary>
@@ -193,8 +201,6 @@ namespace IPAM_NOTE
 		{
 			LoadMode = 0;
 
-			//AddressListView_OnSelectionChanged(null,null);
-
 			WriteAddressConfig(DataBrige.ipAddressInfos);
 		}
 
@@ -229,8 +235,11 @@ namespace IPAM_NOTE
 			MultipleSelect.IsChecked=false;
 
 
+
+
 			//清空图表
 			GraphicsPlan.Children.Clear();
+			Graphics.Children.Clear();
 
 			// 创建一个 ListView
 			ListView listView = new ListView();
@@ -287,7 +296,7 @@ namespace IPAM_NOTE
 			listView.ItemsSource = DataBrige.ipAddressInfos;
 			listView.SelectionChanged += ListView_SelectionChanged;
 			listView.MouseDoubleClick += ListView_MouseDoubleClick;
-			
+
 
 
 
@@ -298,6 +307,8 @@ namespace IPAM_NOTE
 			GraphicsPlan.Children.Add(scrollViewer);
 
 		}
+
+
 
 		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
@@ -673,6 +684,7 @@ namespace IPAM_NOTE
 		private void WriteAddressConfig(List<IpAddressInfo> ipAddressInfos)
 		{
 			GraphicsPlan.Children.Clear();
+			Graphics.Children.Clear();
 
 			MultipleSelect.IsEnabled = true;
 			DataBrige.SelectMode = 0;
@@ -758,104 +770,19 @@ namespace IPAM_NOTE
 
 
 				newButton.Click += NewButton_Click;
-				;
+				
 
 
 
 
 
 				//显示到图形化区域
-				GraphicsPlan.Children.Add(newButton);
+				Graphics.Children.Add(newButton);
 
 			}
 
 
 
-			#region Backup
-
-			//int x = ipAddressInfos.Count;
-
-			//for (int i = 0; i < x; i++)
-			//{
-			//	//bool status = false;
-
-			//	string description = null;
-			//	Brush colorBrush = null;
-			//	int status = ipAddressInfos[i].AddressStatus;
-
-			//	Brush fontBrush = null;
-
-
-			//	IPStatus pingStatus = ipAddressInfos[i].PingStatus;
-
-			//	switch (status)
-			//	{
-			//		case 0:
-			//			colorBrush = Brushes.DimGray;
-			//			description = "类型：网段IP地址";
-
-			//			break;
-
-			//		case 1:
-			//			colorBrush = Brushes.LightSeaGreen;
-			//			description = "类型：可选IP地址" + "\r当前在线主机：" + ipAddressInfos[i].HostName + "\rMAC：" +
-			//			              ipAddressInfos[i].MacAddress;
-
-			//			break;
-
-			//		case 2:
-			//			colorBrush = Brushes.Coral;
-			//			description = "类型：已用IP地址\r分配：" + ipAddressInfos[i].User + "\r备注：" +
-			//			              ipAddressInfos[i].Description + "\r当前在线主机：" + ipAddressInfos[i].HostName +
-			//			              "\rMAC：" + ipAddressInfos[i].MacAddress;
-
-			//			break;
-
-			//	}
-
-
-			//	if (pingStatus == IPStatus.Success)
-			//	{
-			//		fontBrush = Brushes.Red;
-
-			//	}
-			//	else
-			//	{
-			//		fontBrush = Brushes.AliceBlue;
-
-			//	}
-
-
-			//	Button newButton = new Button()
-			//	{
-			//		Width = 60,
-			//		Height = 30,
-			//		Background = colorBrush,
-			//		Foreground = fontBrush,
-			//		FontWeight = FontWeights.Bold,
-			//		Content = ipAddressInfos[i].Address,
-			//		ToolTip = description,
-			//		Tag = i.ToString(),
-			//		Style = (Style)this.FindResource("MaterialDesignRaisedButton"),
-			//		Margin = new Thickness(5),
-
-			//	};
-
-
-
-			//	newButton.Click += NewButton_Click;
-			//	;
-
-
-
-
-
-			//	//显示到图形化区域
-			//	GraphicsPlan.Children.Add(newButton);
-
-			//}
-
-			#endregion
 		}
 
 
@@ -1578,6 +1505,7 @@ namespace IPAM_NOTE
 
 				//清空图表
 				GraphicsPlan.Children.Clear();
+				Graphics.Children.Clear();
 
 				// 创建一个 ListView
 				ListView listView = new ListView();
