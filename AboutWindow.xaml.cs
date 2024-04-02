@@ -65,7 +65,7 @@ namespace IPAM_NOTE
 			if (DataBrige.LatestVersion != 0)
 			{
 				NewVerPlan.Visibility= Visibility.Visible;
-				NewVer.Text = "版本号:V" + Convert.ToString(DataBrige.LatestVersion) + "-Beta";
+				NewVer.Text = "最新版:V" + Convert.ToString(DataBrige.LatestVersion) + "-Beta";
 				NewVer.Foreground = Brushes.DarkOrange;
 			}
 			else
