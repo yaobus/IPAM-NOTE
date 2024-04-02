@@ -207,6 +207,7 @@ namespace IPAM_NOTE
 		private void ListButton_OnClick(object sender, RoutedEventArgs e)
 		{
 			LoadMode = 1;
+			PingNumBox.Visibility = Visibility.Hidden;
 
 			DataBrige.SelectMode = 0;//单选多选状态清空
 									
@@ -220,6 +221,13 @@ namespace IPAM_NOTE
 		/// <param name="selectIndex"></param>
 		private void ListLoad(int selectIndex = 0)
 		{
+			//禁用多选模式
+			MultipleSelect.IsEnabled=false;
+			DataBrige.SelectMode = 0;
+			DataBrige.SelectedIpAddress.Clear();
+			MultipleSelectStatus.Visibility = Visibility.Hidden;
+			MultipleSelect.IsChecked=false;
+
 
 			//清空图表
 			GraphicsPlan.Children.Clear();
@@ -480,7 +488,9 @@ namespace IPAM_NOTE
 		private void AddressListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			DataBrige.SelectMode = 0;//单选多选状态清空
-			DataBrige.SelectedIpaddress.Clear();//多选地址列表清空
+			DataBrige.SelectedIpAddress.Clear();//多选地址列表清空
+
+			PingNumBox.Visibility = Visibility.Hidden;//隐藏PING统计
 
 			DataBrige.ipAddressPingInfos.Clear();
 			DataBrige.LoadType = 0;
@@ -663,6 +673,11 @@ namespace IPAM_NOTE
 		private void WriteAddressConfig(List<IpAddressInfo> ipAddressInfos)
 		{
 			GraphicsPlan.Children.Clear();
+
+			MultipleSelect.IsEnabled = true;
+			DataBrige.SelectMode = 0;
+			DataBrige.SelectedIpAddress.Clear();
+			
 
 			int x = ipAddressInfos.Count;
 
@@ -876,6 +891,9 @@ namespace IPAM_NOTE
 
 						if (allocation.ShowDialog() == true)
 						{
+							DataBrige.SelectMode = 0;
+
+							MultipleSelectStatus.Visibility = Visibility.Hidden;//隐藏多选按钮
 
 							if (LoadMode == 0)
 							{
@@ -896,13 +914,14 @@ namespace IPAM_NOTE
 					if (ip != DataBrige.ipAddressInfos[0].Address && ip != DataBrige.ipAddressInfos[DataBrige.ipAddressInfos.Count - 1].Address)
 					{
 
+
 						if (DataBrige.SelectMode == 0)//初次选择
 						{
 							if (ipAddressInfo.AddressStatus == 1)//准备分配地址
 							{
 								DataBrige.SelectMode = 1;
 								button.Background = Brushes.DarkGreen;
-
+								Icon.Kind = PackIconKind.CogOutline;
 
 
 
@@ -911,10 +930,10 @@ namespace IPAM_NOTE
 							{
 								DataBrige.SelectMode = 2;
 								button.Background = Brushes.DarkRed;
-
+								Icon.Kind = PackIconKind.CogCounterclockwise;
 
 							}
-							DataBrige.SelectedIpaddress.Add(ipAddressInfo.Address);//添加第一个地址到列表
+							DataBrige.SelectedIpAddress.Add(ipAddressInfo.Address);//添加第一个地址到列表
 						}
 						else//再次选择
 						{
@@ -922,14 +941,14 @@ namespace IPAM_NOTE
 							{
 
 								//地址不存在则添加
-								if (!DataBrige.SelectedIpaddress.Contains(ipAddressInfo.Address))
+								if (!DataBrige.SelectedIpAddress.Contains(ipAddressInfo.Address))
 								{
-									DataBrige.SelectedIpaddress.Add(ipAddressInfo.Address);
+									DataBrige.SelectedIpAddress.Add(ipAddressInfo.Address);
 									button.Background = Brushes.DarkGreen;
 								}
 								else//地址已存在，则删除
 								{
-									DataBrige.SelectedIpaddress.Remove(ipAddressInfo.Address);
+									DataBrige.SelectedIpAddress.Remove(ipAddressInfo.Address);
 									button.Background = Brushes.DarkCyan;
 								}
 
@@ -942,14 +961,14 @@ namespace IPAM_NOTE
 								{
 
 									//地址不存在则添加
-									if (!DataBrige.SelectedIpaddress.Contains(ipAddressInfo.Address))
+									if (!DataBrige.SelectedIpAddress.Contains(ipAddressInfo.Address))
 									{
-										DataBrige.SelectedIpaddress.Add(ipAddressInfo.Address);
+										DataBrige.SelectedIpAddress.Add(ipAddressInfo.Address);
 										button.Background = Brushes.DarkRed;
 									}
 									else//地址已存在，则删除
 									{
-										DataBrige.SelectedIpaddress.Remove(ipAddressInfo.Address);
+										DataBrige.SelectedIpAddress.Remove(ipAddressInfo.Address);
 										button.Background = Brushes.Coral;
 
 									}
@@ -963,11 +982,11 @@ namespace IPAM_NOTE
 						}
 
 
-						if (DataBrige.SelectedIpaddress.Count > 0)
+						if (DataBrige.SelectedIpAddress.Count > 0)
 						{
 							MultipleSelectStatus.Visibility = Visibility.Visible;
 							//GraphicsPlan.Height = GraphicsPlan.Height - 30;
-							CountBox.Text = DataBrige.SelectedIpaddress.Count.ToString();
+							CountBox.Text = DataBrige.SelectedIpAddress.Count.ToString();
 						}
 						else
 						{
@@ -1104,8 +1123,11 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private async void StatusTestButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			
+			PingNumBox.Text = "";
+
 			ButtonProgressAssist.SetIsIndeterminate(StatusTestButton, true);
+
+
 			
 
 			IPInfo[] results = await Task.Run(() => StartPingAndGetResults());
@@ -1116,17 +1138,27 @@ namespace IPAM_NOTE
 
 			DataBrige.ipAddressPingInfos = DataBrige.ipAddressInfos;
 
+			int count = 0;//统计PING有响应的地址数量
 
 			for (int i = 0; i < DataBrige.ipAddressInfos.Count; i++)
 			{
-				DataBrige.ipAddressInfos[i].PingStatus = results[i].PingStatus;
+				IPStatus status = results[i].PingStatus;
+
+				if (status == IPStatus.Success)
+				{
+					count += 1;
+					
+				}
+
+				DataBrige.ipAddressInfos[i].PingStatus = status;
 				DataBrige.ipAddressInfos[i].PingTime = results[i].PingTime;
 				DataBrige.ipAddressPingInfos[i].HostName = results[i].HostName;
 				DataBrige.ipAddressPingInfos[i].MacAddress = results[i].MACAddress;
 
 			}
+			PingNumBox.Visibility = Visibility.Visible;
 			ButtonProgressAssist.SetIsIndeterminate(StatusTestButton, false);
-			
+			PingNumBox.Text = count.ToString();
 
 			if (LoadMode == 0)
 			{
@@ -1518,6 +1550,9 @@ namespace IPAM_NOTE
 
 			//单选多选状态清空
 			DataBrige.SelectMode = 0;
+			DataBrige.SelectedIpAddress.Clear();
+			MultipleSelectStatus.Visibility = Visibility.Hidden;
+			MultipleSelect.IsChecked = false;
 
 			//启用清空搜索按钮
 			SearchClear.IsEnabled = true;
@@ -1528,7 +1563,7 @@ namespace IPAM_NOTE
 			//启用导出按钮
 			ExportButton.IsEnabled = true;
 
-
+			PingNumBox.Visibility = Visibility.Hidden;//隐藏PING统计
 
 			//搜索后的状态
 			DataBrige.LoadType = 1;
@@ -1733,6 +1768,8 @@ namespace IPAM_NOTE
 						if (allocation.ShowDialog() == true)
 						{
 							listView.ItemsSource = null;
+							DataBrige.SelectMode = 0;
+							MultipleSelectStatus.Visibility = Visibility.Hidden;//隐藏多选按钮
 
 							if (DataBrige.SearchType == 0)
 							{
@@ -2352,10 +2389,10 @@ namespace IPAM_NOTE
 		}
 
 
-		private void MultipleSelect_Click(object sender, RoutedEventArgs e)
+		private void MultipleSelect_Click(object sender, RoutedEventArgs e)		
 		{
 			DataBrige.SelectMode = 0;
-			DataBrige.SelectedIpaddress.Clear();
+			DataBrige.SelectedIpAddress.Clear();
 
 			if (LoadMode == 0)
 			{
@@ -2366,6 +2403,59 @@ namespace IPAM_NOTE
 				ListLoad();
 
 			}
+		}
+
+
+		/// <summary>
+		/// 一键分配
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DistributionButton_OnClick(object sender, RoutedEventArgs e)
+		{
+
+			Window allocation = new Allocation();
+
+			if (allocation.ShowDialog() == true)
+			{
+				MultipleSelectStatus.Visibility = Visibility.Hidden;//隐藏多选按钮
+				DataBrige.SelectMode = 0;
+				DataBrige.SelectedIpAddress.Clear();
+
+				if (LoadMode == 0)
+				{
+					WriteAddressConfig(DataBrige.ipAddressInfos);
+				}
+				else
+				{
+					ListLoad();
+
+				}
+			}
+
+			//if (DataBrige.SelectMode == 1)//批量分配
+			//{
+			//	foreach (var ip in DataBrige.SelectedIpaddress)
+			//	{
+
+
+
+
+			//	}
+
+
+
+			//}
+			//else
+			//{
+			//	if (DataBrige.SelectMode == 2)//批量释放
+			//	{
+
+
+
+
+			//	}
+			//}
 		}
 	}
 }

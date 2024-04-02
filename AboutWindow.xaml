@@ -420,6 +420,72 @@
 
                     </StackPanel>
                 </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel
+                            Width="auto"
+                            Height="auto">
+                            <materialDesign:PackIcon
+                                Width="32"
+                                Height="32"
+                                HorizontalAlignment="Center"
+                                Kind="HandHeartOutline" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Text="鸣谢" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel
+                        Margin="16"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        >
+                        <TextBlock
+                            Margin="0,8,0,8"
+                            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                            Text="感谢以下给予我开发思路和支持的朋友" />
+
+                        <TextBlock
+                            Margin="0,8,0,8"
+                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            Text="感谢你们的意见和建议，才能使IPAM-NOTE这个小众软件的功能日益完善" />
+
+                        <TextBox
+                            Margin="0,8,0,8"
+                            >
+
+
+
+                        </TextBox>
+
+                        <TextBlock
+                            Margin="0,8,0,8"
+                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            Text="感谢你们的慷慨捐赠，让我本来是闲暇时间开发着玩的事情变得有点像在上班" />
+
+                        <TextBox
+                            Margin="0,8,0,8"
+                        >
+
+
+
+                        </TextBox>
+
+                        <TextBlock
+                            Margin="0,8,0,8"
+                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            Text="感谢持有以下工具的公司能让我白嫖" />
+
+                        <TextBox
+                            Margin="0,8,0,8"
+                        >
+
+
+
+                        </TextBox>
+
+                    </StackPanel>
+                </TabItem>
             </TabControl>
         </materialDesign:Card>
 

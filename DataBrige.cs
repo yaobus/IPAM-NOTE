@@ -94,6 +94,6 @@ namespace IPAM_NOTE
 		/// <summary>
 		/// 多选模式下一并被选择的IP
 		/// </summary>
-		public static List<int>SelectedIpaddress = new List<int>();
+		public static List<int>SelectedIpAddress = new List<int>();
 	}
 }

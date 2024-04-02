@@ -337,44 +337,44 @@
         >
 
             <Button
-                            Grid.Column="1"
-                            x:Name="PingButton"
-                            Margin="10"
-                            Height="50"
-                            Foreground="AliceBlue"
-                            
-                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                            ToolTip="PING测试" 
-                            Click="PingButton_OnClick"
-                            materialDesign:ButtonAssist.CornerRadius="15"
-                        >
+                Grid.Column="1"
+                x:Name="PingButton"
+                Margin="10"
+                Height="50"
+                Foreground="AliceBlue"
+                
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="PING测试" 
+                Click="PingButton_OnClick"
+                materialDesign:ButtonAssist.CornerRadius="15"
+                >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                     <materialDesign:PackIcon 
-                                    Kind="Timelapse" 
-                                    VerticalAlignment="Center"
-                                    Height="32"
-                                    Width="32"
-                                />
+                        Kind="Timelapse" 
+                        VerticalAlignment="Center"
+                        Height="32"
+                        Width="32"
+                        />
                     <TextBlock
-                                    VerticalAlignment="Center"
-                                    Text="  Ping -t"
+                        VerticalAlignment="Center"
+                        Text="  Ping -t"
 
-                                />
+                        />
                 </StackPanel>
             </Button>
 
             <Button
-                            Grid.Column="2"
-                            x:Name="WebOpen"
-                            Margin="10"
-                            Height="50"
-                            Foreground="AliceBlue"
-                            
-                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                            ToolTip="在浏览器中打开该IP地址" 
-                            Click="WebOpen_OnClick"
-                            materialDesign:ButtonAssist.CornerRadius="15"
-                            >
+                Grid.Column="2"
+                x:Name="WebOpen"
+                Margin="10"
+                Height="50"
+                Foreground="AliceBlue"
+                
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="在浏览器中打开该IP地址" 
+                Click="WebOpen_OnClick"
+                materialDesign:ButtonAssist.CornerRadius="15"
+                >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                     <materialDesign:PackIcon 
                                     Kind="Web" 
@@ -425,7 +425,7 @@
                 ToolTip="保存分配" 
                 Click="SaveButton_OnClick"
                 materialDesign:ButtonAssist.CornerRadius="15"
-            >
+                >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                     <materialDesign:PackIcon 
                         Kind="ContentSave" 

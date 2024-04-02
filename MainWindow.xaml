@@ -457,67 +457,162 @@
         </materialDesign:ColorZone>
 
 
-        <ScrollViewer 
-            x:Name="GraphicsPlanScrollViewer"
-             VerticalScrollBarVisibility="Auto" 
-             HorizontalScrollBarVisibility="Disabled"
-             Margin="5"
-             Grid.Column="2"
-             Grid.Row="1"
-             Grid.RowSpan="1"
+
+
+        <WrapPanel  
+            Margin="5"
+            Grid.Column="2"
+            Grid.Row="1"
+           x:Name="GraphicsPlan"
+           
             >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <WrapPanel  
-                    x:Name="GraphicsPlan"
-                    Grid.Row="0"
-                    >
 
 
-                </WrapPanel>
+        </WrapPanel>
+
+
+
+
+
+
+
+
+
+
+
+        <Grid
+                Grid.Row="2"
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+
+
+
+                    <TextBox
+                        x:Name="PingNumBox"
+                        Width="105"
+                        Margin="5,0,5,10"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="PING响应数量"
+                        IsEnabled="False"
+                        Visibility="Hidden"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+
+
+
+
+
 
                 <StackPanel
+                    Orientation="Horizontal"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    >
+
+                    <TextBox
+                        x:Name="Network"
+                        Width="105"
+                        Margin="5,0,5,10"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="当前网络"
+                       
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                    <TextBox
+                        x:Name="MaskText"
+                        Margin="5,0,5,10"
+                        Width="105"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="子网掩码"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+                    <TextBox
+                        x:Name="First"
+                        Margin="5,0,5,10"
+                        Width="105"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="第一个可用IP"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+
+                    <TextBox
+                        x:Name="Last"
+                        Margin="5,0,5,10"
+                        Width="105"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="最后一个可用IP"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                    <TextBox
+                        x:Name="Broadcast"
+                        Margin="5,0,5,10"
+                        Width="105"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="广播地址"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+                    <TextBox
+                        x:Name="NumBox"
+                        Margin="5,0,5,10"
+                        Width="85"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="可用地址数"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+
+                </StackPanel>
+
+
+                <StackPanel
+                    Grid.Column="2"
                     x:Name="MultipleSelectStatus"
-                    Margin="5"
-                    Grid.Row="1"
-                    Height="32"
-                    VerticalAlignment="Bottom"
-                    Visibility="Visible"
+                    Visibility="Hidden"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     >
-                    <TextBlock
-                        
-
                     <TextBox
-                         x:Name="CountBox"
-                         Grid.Column="1"
-                         Margin="5,0,5,0"
-                         materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
-                         BorderThickness="0"
-                         Width="40"
-                        HorizontalAlignment="Center"
-                         VerticalAlignment="Center" />
+                        x:Name="CountBox"
+                        Width="105"
+                        Margin="5,0,5,10"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="已选地址数量"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
-                    <Grid
-                      Width="80">
+
                         <Button
+                            x:Name="DistributionButton"
                             Height="24"
-                        Margin="5,0,10,0"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
-                        materialDesign:ButtonProgressAssist.Value="-1"
-                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                                              
-                        ToolTip="一键配置所选地址"
-                        >
-                            <materialDesign:PackIcon Kind="CogOutline" Width="16" Height="16"/>
-                            
+                            Margin="5,0,10,0"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonProgressAssist.Value="-1"
+                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                            materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                            Click="DistributionButton_OnClick"                  
+                            ToolTip="一键配置所选地址"
+                            >
+                            <materialDesign:PackIcon x:Name="Icon" Kind="CogOutline" Width="16" Height="16"/>
+
                         </Button>
-                    </Grid>
+
 
 
 
@@ -525,101 +620,17 @@
                 </StackPanel>
 
             </Grid>
-            
-            
-
-        </ScrollViewer>
-
-
-
-        <StackPanel
-            x:Name="StatusPanel"
-            Grid.Row="2"
-            Grid.Column="2"
-            Height="30"
-            VerticalAlignment="Bottom"
-            >
-
-        </StackPanel>
-        <StackPanel 
-            Grid.Row="2"
-            Orientation="Horizontal"
-            Grid.Column="2"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            >
-
-            <TextBox
-                x:Name="Network"
-                Width="140"
-                Margin="5,0,5,10"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="当前网络"
-                IsEnabled="False"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-            <TextBox
-                x:Name="MaskText"
-                Margin="5,0,5,10"
-                Width="140"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="子网掩码"
-                IsEnabled="False"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-            <TextBox
-                x:Name="First"
-                Margin="5,0,5,10"
-                Width="140"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="第一个可用IP"
-                IsEnabled="False"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-
-            <TextBox
-                x:Name="Last"
-                Margin="5,0,5,10"
-                Width="140"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="最后一个可用IP"
-                IsEnabled="False"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-            <TextBox
-                x:Name="Broadcast"
-                Margin="5,0,5,10"
-                Width="140"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="广播地址"
-                IsEnabled="False"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-            <TextBox
-                x:Name="NumBox"
-                Margin="5,0,5,10"
-                Width="100"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="可用地址数量"
-                IsEnabled="False"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-            <TextBox
-                x:Name="PingNumBox"
-                Margin="5,0,5,10"
-                Width="100"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="Ping响应地址数量"
-                IsEnabled="False"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
 
 
 
 
-        </StackPanel>
+
+
+
+
+
+
+
 
 
     </Grid>
