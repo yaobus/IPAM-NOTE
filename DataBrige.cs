@@ -15,14 +15,14 @@ namespace IPAM_NOTE
 
 		public static string SelectIp;
 
-		public static ViewMode.IpAddressInfo IpAddress = new ViewMode.IpAddressInfo(0, 0, "", "", System.Net.NetworkInformation.IPStatus.Unknown, -1, "", "");
+		public static ViewMode.IpAddressInfo IpAddress = new ViewMode.IpAddressInfo(0, 0, "", "", System.Net.NetworkInformation.IPStatus.Unknown, -1, "", "", "", "");
 
-		public static List<IpAddressInfo> IpAddressInfos = new List<IpAddressInfo>();
+		public static List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();
 
 		/// <summary>
 		/// 当前软件版本号
 		/// </summary>
-		public static double Ver= 1.11;
+		public static double Ver= 1.12;
 
 		/// <summary>
 		/// 最新版本号
@@ -60,12 +60,8 @@ namespace IPAM_NOTE
 		public static string SelectTableName;
 
 
-		public static List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();
+		//public static List<IpAddressInfo> ipAddressInfos = new List<IpAddressInfo>();
 
-		/// <summary>
-		/// PING检测获取到的信息
-		/// </summary>
-		public static List<IpAddressInfo> ipAddressPingInfos = new List<IpAddressInfo>();
 
 
 

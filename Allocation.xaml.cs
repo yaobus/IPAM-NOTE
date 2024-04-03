@@ -113,7 +113,7 @@ namespace IPAM_NOTE
 
 
 
-						if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
+						if (DataBrige.ipAddressInfos[DataBrige.SelectIndex].User == "")
 						{
 
 							UserTextBox.Text = "";
@@ -127,24 +127,24 @@ namespace IPAM_NOTE
 						}
 						else
 						{
-							UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+							UserTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].User;
 
-							DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+							DescriptionTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].Description;
 
-							HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+							HostNameTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].HostName;
 
-							MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+							MacTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].MacAddress;
 						}
 
 					}
-					else
+					else//全部加载
 					{
 						NetworkBlock.Text = "所在网段:" + DataBrige.TempAddress.Network;
 
+                       
 
-
-						//如果网段IP中有*则替换为0
-						string tempNetwork = DataBrige.TempAddress.Network;
+                        //如果网段IP中有*则替换为0
+                        string tempNetwork = DataBrige.TempAddress.Network;
 
 						if (tempNetwork.IndexOf("*") != -1)
 						{
@@ -159,14 +159,9 @@ namespace IPAM_NOTE
 
 
 
-						if (DataBrige.IpAddressInfos[DataBrige.SelectIndex].User == "")
+						if (DataBrige.ipAddressInfos[DataBrige.SelectIndex].User == "")
 						{
-							//if (DataBrige.ipAddressPingInfos.Count > 0)
-							//{
-							//	PingHostNameBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].HostName;
 
-							//	PingMacBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].MacAddress;
-							//}
 
 							UserTextBox.Text = "";
 
@@ -176,31 +171,26 @@ namespace IPAM_NOTE
 
 							MacTextBox.Text = "";
 
-							//PingHostNameBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].HostName;
-
-							//PingMacBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].MacAddress;
-
 
 						}
 						else
 						{
-							UserTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].User;
+							UserTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].User;
 
-							DescriptionTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].Description;
+							DescriptionTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].Description;
 
-							HostNameTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].HostName;
+							HostNameTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].HostName;
 
-							MacTextBox.Text = DataBrige.IpAddressInfos[DataBrige.SelectIndex].MacAddress;
+							MacTextBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].MacAddress;
 						}
 					}
 				}
 
-				if (DataBrige.ipAddressPingInfos.Count > 0)
-				{
-					PingHostNameBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].HostName;
 
-					PingMacBox.Text = DataBrige.ipAddressPingInfos[DataBrige.SelectIndex].MacAddress;
-				}
+				PingHostNameBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].OnlineHostName;
+				
+				PingMacBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].OnlineMacAddress;
+
 
 			}
 			else//批量分配
@@ -273,6 +263,19 @@ namespace IPAM_NOTE
 			dbClass = new DbClass(dbFilePath);
 
 			dbClass.OpenConnection();
+
+
+			//获取到的主机名和MAC与备案的不一样则显示红色
+			if (HostNameTextBox.Text != PingHostNameBox.Text && PingHostNameBox.Text != "N/A")
+			{
+				PingHostNameBox.Foreground = Brushes.DarkRed;
+			}
+
+
+			if (MacTextBox.Text != PingMacBox.Text && PingMacBox.Text != "N/A")
+			{
+				PingMacBox.Foreground = Brushes.DarkRed;
+			}
 
 		}
 
@@ -441,7 +444,6 @@ namespace IPAM_NOTE
 
 
 
-
 				//Console.WriteLine(sql);
 
 
@@ -455,6 +457,7 @@ namespace IPAM_NOTE
 			{
 				MessageBox.Show("请填写地址分配信息！", "信息不完整", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
+
 
 
 		}
@@ -686,10 +689,31 @@ namespace IPAM_NOTE
 				// 获取主机名
 				string hostName = await GetHostNameAsync(ip);
 				PingHostNameBox.Text = hostName;
+				if (HostNameTextBox.Text != hostName && hostName != "N/A")
+				{
+					PingHostNameBox.Foreground = Brushes.DarkRed;
+				}
+				else
+				{
+					PingHostNameBox.Foreground = Brushes.AliceBlue;
+				}
+
+
+
 
 				// 获取MAC地址
 				string macAddress = await GetMacAddressAsync(ip);
 				PingMacBox.Text = macAddress;
+
+				if (MacTextBox.Text != macAddress && macAddress != "N/A")
+				{
+					PingMacBox.Foreground = Brushes.DarkRed;
+				}
+				else
+				{
+					PingHostNameBox.Foreground = Brushes.AliceBlue;
+				}
+
 			}
 			catch (Exception ex)
 			{
@@ -697,6 +721,18 @@ namespace IPAM_NOTE
 			}
 
 			ButtonProgressAssist.SetIsIndeterminate(StatusPing, false);
+
+			if (HostNameTextBox.Text != PingHostNameBox.Text && PingHostNameBox.Text != "N/A")
+			{
+				PingHostNameBox.Foreground = Brushes.DarkRed;
+			}
+
+
+			if (MacTextBox.Text != PingMacBox.Text && PingMacBox.Text != "N/A")
+			{
+				PingMacBox.Foreground = Brushes.DarkRed;
+			}
+
 
 		}
 

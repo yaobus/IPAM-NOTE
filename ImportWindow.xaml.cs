@@ -446,14 +446,12 @@ namespace IPAM_NOTE
 					string hostName = reader["HostName"].ToString();
 					string macAddress = reader["MacAddress"].ToString();
 
-					IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus, user, description,
-						IPStatus.Unknown,
-						-1, hostName, macAddress);
+					IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus, user, description, IPStatus.Unknown, -1, hostName, macAddress, "", "");
 
 					DataBrige.ipAddressInfos.Add(ipAddress);
 				}
 
-				DataBrige.IpAddressInfos = DataBrige.ipAddressInfos;
+				//DataBrige.IpAddressInfos = DataBrige.ipAddressInfos;
 
 				//reader.Dispose();
 

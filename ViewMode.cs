@@ -34,10 +34,12 @@ namespace IPAM_NOTE
 
 			public string MacAddress { get; set; }
 
+			public string OnlineHostName { get; set; }//在线的主机名
+
+			public string OnlineMacAddress { get; set; }//在线的MAC地址
 
 
-
-			public IpAddressInfo(int address,int addressStatus,string user,string description, IPStatus pingStatus, long pingTime, string hostName, string macAddress)
+			public IpAddressInfo(int address,int addressStatus,string user,string description, IPStatus pingStatus, long pingTime, string hostName, string macAddress,string onlineHostName,string onlineMacAddress)
 			{
 				Address = address;
 				AddressStatus = addressStatus;
@@ -47,6 +49,8 @@ namespace IPAM_NOTE
 				PingTime = pingTime;
 				HostName = hostName;
 				MacAddress = macAddress;
+				OnlineHostName = onlineHostName;
+				OnlineMacAddress = onlineMacAddress;
 			}
 		}
 

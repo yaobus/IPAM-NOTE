@@ -329,6 +329,9 @@ namespace IPAM_NOTE
 			gridView.Columns.Add(new GridViewColumn { Header = "主机名", DisplayMemberBinding = new Binding("HostName") });
 			gridView.Columns.Add(new GridViewColumn
 				{ Header = "MAC地址", DisplayMemberBinding = new Binding("MacAddress") });
+			gridView.Columns.Add(new GridViewColumn { Header = "在线主机名", DisplayMemberBinding = new Binding("OnlineHostName") });
+			gridView.Columns.Add(new GridViewColumn
+			{ Header = "在线MAC地址", DisplayMemberBinding = new Binding("OnlineMacAddress") });
 
 			// 将 GridView 设置为 ListView 的 View
 			listView.View = gridView;
@@ -553,10 +556,14 @@ namespace IPAM_NOTE
 		{
 			DataBrige.SelectMode = 0;//单选多选状态清空
 			DataBrige.SelectedIpAddress.Clear();//多选地址列表清空
+			
+			DataBrige.ipAddressInfos.Clear();
+
+
 
 			PingNumBox.Visibility = Visibility.Hidden;//隐藏PING统计
 
-			DataBrige.ipAddressPingInfos.Clear();
+
 			DataBrige.LoadType = 0;
 			DataBrige.SearchType = 1;
 			ExportButton.IsEnabled = true;
@@ -714,12 +721,12 @@ namespace IPAM_NOTE
 				string macAddress = reader["MacAddress"].ToString();
 
 				IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus, user, description, IPStatus.Unknown,
-					-1, hostName, macAddress);
+					-1, hostName, macAddress,"","");
 
 				DataBrige.ipAddressInfos.Add(ipAddress);
 			}
 
-			DataBrige.IpAddressInfos = DataBrige.ipAddressInfos;
+			
 
 			//reader.Dispose();
 
@@ -1116,8 +1123,6 @@ namespace IPAM_NOTE
 			Console.WriteLine(DataBrige.ipAddressInfos.Count);
 
 
-			DataBrige.ipAddressPingInfos = DataBrige.ipAddressInfos;
-
 			int count = 0;//统计PING有响应的地址数量
 
 			for (int i = 0; i < DataBrige.ipAddressInfos.Count; i++)
@@ -1132,9 +1137,8 @@ namespace IPAM_NOTE
 
 				DataBrige.ipAddressInfos[i].PingStatus = status;
 				DataBrige.ipAddressInfos[i].PingTime = results[i].PingTime;
-				DataBrige.ipAddressPingInfos[i].HostName = results[i].HostName;
-				DataBrige.ipAddressPingInfos[i].MacAddress = results[i].MACAddress;
-
+				DataBrige.ipAddressInfos[i].OnlineHostName = results[i].HostName;
+				DataBrige.ipAddressInfos[i].OnlineMacAddress = results[i].MACAddress;
 			}
 			PingNumBox.Visibility = Visibility.Visible;
 			ButtonProgressAssist.SetIsIndeterminate(StatusTestButton, false);
@@ -1525,8 +1529,7 @@ namespace IPAM_NOTE
 		/// <param name="e"></param>
 		private void SearchButton_OnClick(object sender, RoutedEventArgs e)
 		{
-			//清空PING结果
-			DataBrige.ipAddressPingInfos.Clear();
+
 
 			Graphics.Children.Clear();
 
@@ -1589,6 +1592,9 @@ namespace IPAM_NOTE
 				gridView.Columns.Add(new GridViewColumn { Header = "主机名", DisplayMemberBinding = new Binding("HostName") });
 				gridView.Columns.Add(new GridViewColumn
 				{ Header = "MAC地址", DisplayMemberBinding = new Binding("MacAddress") });
+				gridView.Columns.Add(new GridViewColumn { Header = "在线主机名", DisplayMemberBinding = new Binding("OnlineHostName") });
+				gridView.Columns.Add(new GridViewColumn
+				{ Header = "在线MAC地址", DisplayMemberBinding = new Binding("OnlineMacAddress") });
 
 				// 将 GridView 设置为 ListView 的 View
 				listView.View = gridView;
@@ -1700,14 +1706,6 @@ namespace IPAM_NOTE
 
 
 
-
-
-
-
-
-
-
-
 			}
 
 
@@ -1763,7 +1761,7 @@ namespace IPAM_NOTE
 							else
 							{
 
-								listView.ItemsSource = DataBrige.IpAddressInfos;
+								listView.ItemsSource = DataBrige.ipAddressInfos;
 							}
 
 
@@ -2030,12 +2028,12 @@ namespace IPAM_NOTE
 				string macAddress = reader["MacAddress"].ToString();
 
 				IpAddressInfo ipAddress = new IpAddressInfo(address, addressStatus, user, description, IPStatus.Unknown,
-					-1, hostName, macAddress);
+					-1, hostName, macAddress, "", "");
 
 				DataBrige.ipAddressInfos.Add(ipAddress);
 			}
 
-			DataBrige.IpAddressInfos = DataBrige.ipAddressInfos;
+			
 
 
 
@@ -2241,7 +2239,7 @@ namespace IPAM_NOTE
 		{
 			if (AddressBox.SelectedIndex != -1)
 			{
-				DataBrige.ipAddressPingInfos.Clear();
+
 				DataBrige.SearchType = 1;
 				DataBrige.TempAddress = (ViewMode.AddressInfo)AddressInfos[AddressBox.SelectedIndex];
 			}
@@ -2417,29 +2415,7 @@ namespace IPAM_NOTE
 				}
 			}
 
-			//if (DataBrige.SelectMode == 1)//批量分配
-			//{
-			//	foreach (var ip in DataBrige.SelectedIpaddress)
-			//	{
 
-
-
-
-			//	}
-
-
-
-			//}
-			//else
-			//{
-			//	if (DataBrige.SelectMode == 2)//批量释放
-			//	{
-
-
-
-
-			//	}
-			//}
 		}
 	}
 }

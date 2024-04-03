@@ -112,7 +112,7 @@ namespace IPAM_NOTE
 							if (result == MessageBoxResult.Yes)
 							{
 								// 用户点击了"是"按钮，执行相关操作
-								tableName = CreateTableName(ip) + "_" + (num + 1).ToString();
+								tableName = CreateTableName(ip,netMask) + "_" + (num + 1).ToString();
 								
 								Console.WriteLine(tableName);
 
@@ -148,7 +148,7 @@ namespace IPAM_NOTE
 						else
 						{
 
-							tableName = CreateTableName(ip) + "_1";
+							tableName = CreateTableName(ip, netMask) + "_1";
 
 							Console.WriteLine(tableName);
 
@@ -240,9 +240,9 @@ namespace IPAM_NOTE
 		/// 生成表名
 		/// </summary>
 		/// <returns></returns>
-		private string CreateTableName(string address)
+		private string CreateTableName(string address,string netmask)
 		{
-			string name = Network.Text;
+			string name = Network.Text + "_" + MaskText.Text;
 			name = "tb_" + name.Replace(".", "_");
 
 			return name;
