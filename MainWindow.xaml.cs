@@ -60,7 +60,16 @@ namespace IPAM_NOTE
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 		{
-			CheckVer();
+			try
+			{
+				CheckVer();
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine("无法查询新版本!");
+			}
+
+			
 
 			AddressListView.ItemsSource = AddressInfos;
 
@@ -1518,6 +1527,9 @@ namespace IPAM_NOTE
 		{
 			//清空PING结果
 			DataBrige.ipAddressPingInfos.Clear();
+
+			Graphics.Children.Clear();
+
 
 			//单选多选状态清空
 			DataBrige.SelectMode = 0;
