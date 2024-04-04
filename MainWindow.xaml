@@ -7,14 +7,13 @@
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:userPages="clr-namespace:IPAM_NOTE.UserPages"
-        xmlns:resources="clr-namespace:IPAM_NOTE.Resources"
-        Background="{DynamicResource MaterialDesignDarkBackground}"
+       Background="{DynamicResource MaterialDesignDarkBackground}"
         Foreground="{DynamicResource MaterialDesignDarkForeground}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="SimHei"
         mc:Ignorable="d"
-        Title="IP地址分配记录本-Yaobus" 
+        Title="IPAM-NOTE-IP地址分配记录本" 
         MinHeight="768" 
         MinWidth="1366"
         Height="1080"
@@ -38,7 +37,12 @@
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
 
-        <Style x:Key="AboutPageStyle" TargetType="resources:AboutPage">
+        <Style x:Key="AboutPageStyle" TargetType="userPages:About">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
+
+        <Style x:Key="DonationStyle" TargetType="userPages:DonationPage">
             <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
@@ -100,7 +104,9 @@
                                 </StackPanel>
                             </TabItem.Header>
                         </TabItem>
-                        <TabItem>
+                        <TabItem
+                            IsEnabled="False"
+                            >
                             <TabItem.Header>
                                 <StackPanel
                                 Width="auto"
@@ -206,6 +212,7 @@
                                         Width="32"
                                         Height="32"
                                         HorizontalAlignment="Center"
+                                        ToolTip="我想捐赠"
                                         Kind="Donation" />
                                 </StackPanel>
                             </TabItem.Header>
@@ -226,7 +233,7 @@
                                         Height="60"
                                         Style="{StaticResource MaterialDesignOutlinedButton}" 
                                         BorderThickness="0"
-                                        ToolTip="关于软件"
+                                        ToolTip="关于本软件"
                                         VerticalAlignment="Center"
                                         materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"

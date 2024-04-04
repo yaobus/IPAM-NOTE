@@ -22,12 +22,12 @@ namespace IPAM_NOTE
 		/// <summary>
 		/// 当前软件版本号
 		/// </summary>
-		public static double Ver= 1.11;
+		public static string Ver= "1.13";
 
 		/// <summary>
 		/// 最新版本号
 		/// </summary>
-		public static double LatestVersion = 0;
+		public static string LatestVersion = "0";
 
 		/// <summary>
 		/// 最新下载地址

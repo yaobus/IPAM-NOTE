@@ -145,9 +145,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AboutWindow.xaml.cs">
-      <DependentUpon>AboutWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AddDeviceWindow.xaml.cs">
       <DependentUpon>AddDeviceWindow.xaml</DependentUpon>
     </Compile>
@@ -163,11 +160,14 @@
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="IPAddressCalculations.cs" />
-    <Compile Include="Resources\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
+    <Compile Include="UserPages\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserPages\DatabaseBackup.xaml.cs">
       <DependentUpon>DatabaseBackup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPages\DonationPage.xaml.cs">
+      <DependentUpon>DonationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserPages\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
@@ -176,10 +176,6 @@
       <DependentUpon>NetworkManage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewMode.cs" />
-    <Page Include="AboutWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="AddDeviceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -209,11 +205,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\AboutPage.xaml">
+    <Page Include="UserPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserPages\DatabaseBackup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPages\DonationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

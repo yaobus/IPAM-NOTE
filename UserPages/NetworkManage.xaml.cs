@@ -66,6 +66,13 @@ namespace IPAM_NOTE.UserPages
             CreatDomainList();
             DomainComboBox.ItemsSource = domainList;
 
+
+            //加载第一个网段到用户界面
+            if (AddressInfos.Count > 0)
+            {
+                //AddressListView.SelectedIndex = 0;
+            }
+
         }
 
 
@@ -711,7 +718,7 @@ namespace IPAM_NOTE.UserPages
 
                 if (pingStatus == IPStatus.Success)
                 {
-                    fontBrush = Brushes.Red;
+                    fontBrush = ConvertHexToBrush("#bf360c");
 
                 }
                 else
@@ -727,7 +734,7 @@ namespace IPAM_NOTE.UserPages
                     Height = 30,
                     Background = colorBrush,
                     Foreground = fontBrush,
-                    FontWeight = FontWeights.Bold,
+                    FontWeight = FontWeights.ExtraBold,
                     Content = ipAddressInfos[i].Address,
                     ToolTip = description,
                     Tag = i.ToString(),
@@ -755,6 +762,23 @@ namespace IPAM_NOTE.UserPages
 
         }
 
+        /// <summary>
+        /// 颜色代码转成颜色
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
+        public static SolidColorBrush ConvertHexToBrush(string hex)
+        {
+            
+            if (hex.StartsWith("#"))
+                hex = hex.Substring(1);
+
+            
+            Color color = (Color)ColorConverter.ConvertFromString("#" + hex);
+
+            
+            return new SolidColorBrush(color);
+        }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {

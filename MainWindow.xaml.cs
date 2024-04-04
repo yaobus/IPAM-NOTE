@@ -33,7 +33,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using IPAM_NOTE.Resources;
 using IPAM_NOTE.UserPages;
 using static IPAM_NOTE.ViewMode;
 using Button = System.Windows.Controls.Button;
@@ -80,6 +79,8 @@ namespace IPAM_NOTE
             networkManage.Style = (Style)FindResource("UserControlStyle");
             FunctionPanel.Children.Add(networkManage);
 
+            TopControl.SelectedIndex = 0;
+
         }
 
 
@@ -116,7 +117,7 @@ namespace IPAM_NOTE
 			{
 				double version = Convert.ToDouble( match.Value);
 
-				if (version > DataBrige.Ver)
+				if (version > Convert.ToDouble(DataBrige.Ver))
 				{
 
                     //发现新版本则闪烁提示
@@ -124,7 +125,7 @@ namespace IPAM_NOTE
                     AboutButton.ToolTip = "发现新版本:" + latestVersion;
                     
 
-                    DataBrige.LatestVersion = version;
+                    DataBrige.LatestVersion = version.ToString();
 
 					//获取下载地址
 					DataBrige.DownloadUrl = await versionChecker.GetDownloadUrlAsync();
@@ -132,7 +133,7 @@ namespace IPAM_NOTE
 				else
 				{
 					ButtonProgressAssist.SetIsIndeterminate(AboutButton, false);
-					DataBrige.LatestVersion = 0;
+					DataBrige.LatestVersion = "0";
 
 					//清空下载地址
 					DataBrige.DownloadUrl = "";
@@ -283,26 +284,34 @@ namespace IPAM_NOTE
         /// <param name="e"></param>
         private void TopControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BottomControl.SelectedIndex = -1;
+           
 
             int index = TopControl.SelectedIndex;
-            
-            switch (index)
+
+            if (index != -1)
             {
-                case 0:
-                    FunctionPanel.Children.Clear();
-                    NetworkManage networkManage=new NetworkManage();
+                BottomControl.SelectedIndex = -1;
 
-                    networkManage.Style = (Style)FindResource("UserControlStyle");
-                    
-                    FunctionPanel.Children.Add(networkManage);
-                    break;
+                switch (index)
+                {
+                    case 0:
+                        FunctionPanel.Children.Clear();
+                        NetworkManage networkManage = new NetworkManage();
 
-                case 1:
-                    FunctionPanel.Children.Clear();
+                        networkManage.Style = (Style)FindResource("UserControlStyle");
 
-                    break;
+                        FunctionPanel.Children.Add(networkManage);
+                        break;
+
+                    case 1:
+                        FunctionPanel.Children.Clear();
+
+                        break;
+                }
+
             }
+
+
 
 
 
@@ -314,57 +323,70 @@ namespace IPAM_NOTE
            
 
             int index = BottomControl.SelectedIndex;
-            FunctionPanel.Children.Clear();
-            switch (index)
+
+            if (index != -1)
             {
-                case 0:
+                TopControl.SelectedIndex = -1;
+                FunctionPanel.Children.Clear();
+                switch (index)
+                {
+                    case 0:
 
-                    DatabaseBackup databaseBackup = new DatabaseBackup();
+                        DatabaseBackup databaseBackup = new DatabaseBackup();
 
-                    databaseBackup.Style = (Style)FindResource("DatabaseBackupStyle");
+                        databaseBackup.Style = (Style)FindResource("DatabaseBackupStyle");
 
-                    FunctionPanel.Children.Add(databaseBackup);
-                    break;
+                        FunctionPanel.Children.Add(databaseBackup);
+                        break;
 
-                case 1:
-
-
-                    FunctionPanel.Children.Clear();
-                    HelpPage helpPage = new HelpPage();
-
-                    helpPage.Style = (Style)FindResource("HelpStyle");
-
-                    FunctionPanel.Children.Add(helpPage);
+                    case 1:
 
 
-                    break;
+                       
+                        HelpPage helpPage = new HelpPage();
 
-                case 2:
+                        helpPage.Style = (Style)FindResource("HelpStyle");
 
-
-                    break;
-
-
-                case 3:
+                        FunctionPanel.Children.Add(helpPage);
 
 
-                    FunctionPanel.Children.Clear();
-                    AboutPage aboutPage = new AboutPage();
+                        break;
 
-                    aboutPage.Style = (Style)FindResource("AboutPageStyle");
+                    case 2:
+                        DonationPage donationPage = new DonationPage();
 
-                    FunctionPanel.Children.Add(aboutPage);
+                        donationPage.Style = (Style)FindResource("DonationStyle");
+
+                        FunctionPanel.Children.Add(donationPage);
+
+                        break;
 
 
-                    break;
+                    case 3:
+
+
+                       
+                        About aboutPage = new About();
+
+                        aboutPage.Style = (Style)FindResource("AboutPageStyle");
+
+                        FunctionPanel.Children.Add(aboutPage);
+
+
+                        break;
+                }
+
             }
+
+
+            
 
         }
 
         private void AboutButton_OnClick(object sender, RoutedEventArgs e)
         {
             FunctionPanel.Children.Clear();
-            AboutPage aboutPage = new AboutPage();
+            About aboutPage = new About();
 
             aboutPage.Style = (Style)FindResource("AboutPageStyle");
 

@@ -44,7 +44,9 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel 
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
 
                     <Image
                         Source="/Resources/UI.png"
@@ -77,7 +79,7 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                     <Image
                         Source="/Resources/ADD.png"
@@ -110,7 +112,7 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                     <Image
                         Source="/Resources/ALLOCATION.png"
@@ -247,7 +249,7 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                     <Image
                         Source="/Resources/IMPORT.png"
@@ -279,7 +281,7 @@
                     </StackPanel>
                 </TabItem.Header>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                     <Image
                         Source="/Resources/DATAHELP.png"

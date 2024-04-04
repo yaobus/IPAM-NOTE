@@ -14,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace IPAM_NOTE.Resources
+namespace IPAM_NOTE.UserPages
 {
     /// <summary>
-    /// AboutPage.xaml 的交互逻辑
+    /// About.xaml 的交互逻辑
     /// </summary>
-    public partial class AboutPage : UserControl
+    public partial class About : UserControl
     {
-        public AboutPage()
+        public About()
         {
             InitializeComponent();
         }
@@ -42,11 +42,6 @@ namespace IPAM_NOTE.Resources
 
         }
 
-        private void AboutPage_OnLoaded(object sender, RoutedEventArgs e)
-        {
-
-            VerCheck();	//版本检查
-        }
 
         /// <summary>
         /// 版本对比
@@ -56,13 +51,13 @@ namespace IPAM_NOTE.Resources
             NowVer.Text = "版本号:V" + Convert.ToString(DataBrige.Ver) + "-Beta";
 
 
-            if (DataBrige.LatestVersion != 0)
+            if (DataBrige.LatestVersion != "0")
             {
                 NewVerPlan.Visibility = Visibility.Visible;
                 NewVer.Text = "最新版:V" + Convert.ToString(DataBrige.LatestVersion) + "-Beta";
                 NewVer.Foreground = Brushes.DarkOrange;
 
-                UpdateBlock.Text= Convert.ToString(DataBrige.LatestVersion)+"更新内容:";
+                UpdateBlock.Text = "V"+ Convert.ToString(DataBrige.LatestVersion) + "-Beta更新内容";
             }
             else
             {
@@ -96,7 +91,9 @@ namespace IPAM_NOTE.Resources
             Process.Start("https://github.com/yaobus/IPAM-NOTE.git");
         }
 
+        private void About_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            VerCheck();	//版本检查
+        }
     }
-
-
 }
