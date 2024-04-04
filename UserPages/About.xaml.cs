@@ -51,13 +51,13 @@ namespace IPAM_NOTE.UserPages
             NowVer.Text = "版本号:V" + Convert.ToString(DataBrige.Ver) + "-Beta";
 
 
-            if (DataBrige.LatestVersion != "0")
+            if (Convert.ToDouble(DataBrige.LatestVersion) > Convert.ToDouble(DataBrige.Ver))
             {
                 NewVerPlan.Visibility = Visibility.Visible;
                 NewVer.Text = "最新版:V" + Convert.ToString(DataBrige.LatestVersion) + "-Beta";
                 NewVer.Foreground = Brushes.DarkOrange;
 
-                UpdateBlock.Text = "V"+ Convert.ToString(DataBrige.LatestVersion) + "-Beta更新内容";
+               
             }
             else
             {
@@ -66,6 +66,8 @@ namespace IPAM_NOTE.UserPages
 
             if (DataBrige.UpdateInfos != "")
             {
+                UpdateBlock.Text = "V" + DataBrige.LatestVersion + "-Beta更新内容";
+
                 UpdateInfo.Text = DataBrige.UpdateInfos;
             }
 

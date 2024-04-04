@@ -123,23 +123,24 @@ namespace IPAM_NOTE
                     //发现新版本则闪烁提示
                     ButtonProgressAssist.SetIsIndeterminate(AboutButton, true);
                     AboutButton.ToolTip = "发现新版本:" + latestVersion;
-                    
 
                     DataBrige.LatestVersion = version.ToString();
 
-					//获取下载地址
-					DataBrige.DownloadUrl = await versionChecker.GetDownloadUrlAsync();
+
+                    //获取下载地址
+                    DataBrige.DownloadUrl = await versionChecker.GetDownloadUrlAsync();
 				}
 				else
 				{
 					ButtonProgressAssist.SetIsIndeterminate(AboutButton, false);
-					DataBrige.LatestVersion = "0";
+					
 
 					//清空下载地址
 					DataBrige.DownloadUrl = "";
 				}
 
-			}
+                DataBrige.LatestVersion = version.ToString();
+            }
 
 
             DataBrige.UpdateInfos = await versionChecker.GetReleaseBodyAsync();
