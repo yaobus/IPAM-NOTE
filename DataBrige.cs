@@ -109,8 +109,8 @@ namespace IPAM_NOTE
 
 
         /// <summary>
-        /// 多选模式下一并被选择的IP
+        /// 更新信息
         /// </summary>
-        public static string  UpdateInfos ;
+        public static string UpdateInfos = "";
     }
 }

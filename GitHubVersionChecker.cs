@@ -104,7 +104,7 @@ namespace IPAM_NOTE
             {
                 // 处理异常
                 Console.WriteLine($"An error occurred: {ex.Message}");
-                return null;
+                return "";
             }
         }
 

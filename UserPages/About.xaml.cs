@@ -64,12 +64,22 @@ namespace IPAM_NOTE.UserPages
                 NewVerPlan.Visibility = Visibility.Collapsed;
             }
 
-            if (DataBrige.UpdateInfos != "")
-            {
-                UpdateBlock.Text = "V" + DataBrige.LatestVersion + "-Beta更新内容";
+            //见鬼的疑惑操作
+            string updateInfo="";
 
+            if (DataBrige.UpdateInfos != "0")
+            {
+                updateInfo = "V" + DataBrige.LatestVersion + "-Beta更新内容";
+
+            }
+
+            if (updateInfo != "V0-Beta更新内容" && updateInfo !="")
+            {
+                UpdateBlock.Text = updateInfo;
                 UpdateInfo.Text = DataBrige.UpdateInfos;
             }
+
+            
 
 
         }
