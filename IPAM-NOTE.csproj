@@ -163,6 +163,18 @@
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="IPAddressCalculations.cs" />
+    <Compile Include="Resources\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPages\DatabaseBackup.xaml.cs">
+      <DependentUpon>DatabaseBackup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPages\HelpPage.xaml.cs">
+      <DependentUpon>HelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPages\NetworkManage.xaml.cs">
+      <DependentUpon>NetworkManage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewMode.cs" />
     <Page Include="AboutWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -197,6 +209,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPages\DatabaseBackup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPages\HelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPages\NetworkManage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -246,6 +274,7 @@
   <ItemGroup>
     <Resource Include="Resources\ALLOCATION.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

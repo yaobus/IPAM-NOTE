@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:IPAM_NOTE"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:userPages="clr-namespace:IPAM_NOTE.UserPages"
+        xmlns:resources="clr-namespace:IPAM_NOTE.Resources"
         Background="{DynamicResource MaterialDesignDarkBackground}"
         Foreground="{DynamicResource MaterialDesignDarkForeground}"
         TextElement.FontWeight="Medium"
@@ -18,625 +20,263 @@
         Height="1080"
         Width="1920"
         Loaded="MainWindow_OnLoaded"
-        SizeChanged="MainWindow_OnSizeChanged"
         >
+    <Window.Resources>
+
+        <Style x:Key="UserControlStyle" TargetType="userPages:NetworkManage">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
+
+        <Style x:Key="DatabaseBackupStyle" TargetType="userPages:DatabaseBackup">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
+
+        <Style x:Key="HelpStyle" TargetType="userPages:HelpPage">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
+
+        <Style x:Key="AboutPageStyle" TargetType="resources:AboutPage">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="71"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
-        <ProgressBar
-            Grid.Column="1"
-            Grid.Row="0"
-            Grid.RowSpan="3"
-            materialDesign:TransitionAssist.DisableTransitions="True"
-            Value="100" 
-            Orientation="Vertical"
-            HorizontalAlignment="Center"
-            Height="1"
-            Foreground="{DynamicResource MaterialDesignDarkSeparatorBackground}"
-            />
 
-        <ListView
+
+
+        <materialDesign:Card
             Grid.Column="0"
             Grid.Row="0"
             Grid.RowSpan="2"
-            Width="320"
-            x:Name="AddressListView"
-            HorizontalAlignment="Left"
-            SelectionChanged="AddressListView_OnSelectionChanged"
-            Background="Coral"
-            materialDesign:ElevationAssist.Elevation="Dp1"
+            materialDesign:ElevationAssist.Elevation="Dp5"
+            Background="{StaticResource MaterialDesignDarkBackground}"
             >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
 
-            <ListView.View>
+                </Grid.RowDefinitions>
 
-                <GridView>
+                <StackPanel
+                    ZIndex="1"
+                    Grid.Row="0"
+                    Orientation="Vertical"
+                    Margin="0">
 
-                    <GridViewColumn DisplayMemberBinding ="{Binding Id}"
-                       
+
+                    <TabControl
+                        SelectionChanged="TopControl_OnSelectionChanged"
+                        x:Name="TopControl"
+                        Style="{StaticResource MaterialDesignNavigationRailTabControl}">
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel
+                              Width="auto"
+                              Height="auto">
+                                    <materialDesign:PackIcon
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    Kind="IpNetworkOutline" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="地址网段" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel
+                                Width="auto"
+                                Height="auto">
+                                    <materialDesign:PackIcon
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    Kind="ViewQuilt" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="设备端口" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
+
+                        <TabItem
+                            IsEnabled="False"
+                            IsSelected="False"
+                            >
+                            <TabItem.Header>
+                                <StackPanel
+                                Width="auto"
+                                Height="auto">
+                                    <materialDesign:PackIcon
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    Kind="BookmarkBoxMultipleOutline" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="地址收藏" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
+
+
+                    </TabControl>
+
+
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    Orientation="Vertical"
+                    VerticalAlignment="Bottom"
+                    Margin="0">
+
+
+                    <TabControl
+                        x:Name="BottomControl"
+                        SelectionChanged="BottomControl_OnSelectionChanged"
+                        Style="{StaticResource MaterialDesignNavigationRailTabControl}">
+                        <TabItem
+                        IsSelected="False"
                         >
-                        <StackPanel VerticalAlignment="Center">
-                            <Button
-                                x:Name="IndexButton"
-                                Margin="-20,0"
-                                Click="IndexButton_OnClick"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                ToolTip="MaterialDesignFloatingActionMiniLightButton">
-                                <materialDesign:PackIcon
-                                    Kind="Numbers"
-                                    Width="24"
-                                    Height="24"
-                                    />
-                            </Button>
 
+                            <TabItem.Header>
+                                <StackPanel
+                                    Width="auto"
+                                    Height="auto">
+                                    <materialDesign:PackIcon
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        ToolTip="数据库备份还原管理"
+                                        Kind="DatabaseSyncOutline" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="获取帮助" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
 
-
-                        </StackPanel>
-
-
-                    </GridViewColumn>
-
-                    <GridViewColumn
-                        DisplayMemberBinding="{Binding Network}"
-                        
-                        >
-                        <StackPanel
-                            Margin="-10,0"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Left"
+                        <TabItem
+                            IsSelected="False"
                             >
 
+                            <TabItem.Header>
+                                <StackPanel
+                                  Width="auto"
+                                  Height="auto">
+                                    <materialDesign:PackIcon
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    ToolTip="软件使用帮助"
+                                    Kind="HelpBoxOutline" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="获取帮助" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
 
-                            <Button
-                                x:Name="NetworkButton"
-                                Height="30"
-                                Click="NetworkButton_OnClick"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                ToolTip="MaterialDesignIconButton">
-                                <materialDesign:PackIcon
-                                    Kind="IpNetwork" Width="24" Height="24"/>
-                            </Button>
-                        </StackPanel>
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel
+                                    Width="auto"
+                                    Height="auto">
+                                    <materialDesign:PackIcon
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        Kind="Donation" />
+                                </StackPanel>
+                            </TabItem.Header>
 
+                        </TabItem>
 
-                    </GridViewColumn>
-
-
-
-                    <GridViewColumn
-                        DisplayMemberBinding="{Binding Description}"
-                        
-                        >
-                        <StackPanel
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Left"
+                        <TabItem
+                            IsSelected="False"
                             >
+                            <TabItem.Header>
+                                <StackPanel
+                                    Width="auto"
+                                    Height="auto">
 
-                            <Button
-                                x:Name="DescriptionButton"
-                                Height="30"
-                               Click="DescriptionButton_OnClick"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                ToolTip="MaterialDesignIconButton">
-                                <materialDesign:PackIcon
-                                    Kind="Notebook" Width="24" Height="24"/>
-                            </Button>
-                        </StackPanel>
+                                    <Button
+                                        x:Name="AboutButton"
+                                        Margin="0"
+                                        Height="60"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}" 
+                                        BorderThickness="0"
+                                        ToolTip="关于软件"
+                                        VerticalAlignment="Center"
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="False"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                        materialDesign:ButtonProgressAssist.Value="-1"
+                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                        Click="AboutButton_OnClick"
+                                        >
 
+                                        <materialDesign:PackIcon Kind="MoreCircle" Width="32" Height="32"/>
 
-                    </GridViewColumn>
-
-
-                </GridView>
-            </ListView.View>
-
-
-
-        </ListView>
-
-        <StackPanel
-            Grid.Row="2"
-            Grid.Column="0"
-            Orientation="Horizontal"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            >
-
-            <Button
-                x:Name="AddButton"
-                Margin="10,0"
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="添加网段"
-                VerticalAlignment="Center"
-                materialDesign:ButtonAssist.CornerRadius="15"
-                Click="AddButton_OnClick"
-                >
-
-                <materialDesign:PackIcon Kind="Add" Width="24" Height="24"/>
-
-            </Button>
-
-            <Button
-                x:Name="MinusButton"
-                Margin="10,0"
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="删除网段"
-                VerticalAlignment="Center"
-                materialDesign:ButtonAssist.CornerRadius="15"
-                IsEnabled="False"
-                Click="MinusButton_OnClick"
-                >
-
-                <materialDesign:PackIcon Kind="Minus" Width="24" Height="24"/>
-
-            </Button>
-
-            <Button
-                x:Name="EditButton"
-                Margin="10,0"
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="编辑网段"
-                VerticalAlignment="Center"
-                IsEnabled="False"
-                materialDesign:ButtonAssist.CornerRadius="15"
-                Click="EditButton_OnClick"
-                >
-
-                <materialDesign:PackIcon Kind="Edit" Width="24" Height="24"/>
-
-            </Button>
-
-
-                <Button
-                    x:Name="AboutButton"
-                    Margin="10,0"
-                    Style="{StaticResource MaterialDesignOutlinedButton}" 
-                    ToolTip="更多功能"
-                    VerticalAlignment="Center"
-                    materialDesign:ButtonAssist.CornerRadius="15"
-                    materialDesign:ButtonProgressAssist.IsIndeterminate="False"
-                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                    materialDesign:ButtonProgressAssist.Value="-1"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                    Click="AboutButton_OnClick"
-                    >
-
-                    <materialDesign:PackIcon Kind="MoreCircle" Width="24" Height="24"/>
-
-                </Button>
-
-
-            
+                                    </Button>
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
+                    </TabControl>
 
 
 
+                </StackPanel>
+            </Grid>
 
-        </StackPanel>
 
 
-        <materialDesign:ColorZone
-            Grid.Column="2"
+        </materialDesign:Card>
+
+        <Grid
+            ZIndex="0"
+            Margin="0,0,0,0"
+            Grid.Column="1"
             Grid.Row="0"
-            Mode="Standard"
+            Grid.RowSpan="2"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="690"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="382*"/>
+                <RowDefinition Height="683*"/>
+            </Grid.RowDefinitions>
+            <WrapPanel
+                Margin="5,0,0,0"
+                x:Name="FunctionPanel" Grid.RowSpan="2"
 
-                </Grid.ColumnDefinitions>
-
-                <ProgressBar
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Bottom"
-                    Height="1"
-                    materialDesign:TransitionAssist.DisableTransitions="True"
-                    Value="0" />
-
-                <StackPanel
-                    Grid.Column="0"
-                    Margin="2"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Left"
-                    >
-                    <RadioButton
-                        x:Name="GraphicsButton"
-                        Margin="0"
-                        IsChecked="True"
-                        Click="GraphicsButton_OnClick"
-                        ToolTip="以图形方式显示所选网段地址"
-                       
-                        Style="{StaticResource MaterialDesignTabRadioButton}" >
-
-                        <materialDesign:PackIcon Kind="Apps" Width="24" Height="24"/>
-
-                    </RadioButton>
-                    <RadioButton
-                        x:Name="ListButton"
-                        Margin="0"
-                        IsChecked="False"
-                        Click="ListButton_OnClick"
-                        ToolTip="以列表方式显示所选网段地址"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" 
-                        
-                        >
-
-                        <materialDesign:PackIcon Kind="FormatListText" Width="24" Height="24"/>
-
-                    </RadioButton>
-
-
-                    <Button
-                        x:Name="StatusTestButton"
-                        Margin="20,5,5,5"
-                        Width="24"
-                        Height="24"
-                        Click="StatusTestButton_OnClick"
-                        ToolTip="检测所选网段地址在线状态"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="False"
-                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                        materialDesign:ButtonProgressAssist.Value="-1"
-                        Content="{materialDesign:PackIcon Radar}"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignFloatingActionButton}" />
-
-                </StackPanel>
-
-
-                    <ToggleButton
-                        Grid.Column="0"
-                        HorizontalAlignment="Right"
-                        x:Name="MultipleSelect"
-                        Margin="5"
-                        IsChecked="False"
-                        Click="MultipleSelect_Click"
-                        materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=HexagonMultipleOutline}"
-                        Content="{materialDesign:PackIcon Kind=HexagonOutline}"
-                        Style="{StaticResource MaterialDesignActionToggleButton}"
-                        ToolTip="单选/多选" />
-
-
-
-                <StackPanel
-                    Grid.Column="1"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    materialDesign:HintAssist.Hint="被搜索网段"
-                    >
-
-                    <ComboBox
-                        Margin="5"
-                        x:Name="AddressBox"
-                        ItemsSource="{Binding ShortStringList}"
-                        materialDesign:TextFieldAssist.HasClearButton="True"
-                        Width="120"
-                        VerticalAlignment="Bottom"
-                        SelectionChanged="AddressBox_OnSelectionChanged"
-                        >
-                        <ComboBox.SelectedItem>
-                            <Binding
-                                Path="SelectedValidationOutlined"
-                                Mode="TwoWay"
-                                UpdateSourceTrigger="PropertyChanged">
-                               
-                            </Binding>
-                        </ComboBox.SelectedItem>
-                    </ComboBox>
-
-                    <StackPanel
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Orientation="Horizontal"
-                        materialDesign:HintAssist.Hint="搜索范围"
-                        >
-
-                        <ComboBox
-                            Margin="5"
-                            x:Name="DomainComboBox"
-                            materialDesign:TextFieldAssist.HasClearButton="True"
-                            Width="120"
-                            VerticalAlignment="Bottom"
-                            >
-                            <ComboBox.SelectedItem>
-                                <Binding
-                                    Path="SelectedValidationOutlined"
-                                    Mode="TwoWay"
-                                    UpdateSourceTrigger="PropertyChanged">
-
-                                </Binding>
-                            </ComboBox.SelectedItem>
-
-
-                        </ComboBox>
-                        </StackPanel>
-
-                        <StackPanel
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Orientation="Horizontal"
-                        materialDesign:HintAssist.Hint="搜索关键词"
-                        >
-
-                        <TextBox
-                            Width="120"
-                            x:Name="KeyWord"
-                            Margin="5"
-                            VerticalAlignment="Top"
-                            AcceptsReturn="False"
-                            TextWrapping="NoWrap" 
-                            materialDesign:HintAssist.FloatingScale="0"
-                            materialDesign:HintAssist.Hint="搜索关键词"
-                            Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                            KeyDown="KeyWord_OnKeyDown"
-                        />
-
-                    </StackPanel>
-
-
-
-                    <ToggleButton
-                        x:Name="Accurate"
-                        Margin="5"
-                        IsChecked="False"
-                        materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=Equal}"
-                        Content="{materialDesign:PackIcon Kind=ApproximatelyEqual}"
-                        Style="{StaticResource MaterialDesignActionToggleButton}"
-                        ToolTip="模糊/精确" />
-
-
-                    <Button
-                        x:Name="SearchButton"
-                        Click="SearchButton_OnClick"
-                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                        ToolTip="给我搜"
-                        materialDesign:ButtonAssist.CornerRadius="15"
-                        >
-                        <materialDesign:PackIcon Width="24" Height="24" Kind="Search" />
-                    </Button>
-                    
-                    <Button
-                        Margin="5"
-                        x:Name="SearchClear"
-                        Visibility="Visible"
-                        IsEnabled="False"
-                        Click="SearchClear_OnClick"
-                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                        ToolTip="清空搜索"
-                        materialDesign:ButtonAssist.CornerRadius="15"
-                        >
-                        <materialDesign:PackIcon
-                        Kind="ClearCircleOutline"  Width="24" Height="24"/>
-                    </Button>
-                    
-                    <Button
-                        Margin="5"
-                        x:Name="ImportButton"
-                        HorizontalAlignment="Right"
-                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                        ToolTip="导入向导"
-                        Click="ImportButton_OnClick"
-                        materialDesign:ButtonAssist.CornerRadius="15" 
-                        >
-
-                        <materialDesign:PackIcon Kind="DatabaseImport"  Width="24" Height="24"/>
-                    </Button>
-
-                    <Button
-                        Margin="5"
-                        x:Name="ExportButton"
-                        HorizontalAlignment="Right"
-                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                        
-                        ToolTip="导出表格内容"
-                        IsEnabled="False"
-                        Click="ExportButton_OnClick"
-                        materialDesign:ButtonAssist.CornerRadius="15" 
-                        >
-
-
-                        <materialDesign:PackIcon Kind="DatabaseExportOutline" Width="24" Height="24"/>
-                    </Button>
-
-
-                </StackPanel>
-
-
-
-            </Grid>
-
-
-
-
-        </materialDesign:ColorZone>
-
-
-        <ScrollViewer 
-            Grid.Column="2"
-            Grid.Row="1"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto">
-
-            <WrapPanel  
-                Margin="5"
-
-                x:Name="Graphics"
-           
                 >
+
 
 
             </WrapPanel>
-        </ScrollViewer>
 
 
-        <WrapPanel  
-            Margin="5"
-            Grid.Column="2"
-            Grid.Row="1"
-            x:Name="GraphicsPlan"
-           
-                >
-
-
-        </WrapPanel>
-
-
-
-
-
-
-
-        <Grid
-                Grid.Row="2"
-                Grid.Column="2"
-                HorizontalAlignment="Stretch"
-                >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="200"/>
-                </Grid.ColumnDefinitions>
-
-
-
-
-                    <TextBox
-                        x:Name="PingNumBox"
-                        Width="105"
-                        Margin="5,0,5,10"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="PING响应数量"
-                        IsEnabled="False"
-                        Visibility="Hidden"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-
-
-
-
-
-
-                <StackPanel
-                    Orientation="Horizontal"
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    >
-
-                    <TextBox
-                        x:Name="Network"
-                        Width="105"
-                        Margin="5,0,5,10"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="当前网络"
-                       
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-                    <TextBox
-                        x:Name="MaskText"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="子网掩码"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-                    <TextBox
-                        x:Name="First"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="第一个可用IP"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-
-                    <TextBox
-                        x:Name="Last"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="最后一个可用IP"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-                    <TextBox
-                        x:Name="Broadcast"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="广播地址"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-                    <TextBox
-                        x:Name="NumBox"
-                        Margin="5,0,5,10"
-                        Width="85"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="可用地址数"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-
-                </StackPanel>
-
-
-                <StackPanel
-                    Grid.Column="2"
-                    x:Name="MultipleSelectStatus"
-                    Visibility="Hidden"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    >
-                    <TextBox
-                        x:Name="CountBox"
-                        Width="105"
-                        Margin="5,0,5,10"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="已选地址数量"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-                        <Button
-                            x:Name="DistributionButton"
-                            Height="24"
-                            Margin="5,0,10,0"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            materialDesign:ButtonProgressAssist.Value="-1"
-                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                            materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                            Click="DistributionButton_OnClick"                  
-                            ToolTip="一键配置所选地址"
-                            >
-                            <materialDesign:PackIcon x:Name="Icon" Kind="CogOutline" Width="16" Height="16"/>
-
-                        </Button>
-
-
-
-                </StackPanel>
-
-            </Grid>
+        </Grid>
 
 
 

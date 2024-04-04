@@ -22,7 +22,7 @@ namespace IPAM_NOTE
 		/// <summary>
 		/// 当前软件版本号
 		/// </summary>
-		public static double Ver= 1.12;
+		public static double Ver= 1.11;
 
 		/// <summary>
 		/// 最新版本号
@@ -106,5 +106,11 @@ namespace IPAM_NOTE
 		/// 多选模式下一并被选择的IP
 		/// </summary>
 		public static List<int>SelectedIpAddress = new List<int>();
-	}
+
+
+        /// <summary>
+        /// 多选模式下一并被选择的IP
+        /// </summary>
+        public static string  UpdateInfos ;
+    }
 }

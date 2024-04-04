@@ -95,10 +95,6 @@ namespace IPAM_NOTE
 			Process.Start("https://github.com/yaobus/IPAM-NOTE.git");
 		}
 
-		private void Sipam_OnMouseDown(object sender, MouseButtonEventArgs e)
-		{
-			Process.Start("https://github.com/yaobus/SIPAM.git");
-		}
 
 		List<ViewMode.BackupInfo> backupList = new List<ViewMode.BackupInfo>();
 

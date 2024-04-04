@@ -82,14 +82,44 @@ namespace IPAM_NOTE
 			}
 		}
 
-		private class GitHubRelease
+        public async Task<string> GetReleaseBodyAsync()
+        {
+            try
+            {
+                string apiUrl = $"https://api.github.com/repos/{_repositoryOwner}/{_repositoryName}/releases/latest";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36 Edg/95.0.1020.53");
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    response.EnsureSuccessStatusCode();
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    var release = JsonConvert.DeserializeObject<GitHubRelease>(json);
+
+                    return release.Body;
+                }
+            }
+            catch (Exception ex)
+            {
+                // 处理异常
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return null;
+            }
+        }
+
+
+        private class GitHubRelease
 		{
 			[JsonProperty("tag_name")]
 			public string TagName { get; set; }
 
 			[JsonProperty("assets")]
 			public List<GitHubAsset> Assets { get; set; }
-		}
+
+            [JsonProperty("body")]
+            public string Body { get; set; }
+        }
 
 		private class GitHubAsset
 		{
@@ -97,5 +127,6 @@ namespace IPAM_NOTE
 			public string DownloadUrl { get; set; }
 		}
 
-	}
+
+    }
 }
