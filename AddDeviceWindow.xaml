@@ -8,158 +8,129 @@
         Background="{DynamicResource MaterialDesignDarkBackground}"
         Foreground="{DynamicResource MaterialDesignDarkForeground}"
         TextElement.FontWeight="Medium"
-        TextElement.FontSize="14"
+        TextElement.FontSize="16"
         FontFamily="SimHei"
         ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="" 
+        Title="设备信息卡" 
         Style="{DynamicResource MaterialDesignWindow}"
-        Height="500"
-        Width="800"
+        Height="650"
+        Width="1200"
         WindowStartupLocation="CenterScreen"
+        Closing="AddDeviceWindow_OnClosing"
+        Loaded="AddDeviceWindow_OnLoaded"
         >
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71"/>
+            <ColumnDefinition Width="*"/>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        
-        
-        <Grid >
+        </Grid.ColumnDefinitions>
 
 
-            <materialDesign:ColorZone
-                  Grid.ColumnSpan="2"
-                  Padding="16"
-                  Mode="PrimaryLight">
 
-                <Grid>
+        <materialDesign:Card
+            Grid.Column="0"
+            Visibility="Collapsed"
+            Grid.Row="0"
+            materialDesign:ElevationAssist.Elevation="Dp5"
+            Background="{StaticResource MaterialDesignDarkBackground}"
+            >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel 
-                        Grid.Column="0"
-                        HorizontalAlignment="Stretch"
-                        
-                        >
-                        <StackPanel
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                        
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    ZIndex="1"
+                    Grid.Row="0"
+                    Orientation="Vertical"
+                    Margin="0">
+
+
+                    <TabControl
+                        SelectionChanged="TopControl_OnSelectionChanged"
+                        x:Name="TopControl"
+                        Style="{StaticResource MaterialDesignNavigationRailTabControl}">
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel
+                              Width="auto"
+                              Height="auto">
+                                    <materialDesign:PackIcon
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        Kind="Switch" />
+                                    <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="网络设备" />
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
+                        <TabItem
+                            
                             >
-                            <Label Content="设备名称:"/>
-                            <TextBox
-                                Width="300"
-                                x:Name="KeyWord"
-                                Margin="0"
-                                VerticalAlignment="Top"
-                                AcceptsReturn="False"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                                
-                            />
+                            <TabItem.Header>
+                                <StackPanel
+                                Width="auto"
+                                Height="auto">
+                                    <materialDesign:PackIcon
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    Kind="ServerOutline" />
+                                    <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="计算设备" />
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
 
-                        </StackPanel>
-
-                        <StackPanel
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                        
+                        <TabItem
+                            IsEnabled="False"
+                            IsSelected="False"
                             >
-                            <Label Content="设备型号:"/>
-                            <TextBox
-                                Width="300"
-                                x:Name="KeyWord2"
-                                Margin="0"
-                                VerticalAlignment="Top"
-                                AcceptsReturn="False"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                                
-                            />
-
-                        </StackPanel>
-
-                        <StackPanel
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                        
-                            >
-                            <Label Content="设备编号:"/>
-                            <TextBox
-                                Width="300"
-                                x:Name="KeyWord3"
-                                Margin="0"
-                                VerticalAlignment="Top"
-                                AcceptsReturn="False"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                                
-                            />
-
-                        </StackPanel>
-
-                        <StackPanel
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                        
-                            >
-                            <Label Content="设备备注:"/>
-                            <TextBox
-                                Width="300"
-                                x:Name="KeyWord4"
-                                Margin="0"
-                                VerticalAlignment="Top"
-                                AcceptsReturn="False"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                                
-                            />
-
-                        </StackPanel>
+                            <TabItem.Header>
+                                <StackPanel
+                                Width="auto"
+                                Height="auto">
+                                    <materialDesign:PackIcon
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    Kind="BookmarkBoxMultipleOutline" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="地址收藏" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
 
 
-                    </StackPanel>
-
-                    <StackPanel 
-                         Grid.Column="1"
-                        >
+                    </TabControl>
 
 
 
-                    </StackPanel>
+                </StackPanel>
 
-                </Grid>
-                
-                
-                
 
-   
-                
-            </materialDesign:ColorZone>
+            </Grid>
 
-        </Grid>
-        
+
+
+        </materialDesign:Card>
+
+        <StackPanel 
+            Margin="30"
+            x:Name="DevicePanel"
+            Grid.ColumnSpan="2"
+            Grid.Column="0">
+
+        </StackPanel>
+
 
 
 

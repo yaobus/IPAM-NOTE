@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace IPAM_NOTE
 {
@@ -20,8 +21,12 @@ namespace IPAM_NOTE
 
 			base.OnStartup(e);
 
-			// 检查 SQLite 数据库文件是否存在
-			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
+            //订阅全局异常信息
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+
+            // 检查 SQLite 数据库文件是否存在
+            string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 			string dbName = "Address_database.db";
 
 			if (!Directory.Exists(dbFilePath))
@@ -50,6 +55,22 @@ namespace IPAM_NOTE
 				}
 			}
 
-		}
-	}
+
+        }
+
+
+        /// <summary>
+        /// 全局异常处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            // 处理异常
+            // 记录异常信息、显示友好的错误提示框等
+           // Console.WriteLine(e.Exception);
+            //e.Handled = true; // 标记为已处理，防止应用程序终止
+        }
+
+    }
 }

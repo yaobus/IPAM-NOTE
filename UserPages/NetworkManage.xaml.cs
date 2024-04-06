@@ -1041,8 +1041,8 @@ namespace IPAM_NOTE.UserPages
 
             IPInfo[] results = await Task.Run(() => StartPingAndGetResults());
 
-            Console.WriteLine(results.Length);
-            Console.WriteLine(DataBrige.ipAddressInfos.Count);
+            //Console.WriteLine(results.Length);
+            //Console.WriteLine(DataBrige.ipAddressInfos.Count);
 
 
             int count = 0;//统计PING有响应的地址数量

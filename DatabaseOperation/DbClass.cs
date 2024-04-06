@@ -144,5 +144,38 @@ namespace IPAM_NOTE.DatabaseOperation
 		}
 
 
-	}
+        // 检测表是否存在
+        public bool IsTableExists(string tableName)
+        {
+
+                
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tableName}';";
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        return reader.HasRows; // 如果有行，则表存在，否则不存在
+                    }
+                }
+            
+        }
+
+
+        // 创建设备表
+        public void CreateTableIfNotExists(string tableName)
+        {
+            if (!IsTableExists(tableName))
+            {
+
+                    
+                    using (SQLiteCommand command = new SQLiteCommand(connection))
+                    {
+                        // 创建表的 SQL 语句
+                        command.CommandText = $"CREATE TABLE \"Devices\" (\r\n  \"Id\" INTEGER PRIMARY KEY AUTOINCREMENT,\r\n  \"TableName\" TEXT,\r\n  \"Name\" TEXT,\r\n  \"Model\" TEXT,\r\n  \"Number\" TEXT,\r\n  \"People\" TEXT,\r\n  \"Date\" TEXT,\r\n  \"Description\" TEXT,\r\n  \"Eport\" integer,\r\n  \"Fport\" integer,\r\n  \"Mport\" integer\r\n);";
+                        command.ExecuteNonQuery();
+                    }
+                
+            }
+        }
+    }
 }

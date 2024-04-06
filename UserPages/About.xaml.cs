@@ -48,13 +48,13 @@ namespace IPAM_NOTE.UserPages
         /// </summary>
         private void VerCheck()
         {
-            NowVer.Text = "版本号:V" + Convert.ToString(DataBrige.Ver) + "-Beta";
+            NowVer.Text = "版本号：V" + Convert.ToString(DataBrige.Ver) + "-Beta";
 
 
             if (Convert.ToDouble(DataBrige.LatestVersion) > Convert.ToDouble(DataBrige.Ver))
             {
                 NewVerPlan.Visibility = Visibility.Visible;
-                NewVer.Text = "最新版:V" + Convert.ToString(DataBrige.LatestVersion) + "-Beta";
+                NewVer.Text = "最新版：V" + Convert.ToString(DataBrige.LatestVersion) + "-Beta";
                 NewVer.Foreground = Brushes.DarkOrange;
 
                

@@ -1,23 +1,22 @@
-﻿<UserControl x:Class="IPAM_NOTE.UserPages.NetworkManage"
+﻿<UserControl x:Class="IPAM_NOTE.UserPages.DevicesPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IPAM_NOTE.UserPages"
              mc:Ignorable="d" 
-
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             
              Background="{DynamicResource MaterialDesignDarkBackground}"
              Foreground="{DynamicResource MaterialDesignDarkForeground}"
              TextElement.FontWeight="Medium"
-             TextElement.FontSize="14"
+            
              FontFamily="SimHei"
-             d:DesignHeight="768" 
-             d:DesignWidth="1366"
-             Loaded="NetworkManage_OnLoaded"
+             d:DesignHeight="1080" 
+             d:DesignWidth="1920"
+             Loaded="DevicesPage_OnLoaded"
              >
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="2"/>
@@ -55,7 +54,7 @@
             Grid.Column="0"
             Grid.Row="0"
             VerticalAlignment="Center"
-            >
+        >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -65,7 +64,7 @@
                 Grid.Column="0"
                 x:Name="IndexButton"
                 Margin="0"
-                Click="IndexButton_OnClick"
+                
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="索引">
                 <materialDesign:PackIcon
@@ -79,7 +78,7 @@
                 Grid.Column="1"
                 x:Name="NetworkButton"
                 Height="30"
-                Click="NetworkButton_OnClick"
+                
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="网段">
                 <materialDesign:PackIcon
@@ -90,7 +89,7 @@
                 Grid.Column="2"
                 x:Name="DescriptionButton"
                 Height="30"
-                Click="DescriptionButton_OnClick"
+                
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="网段备注">
                 <materialDesign:PackIcon
@@ -100,16 +99,19 @@
         </Grid>
 
 
+
+
         <ListView
+            
             Grid.Column="0"
             Grid.Row="1"
             Width="300"
-            x:Name="AddressListView"
+            x:Name="DevicesView"
             HorizontalAlignment="Left"
-            SelectionChanged="AddressListView_OnSelectionChanged"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Background="Coral"
             materialDesign:ElevationAssist.Elevation="Dp1"
+            SelectionChanged="DevicesView_OnSelectionChanged"
             >
 
             <ListView.ItemTemplate>
@@ -120,11 +122,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="4*"/>
                         </Grid.RowDefinitions>
 
-                       
+
                         <StackPanel
                             Grid.Row="0" 
                             Grid.Column="0" 
@@ -145,9 +147,10 @@
                             VerticalAlignment="Center"
                             >
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" Width="80" Margin="0" FontWeight="Medium"  Style="{StaticResource MaterialDesignHeadline6TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-                                <TextBlock Text="{Binding Network}"  Margin="0" FontWeight="Medium"  Style="{StaticResource MaterialDesignHeadline6TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                               
+                                <TextBlock Text="{Binding Number}"  Margin="5,0" FontWeight="Medium"  Style="{StaticResource MaterialDesignHeadline6TextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
                             </StackPanel>
 
                             <ProgressBar
@@ -161,10 +164,10 @@
                             <StackPanel Opacity="0.3" Orientation="Horizontal" VerticalAlignment="Bottom">
 
 
-                                <TextBlock Text="{Binding NetMask}" Width="100" Margin="0,5" Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Model}"  Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center"/>
 
-                               
-                                <TextBlock Text="{Binding Description}" Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                                <TextBlock Text="{Binding Description}" Margin="5,0" Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
 
                             </StackPanel>
@@ -179,88 +182,6 @@
             </ListView.ItemTemplate>
 
 
-
-            <!--<ListView.View>
-
-                <GridView>
-
-                    <GridViewColumn DisplayMemberBinding ="{Binding Id}"
-                       
-                        >
-                        <StackPanel VerticalAlignment="Center">
-                            <Button
-                                x:Name="IndexButton"
-                                Margin="-20,0"
-                                Click="IndexButton_OnClick"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                ToolTip="索引">
-                                <materialDesign:PackIcon
-                                    Kind="Numbers"
-                                    Width="24"
-                                    Height="24"
-                                    />
-                            </Button>
-
-
-
-                        </StackPanel>
-
-
-                    </GridViewColumn>
-
-                    <GridViewColumn
-                        DisplayMemberBinding="{Binding Network}"
-                        
-                        >
-                        <StackPanel
-                            Margin="-10,0"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            >
-
-
-                            <Button
-                                x:Name="NetworkButton"
-                                Height="30"
-                                Click="NetworkButton_OnClick"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                ToolTip="网段">
-                                <materialDesign:PackIcon
-                                    Kind="IpNetwork" Width="24" Height="24"/>
-                            </Button>
-                        </StackPanel>
-
-
-                    </GridViewColumn>
-
-
-
-                    <GridViewColumn
-                        DisplayMemberBinding="{Binding Description}"
-                        
-                        >
-                        <StackPanel
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            >
-
-                            <Button
-                                x:Name="DescriptionButton"
-                                Height="30"
-                               Click="DescriptionButton_OnClick"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                ToolTip="网段备注">
-                                <materialDesign:PackIcon
-                                    Kind="Notebook" Width="24" Height="24"/>
-                            </Button>
-                        </StackPanel>
-
-
-                    </GridViewColumn>
-
-
-                </GridView>
-            </ListView.View>-->
 
 
 
@@ -278,7 +199,7 @@
                 x:Name="AddButton"
                 Margin="20,0"
                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="添加网段"
+                ToolTip="添加设备"
                 VerticalAlignment="Center"
                 materialDesign:ButtonAssist.CornerRadius="15"
                 Click="AddButton_OnClick"
@@ -296,7 +217,7 @@
                 VerticalAlignment="Center"
                 materialDesign:ButtonAssist.CornerRadius="15"
                 IsEnabled="False"
-                Click="MinusButton_OnClick"
+                
                 >
 
                 <materialDesign:PackIcon Kind="Minus" Width="24" Height="24"/>
@@ -311,7 +232,7 @@
                 VerticalAlignment="Center"
                 IsEnabled="False"
                 materialDesign:ButtonAssist.CornerRadius="15"
-                Click="EditButton_OnClick"
+                
                 >
 
                 <materialDesign:PackIcon Kind="Edit" Width="24" Height="24"/>
@@ -328,7 +249,6 @@
 
 
         </StackPanel>
-
 
 
         <Grid
@@ -355,7 +275,7 @@
                         x:Name="GraphicsButton"
                         Margin="0"
                         IsChecked="True"
-                        Click="GraphicsButton_OnClick"
+                        
                         ToolTip="以图形方式显示所选网段地址"
                        
                         Style="{StaticResource MaterialDesignTabRadioButton}" >
@@ -367,7 +287,7 @@
                         x:Name="ListButton"
                         Margin="0"
                         IsChecked="False"
-                        Click="ListButton_OnClick"
+                        
                         ToolTip="以列表方式显示所选网段地址"
                         Style="{StaticResource MaterialDesignTabRadioButton}" 
                         
@@ -383,7 +303,7 @@
                         Margin="20,5,5,5"
                         Width="24"
                         Height="24"
-                        Click="StatusTestButton_OnClick"
+                        
                         ToolTip="检测所选网段地址在线状态"
                         materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
@@ -401,7 +321,7 @@
                         x:Name="MultipleSelect"
                         Margin="5"
                         IsChecked="False"
-                        Click="MultipleSelect_Click"
+                        
                         materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=HexagonMultipleOutline}"
                         Content="{materialDesign:PackIcon Kind=HexagonOutline}"
                         Style="{StaticResource MaterialDesignActionToggleButton}"
@@ -418,15 +338,14 @@
                     >
 
                 <ComboBox
-                    MaxDropDownHeight="300"
-                    Margin="5"
-                    x:Name="AddressBox"
-                    ItemsSource="{Binding ShortStringList}"
-                    materialDesign:TextFieldAssist.HasClearButton="True"
-                    Width="120"
-                    VerticalAlignment="Bottom"
-                    SelectionChanged="AddressBox_OnSelectionChanged"
-                    >
+                        Margin="5"
+                        x:Name="AddressBox"
+                        ItemsSource="{Binding ShortStringList}"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        Width="120"
+                        VerticalAlignment="Bottom"
+                        
+                        >
                     <ComboBox.SelectedItem>
                         <Binding
                                 Path="SelectedValidationOutlined"
@@ -482,7 +401,7 @@
                             materialDesign:HintAssist.FloatingScale="0"
                             materialDesign:HintAssist.Hint="搜索关键词"
                             Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                            KeyDown="KeyWord_OnKeyDown"
+                            
                         />
 
                 </StackPanel>
@@ -501,7 +420,7 @@
 
                 <Button
                         x:Name="SearchButton"
-                        Click="SearchButton_OnClick"
+                        
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         ToolTip="给我搜"
                         materialDesign:ButtonAssist.CornerRadius="15"
@@ -514,7 +433,7 @@
                         x:Name="SearchClear"
                         Visibility="Visible"
                         IsEnabled="False"
-                        Click="SearchClear_OnClick"
+                        
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         ToolTip="清空搜索"
                         materialDesign:ButtonAssist.CornerRadius="15"
@@ -529,7 +448,7 @@
                         HorizontalAlignment="Right"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         ToolTip="导入向导"
-                        Click="ImportButton_OnClick"
+                        
                         materialDesign:ButtonAssist.CornerRadius="15" 
                         >
 
@@ -544,7 +463,7 @@
                         
                         ToolTip="导出表格内容"
                         IsEnabled="False"
-                        Click="ExportButton_OnClick"
+                        
                         materialDesign:ButtonAssist.CornerRadius="15" 
                         >
 
@@ -560,166 +479,18 @@
         </Grid>
 
 
-
-
-
-
-
-        <Grid
-                Grid.Row="2"
-                Grid.Column="2"
-                HorizontalAlignment="Stretch"
-                ZIndex="5"
-                >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="160"/>
-            </Grid.ColumnDefinitions>
-
-
-
-
-            <TextBox
-                x:Name="PingNumBox"
-                Width="85"
-                Margin="5,0,5,10"
-                VerticalAlignment="Center"
-                materialDesign:HintAssist.Hint="PING响应数量"
-                IsEnabled="False"
-                Visibility="Hidden"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-
-
-
-
-
-
-            <StackPanel
-                    Orientation="Horizontal"
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    >
-
-                <TextBox
-                        x:Name="Network"
-                        Width="105"
-                        Margin="5,0,5,10"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="当前网络"
-                       
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-                <TextBox
-                        x:Name="MaskText"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="子网掩码"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-                <TextBox
-                        x:Name="First"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="第一个可用IP"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-
-                <TextBox
-                        x:Name="Last"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="最后一个可用IP"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-                <TextBox
-                        x:Name="Broadcast"
-                        Margin="5,0,5,10"
-                        Width="105"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="广播地址"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-                <TextBox
-                        x:Name="NumBox"
-                        Margin="5,0,5,10"
-                        Width="85"
-                        VerticalAlignment="Center"
-                        materialDesign:HintAssist.Hint="可用地址数"
-                        IsEnabled="False"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-
-            </StackPanel>
-
-
-            <StackPanel
-                    Grid.Column="2"
-                    x:Name="MultipleSelectStatus"
-                    Visibility="Hidden"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    >
-                <TextBox
-                    x:Name="CountBox"
-                    Width="85"
-                    Margin="5,0,5,10"
-                    VerticalAlignment="Center"
-                    materialDesign:HintAssist.Hint="已选地址数量"
-                    IsEnabled="False"
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-
-
-                <Button
-                    x:Name="DistributionButton"
-                    Height="24"
-                    Margin="5,0,10,0"
-                    Style="{StaticResource MaterialDesignRaisedButton}"
-                    materialDesign:ButtonProgressAssist.Value="-1"
-                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                    materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                    Click="DistributionButton_OnClick"                  
-                    ToolTip="一键配置所选地址"
-                    >
-                    <materialDesign:PackIcon x:Name="Icon" Kind="CogOutline" Width="16" Height="16"/>
-
-                </Button>
-
-
-
-            </StackPanel>
-
-        </Grid>
-
-
-
-
         <ScrollViewer 
-                Grid.Column="2"
-                Grid.Row="1"
-                HorizontalScrollBarVisibility="Disabled"
-                VerticalScrollBarVisibility="Auto">
+            Grid.Column="2"
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
 
             <WrapPanel  
-                    Margin="5"
-
-                    x:Name="Graphics"
+                Margin="5"
+                Orientation="Vertical"
+                x:Name="Graphics"
                
-                    >
+                >
 
 
             </WrapPanel>
@@ -731,19 +502,15 @@
 
 
         <WrapPanel  
-                Margin="5"
-                Grid.Column="2"
-                Grid.Row="1"
-                x:Name="GraphicsPlan"
+            Margin="5"
+            Grid.Column="2"
+            Grid.Row="1"
+            x:Name="GraphicsPlan"
                
-                >
+        >
 
 
         </WrapPanel>
-
-
-
-
 
 
 

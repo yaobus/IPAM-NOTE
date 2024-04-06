@@ -244,7 +244,6 @@ namespace IPAM_NOTE
 			using (var hashAlgorithm = SHA256.Create())
 			{
 
-				
 				using (var stream1 = File.OpenRead(file1))
 				using (var stream2 = File.OpenRead(file2))
 				{
@@ -293,10 +292,12 @@ namespace IPAM_NOTE
             {
                 BottomControl.SelectedIndex = -1;
 
+                FunctionPanel.Children.Clear();
+
                 switch (index)
                 {
-                    case 0:
-                        FunctionPanel.Children.Clear();
+                    case 0://网段管理
+                        
                         NetworkManage networkManage = new NetworkManage();
 
                         networkManage.Style = (Style)FindResource("UserControlStyle");
@@ -304,8 +305,12 @@ namespace IPAM_NOTE
                         FunctionPanel.Children.Add(networkManage);
                         break;
 
-                    case 1:
-                        FunctionPanel.Children.Clear();
+                    case 1://设备管理
+                        DevicesPage devicesPage = new DevicesPage();
+
+                        devicesPage.Style = (Style)FindResource("DevicesStyle");
+
+                        FunctionPanel.Children.Add(devicesPage);
 
                         break;
                 }
@@ -333,6 +338,12 @@ namespace IPAM_NOTE
                 {
                     case 0:
 
+
+                        break;
+
+
+                    case 1:
+
                         DatabaseBackup databaseBackup = new DatabaseBackup();
 
                         databaseBackup.Style = (Style)FindResource("DatabaseBackupStyle");
@@ -340,7 +351,7 @@ namespace IPAM_NOTE
                         FunctionPanel.Children.Add(databaseBackup);
                         break;
 
-                    case 1:
+                    case 2:
 
 
                        
@@ -353,7 +364,7 @@ namespace IPAM_NOTE
 
                         break;
 
-                    case 2:
+                    case 3:
                         DonationPage donationPage = new DonationPage();
 
                         donationPage.Style = (Style)FindResource("DonationStyle");
@@ -363,7 +374,7 @@ namespace IPAM_NOTE
                         break;
 
 
-                    case 3:
+                    case 4:
 
 
                        
@@ -387,6 +398,8 @@ namespace IPAM_NOTE
         private void AboutButton_OnClick(object sender, RoutedEventArgs e)
         {
             FunctionPanel.Children.Clear();
+            TopControl.SelectedIndex = -1;
+
             About aboutPage = new About();
 
             aboutPage.Style = (Style)FindResource("AboutPageStyle");

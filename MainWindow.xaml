@@ -46,6 +46,11 @@
             <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
+
+        <Style x:Key="DevicesStyle" TargetType="userPages:DevicesPage">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -105,7 +110,7 @@
                             </TabItem.Header>
                         </TabItem>
                         <TabItem
-                            IsEnabled="False"
+                            
                             >
                             <TabItem.Header>
                                 <StackPanel
@@ -161,6 +166,28 @@
                         x:Name="BottomControl"
                         SelectionChanged="BottomControl_OnSelectionChanged"
                         Style="{StaticResource MaterialDesignNavigationRailTabControl}">
+
+                        <TabItem
+                            IsSelected="False"
+                        >
+
+                            <TabItem.Header>
+                                <StackPanel
+                                    Width="auto"
+                                    Height="auto">
+                                    <materialDesign:PackIcon
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        ToolTip="设备预设"
+                                        Kind="Devices" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="获取帮助" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
+
                         <TabItem
                         IsSelected="False"
                         >
@@ -209,11 +236,11 @@
                                     Width="auto"
                                     Height="auto">
                                     <materialDesign:PackIcon
-                                        Width="32"
-                                        Height="32"
+                                        Width="28"
+                                        Height="28"
                                         HorizontalAlignment="Center"
                                         ToolTip="我想捐赠"
-                                        Kind="Donation" />
+                                        Kind="DonationOutline" />
                                 </StackPanel>
                             </TabItem.Header>
 

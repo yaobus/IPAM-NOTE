@@ -51,6 +51,7 @@
 
 
                 <ComboBox
+                    MaxDropDownHeight="300"
                     x:Name="NetworkComboBox"
                     Margin="5"
                     Width="340"

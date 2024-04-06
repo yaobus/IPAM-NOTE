@@ -112,5 +112,17 @@ namespace IPAM_NOTE
         /// 更新信息
         /// </summary>
         public static string UpdateInfos = "";
+
+
+        //----------------------------DevicesPage-----------------------------------
+
+        //获取到的设备信息列表
+        public static List<DeviceInfo> DeviceInfos = new List<DeviceInfo>();
+
+
+        /// <summary>
+        /// 从数据库获取到的单个设备信息列表
+        /// </summary>
+        public static List<ViewMode.DevicePortInfo> DevicePortInfos= new List<ViewMode.DevicePortInfo>();
     }
 }

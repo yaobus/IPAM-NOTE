@@ -212,5 +212,179 @@ namespace IPAM_NOTE
 			public string HostName { get; set; }
 			public string MacAddress { get; set; }
 		}
-	}
+
+        /// <summary>
+        /// 设备总表设备信息数据类型
+        /// </summary>
+        public class DeviceInfo
+        {
+            // 设备对应表名称
+            public int Id
+            {
+                get; set;
+            }
+
+            // 设备对应表名称
+            public string TableName
+            {
+                get; set;
+            }
+
+            // 设备名称
+            public string Name
+            {
+                get; set;
+            }
+            public string Model
+            {
+                get; set;
+            }
+            public string Number
+            {
+                get; set;
+            }
+            public string People
+            {
+                get; set;
+            }
+            public string Date
+            {
+                get; set;
+            }
+            public string Description
+            {
+                get; set;
+            }
+            public int Eport
+            {
+                get; set;
+            }
+            public int Fport
+            {
+                get; set;
+            }
+            public int Mport
+            {
+                get; set;
+            }
+
+            public DeviceInfo(int id, string tableName, string name, string model, string number, string people, string date, string description, int eport, int fport, int mport)
+            {
+                Id = id;
+                TableName = tableName;
+                Name = name;
+                Model = model;
+                Number = number;
+                People = people;
+                Date = date;
+                Description = description;
+                Eport = eport;
+                Fport = fport;
+                Mport = mport;
+
+
+            }
+        }
+
+
+        
+        /// <summary>
+        /// 设备信息数据类型
+        /// </summary>
+        public class ModelPresetInfo
+        {
+            // 设备对应表名称
+            public string Model
+            {
+                get; set;
+            }
+
+            public int Eport
+            {
+                get; set;
+            }
+
+            public int Fport
+            {
+                get; set;
+            }
+            
+            public int Mport
+            {
+                get; set;
+            }
+
+            public ModelPresetInfo(string model,int eport,int fport,int mport)
+            {
+
+                Model = model;
+                Eport = eport;
+                Fport = fport;
+                Mport = mport;
+
+            }
+        }
+
+
+        /// <summary>
+        /// 单个设备端口信息，含网口和硬盘位
+        /// </summary>
+        public class DevicePortInfo
+        {
+            // 设备端口类型
+            public string PortType
+            {
+                get; set;
+            }
+
+            //端口号
+            public string PortNumber
+            {
+                get; set;
+            }
+            //端口状态，0为未使用，1为已使用
+            public int PortStatus
+            {
+                get; set;
+            }
+
+            public string PortTag1
+            {
+                get; set;
+            }
+
+            public string PortTag2
+            {
+                get; set;
+            }
+
+            public string PortTag3
+            {
+                get; set;
+            }
+
+
+            public string Description
+            {
+                get; set;
+            }
+
+
+            public DevicePortInfo(string portType,string portNumber,int portStatus,string portTag1,string portTag2,string portTag3,string description)
+            {
+                PortType=portType;
+                PortNumber=portNumber;
+                PortStatus=portStatus;
+                PortTag1=portTag1;
+                PortTag2=portTag2;
+                PortTag3=portTag3;
+                Description=description;
+
+                
+
+            }
+        }
+
+
+    }
 }

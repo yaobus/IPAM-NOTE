@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{89472C4D-6B61-46F3-A976-6F78F15A06FF}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>IPAM_NOTE</RootNamespace>
     <AssemblyName>IPAM-NOTE</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -155,6 +155,9 @@
       <DependentUpon>Allocation.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataBrige.cs" />
+    <Compile Include="DevicePage\GeneralNetworkDevice.xaml.cs">
+      <DependentUpon>GeneralNetworkDevice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GitHubVersionChecker.cs" />
     <Compile Include="ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>
@@ -165,6 +168,9 @@
     </Compile>
     <Compile Include="UserPages\DatabaseBackup.xaml.cs">
       <DependentUpon>DatabaseBackup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPages\DevicesPage.xaml.cs">
+      <DependentUpon>DevicesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserPages\DonationPage.xaml.cs">
       <DependentUpon>DonationPage.xaml</DependentUpon>
@@ -185,6 +191,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Allocation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DevicePage\GeneralNetworkDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserPages\DatabaseBackup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPages\DevicesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -275,6 +289,9 @@
     <Resource Include="Resources\ALLOCATION.png" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Devices\SWITCH1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
