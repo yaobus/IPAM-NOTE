@@ -793,12 +793,6 @@ namespace IPAM_NOTE.UserPages
                 if (MultipleSelect.IsChecked == false)//如果是单选
                 {
 
-                    //DataBrige.SelectButtonTag = Convert.ToInt32(button.Tag);
-
-                    //IpAddressInfo ipAddressInfo = DataBrige.ipAddressInfos[DataBrige.SelectButtonTag] as IpAddressInfo;
-
-                    //int ip = ipAddressInfo.Address;
-
                     if (ip != DataBrige.ipAddressInfos[0].Address && ip != DataBrige.ipAddressInfos[DataBrige.ipAddressInfos.Count - 1].Address)
                     {
                         DataBrige.SelectIp = ip.ToString();

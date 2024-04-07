@@ -164,7 +164,7 @@
                             <StackPanel Opacity="0.3" Orientation="Horizontal" VerticalAlignment="Bottom">
 
 
-                                <TextBlock Text="{Binding Model}"  Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Model}" Width="150" Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center"/>
 
 
                                 <TextBlock Text="{Binding Description}" Margin="5,0" Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left"/>

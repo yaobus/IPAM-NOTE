@@ -121,8 +121,29 @@ namespace IPAM_NOTE
 
 
         /// <summary>
-        /// 从数据库获取到的单个设备信息列表
+        /// 从数据库获取到的设备端口信息列表
         /// </summary>
         public static List<ViewMode.DevicePortInfo> DevicePortInfos= new List<ViewMode.DevicePortInfo>();
-    }
+
+		/// <summary>
+		/// 所选设备端口的标签
+		/// </summary>
+        public static string SelectDeviceButtonTag;
+
+
+
+		/// <summary>
+		/// 点击设备列表时临时存储当前所选设备的对应信息
+		/// </summary>
+		public static ViewMode.DeviceInfo SelectDeviceInfo;
+
+
+		/// <summary>
+		/// 点击端口按钮后临时存储所选端口对应的信息
+		/// </summary>
+		public static ViewMode.DevicePortInfo SelectDevicePortInfo;
+
+
+
+	}
 }

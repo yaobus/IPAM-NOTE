@@ -163,6 +163,9 @@
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="IPAddressCalculations.cs" />
+    <Compile Include="PortAllocation.xaml.cs">
+      <DependentUpon>PortAllocation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PortAllocation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

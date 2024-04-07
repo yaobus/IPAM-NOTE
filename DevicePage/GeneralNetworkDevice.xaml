@@ -174,7 +174,7 @@
                             >
                             <Label 
                                 VerticalAlignment="Bottom"
-                                Content="责  任  人:" />
+                                Content="责 任 人:" />
                             <TextBox
                                 Width="300"
                                 x:Name="PeopleBox"
@@ -485,7 +485,7 @@
                             x:Name="FPlan"
                             Height="50"
                             Margin="5"
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Orientation="Horizontal"
@@ -610,7 +610,7 @@
 
 
                         <StackPanel
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             x:Name="DPlan"
                             Height="50"
                             Margin="5"
@@ -629,7 +629,7 @@
                             <Label 
                                 Margin="5,0" 
                                 VerticalAlignment="Center"
-                                Content="硬  盘  位："/>
+                                Content="硬 盘 位："/>
 
                             <TextBox
                                 Width="50"
@@ -722,7 +722,7 @@
                         </StackPanel>
 
                         <StackPanel
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             x:Name="MPlan"
                             Height="50"
                             Margin="5"
@@ -741,7 +741,7 @@
                             <Label 
                                 Margin="5,0" 
                                 VerticalAlignment="Center"
-                                Content="管  理  口："/>
+                                Content="管 理 口："/>
 
                             <TextBox
                                 Width="50"

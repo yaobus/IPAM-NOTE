@@ -328,7 +328,7 @@ namespace IPAM_NOTE
 
 						int ip = DataBrige.SelectedIpAddress[0];
 
-						sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '2'  , \"Description\" = '{2}' , \"HostName\" = '{3}', \"MacAddress\" = '{4}' WHERE Address = {5}", tableName, UserTextBox.Text, DescriptionTextBox.Text, HostNameTextBox.Text, MacTextBox.Text, ip);
+						sql = string.Format("UPDATE {0} SET \"User\" = '{1}', \"AddressStatus\" = '1'  , \"Description\" = '{2}' , \"HostName\" = '{3}', \"MacAddress\" = '{4}' WHERE Address = {5}", tableName, UserTextBox.Text, DescriptionTextBox.Text, HostNameTextBox.Text, MacTextBox.Text, ip);
 
 
 						int index = 0;

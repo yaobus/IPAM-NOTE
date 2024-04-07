@@ -137,10 +137,11 @@ namespace IPAM_NOTE.UserPages
                 //加载所选设备信息
                 GetDeviceInfo(info.TableName);
 
-               
+				//将所选设备信息存到临时区域
+				DataBrige.SelectDeviceInfo = info;
 
-            }
-        }
+			}
+		}
 
 
         /// <summary>
@@ -260,14 +261,14 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-                        Tag = i.ToString(),
-                        Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+						Tag = "E" + i.ToString(),
+						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
 
                     };
 
-
+					newButton.Click += NewButton_Click;
                     //显示到图形化区域
                     subitemPanel.Children.Add(newButton);
 
@@ -279,7 +280,7 @@ namespace IPAM_NOTE.UserPages
 
                 Separator separator = new Separator();
                 separator.Width = 10000; // 设置横线的宽度，根据需要调整
-
+                separator.Opacity = 0.3;
                 //separator.Loaded += (sender, e) =>
                 //{
                 //    // 设置横线的宽度为父容器的宽度
@@ -345,16 +346,16 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-                        Tag = i.ToString(),
-                        Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+						Tag = "F" + i.ToString(),
+						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
 
                     };
 
-
-                    //显示到图形化区域
-                    fSubitemPanel.Children.Add(newButton);
+                    newButton.Click += NewButton_Click;
+					//显示到图形化区域
+					fSubitemPanel.Children.Add(newButton);
 
                 }
 
@@ -362,14 +363,10 @@ namespace IPAM_NOTE.UserPages
 
                 Separator fiberseparator = new Separator();
                 fiberseparator.Width = 10000; // 设置横线的宽度，根据需要调整
+                fiberseparator.Opacity = 0.3;
 
-                //fiberseparator.Loaded += (sender, e) =>
-                //{
-                //    // 设置横线的宽度为父容器的宽度
-                //    fiberseparator.Width = Graphics.ActualWidth;
-                //};
 
-                Graphics.Children.Add(fiberseparator);
+				Graphics.Children.Add(fiberseparator);
             }
 
 
@@ -425,16 +422,17 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-                        Tag = i.ToString(),
-                        Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+						Tag = "D" + i.ToString(),
+						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
 
                     };
 
+                    newButton.Click += NewButton_Click;
 
-                    //显示到图形化区域
-                    dSubitemPanel.Children.Add(newButton);
+					//显示到图形化区域
+					dSubitemPanel.Children.Add(newButton);
 
                 }
 
@@ -442,10 +440,10 @@ namespace IPAM_NOTE.UserPages
 
                 Separator diskSeparator = new Separator();
                 diskSeparator.Width = 10000; // 设置横线的宽度，根据需要调整
+                diskSeparator.Opacity = 0.3;
 
 
-
-                Graphics.Children.Add(diskSeparator);
+				Graphics.Children.Add(diskSeparator);
             }
 
 
@@ -501,31 +499,31 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-                        Tag = i.ToString(),
-                        Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+						Tag = "M" + i.ToString(),
+						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
 
                     };
 
-
-                    //显示到图形化区域
-                    mSubitemPanel.Children.Add(newButton);
+					newButton.Click += NewButton_Click;
+					//显示到图形化区域
+					mSubitemPanel.Children.Add(newButton);
 
                 }
 
                 Graphics.Children.Add(mSubitemPanel);
 
-                Separator miberseparator = new Separator();
-                miberseparator.Width = 10000; // 设置横线的宽度，根据需要调整
+                Separator mSeparator = new Separator();
+                mSeparator.Width = 10000; // 设置横线的宽度，根据需要调整
+                mSeparator.Opacity = 0.3;
+				//miberseparator.Loaded += (sender, e) =>
+				//{
+				//    // 设置横线的宽度为父容器的宽度
+				//    miberseparator.Width = Graphics.ActualWidth;
+				//};
 
-                //miberseparator.Loaded += (sender, e) =>
-                //{
-                //    // 设置横线的宽度为父容器的宽度
-                //    miberseparator.Width = Graphics.ActualWidth;
-                //};
-
-                Graphics.Children.Add(miberseparator);
+				Graphics.Children.Add(mSeparator);
             }
 
 
@@ -536,16 +534,70 @@ namespace IPAM_NOTE.UserPages
 
         }
 
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+	        if (sender is Button button)
+	        {
+		        DataBrige.SelectDeviceButtonTag = button.Tag.ToString();
+
+		        string port = DataBrige.SelectDeviceButtonTag.Substring(1);//端口号
+
+
+				char firstCharacter = DataBrige.SelectDeviceButtonTag[0];
+
+				// 将第一个字符转换为字符串
+				string type = firstCharacter.ToString();//端口类型
+
+				var list = DataBrige.DevicePortInfos.Where(data => data.PortType == type).ToList();
+
+				
+
+				foreach (var info in list)
+				{
+					if (info.PortNumber == port)
+					{
+
+						DataBrige.SelectDevicePortInfo = info;
+
+						break;
+					}
+				}
+
+
+				Window allocation = new PortAllocation();
+
+				if (allocation.ShowDialog() == true)
+				{
+					
+					//if (LoadMode == 0)
+					//{
+						WriteDeviceConfig(DataBrige.DevicePortInfos);
+					//}
+					//else
+					//{
+					//	ListLoad();
+
+					//}
+				}
+
+
+
+
+			}
+        }
+
+
+
 
 
 
         /// <summary>
-        /// 创建按钮内容
-        /// </summary>
-        /// <param name="buttonText"></param>
-        /// <param name="iconKind"></param>
-        /// <returns></returns>
-        private StackPanel CreateButtonContent(string buttonText, PackIconKind iconKind)
+			/// 创建按钮内容
+			/// </summary>
+			/// <param name="buttonText"></param>
+			/// <param name="iconKind"></param>
+			/// <returns></returns>
+			private StackPanel CreateButtonContent(string buttonText, PackIconKind iconKind)
         {
             // 创建包含图标和文本的 StackPanel
             StackPanel stackPanel = new StackPanel();
