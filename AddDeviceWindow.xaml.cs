@@ -58,6 +58,7 @@ namespace IPAM_NOTE
             this.DialogResult = true;
         }
 
+
         private void AddDeviceWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             DevicePanel.Children.Clear();

@@ -213,11 +213,11 @@
                 x:Name="MinusButton"
                 Margin="20,0"
                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="删除网段"
+                ToolTip="删除设备"
                 VerticalAlignment="Center"
                 materialDesign:ButtonAssist.CornerRadius="15"
                 IsEnabled="False"
-                
+                Click="MinusButton_OnClick"
                 >
 
                 <materialDesign:PackIcon Kind="Minus" Width="24" Height="24"/>
@@ -232,7 +232,7 @@
                 VerticalAlignment="Center"
                 IsEnabled="False"
                 materialDesign:ButtonAssist.CornerRadius="15"
-                
+                Click="EditButton_OnClick"
                 >
 
                 <materialDesign:PackIcon Kind="Edit" Width="24" Height="24"/>
@@ -513,6 +513,135 @@
         </WrapPanel>
 
 
+        <Grid
+                Grid.Row="2"
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                ZIndex="5"
+                >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+
+
+
+
+
+
+
+
+
+
+
+            <StackPanel
+                    Orientation="Horizontal"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    >
+
+                <TextBox
+                        x:Name="DeviceName"
+                        Width="100"
+                        Margin="5,0,5,10"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="设备名称"
+                       
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                <TextBox
+                        x:Name="DeviceModel"
+                        Margin="5,0,5,10"
+                        Width="150"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="设备型号"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+                <TextBox
+                        x:Name="DeviceNumber"
+                        Margin="5,0,5,10"
+                        Width="150"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="设备编号"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+
+                <TextBox
+                        x:Name="People"
+                        Margin="5,0,5,10"
+                        Width="100"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="责任人"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                <TextBox
+                        x:Name="DeviceDate"
+                        Margin="5,0,5,10"
+                        Width="100"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="启用日期"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+                <TextBox
+                        x:Name="DeviceDescription"
+                        Margin="5,0,5,10"
+                        Width="100"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="设备备注"
+                        IsEnabled="False"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+
+            </StackPanel>
+
+
+            <StackPanel
+                    Grid.Column="2"
+                    x:Name="MultipleSelectStatus"
+                    Visibility="Hidden"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    >
+                <TextBox
+                    x:Name="CountBox"
+                    Width="85"
+                    Margin="5,0,5,10"
+                    VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="已选地址数量"
+                    IsEnabled="False"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+
+                <Button
+                    x:Name="DistributionButton"
+                    Height="24"
+                    Margin="5,0,10,0"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                                   
+                    ToolTip="一键配置所选地址"
+                    >
+                    <materialDesign:PackIcon x:Name="Icon" Kind="CogOutline" Width="16" Height="16"/>
+
+                </Button>
+
+
+
+            </StackPanel>
+
+        </Grid>
 
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,11 +50,33 @@ namespace IPAM_NOTE.DevicePage
             dbClass = new DbClass(dbFilePath);
             dbClass.OpenConnection();
 
-            DeviceNamePreset.ItemsSource = deviceTypePresets;
 
-            ModelPreset.ItemsSource = modelPresetInfos;
+            if (DataBrige.DeviceAddStatus == 1)//编辑设备
+            {
+                NameBox.Text = DataBrige.SelectDeviceInfo.Name;
+                ModelBox.Text = DataBrige.SelectDeviceInfo.Model;
+                NumberBox.Text = DataBrige.SelectDeviceInfo.Number;
+                PeopleBox.Text = DataBrige.SelectDeviceInfo.People;
 
-            LoadPreset();
+                DateBox.Text = DataBrige.SelectDeviceInfo.Date;
+
+                DescriptionBox.Text = DataBrige.SelectDeviceInfo.Description;
+
+                ECheckBox.IsEnabled = false;
+                ECheckBox.IsChecked = false;
+
+                FCheckBox.IsEnabled = false;
+                FCheckBox.IsChecked=false;
+
+                MCheckBox.IsEnabled = false;
+                MCheckBox.IsChecked=false;
+
+                DCheckBox.IsEnabled = false;
+                DCheckBox.IsChecked=false;
+            }
+
+
+
         }
 
         #region 端口数字输入
@@ -259,148 +282,58 @@ namespace IPAM_NOTE.DevicePage
         #endregion
 
 
-        private List<string> deviceTypePresets = new List<string>();
-        private List<string> brandPresets = new List<string>();
-        private List<ViewMode.ModelPresetInfo> modelPresetInfos = new List<ViewMode.ModelPresetInfo>();
-
-        /// <summary>
-        /// 加载设备预设
-        /// </summary>
-        private void LoadPreset()
-        {
-            //设备类型预设
-            deviceTypePresets.Add("交换机");
-            deviceTypePresets.Add("服务器");
-            deviceTypePresets.Add("通用设备");
-        }
-
-
-        private List<string> LoadBrandList(int typeIndex = 0)
-        {
-            List<string> brands = new List<string>();
-
-
-
-            switch (typeIndex)
-            {
-                case 0://交换机
-                    brands.Add("华为(HUAWEI)");
-                    brands.Add("华三(H3C)");
-                    brands.Add("锐捷(RUJIE)");
-                    brands.Add("思科(CISCO)");
-                    return brands;
-
-                case 1://服务器
-                    brands.Add("华为(HUAWEI)");
-                    brands.Add("华三(H3C)");
-                    brands.Add("锐捷(RUJIE)");
-                    brands.Add("联想(LENOVO)");
-                    brands.Add("惠普(HP)");
-                    brands.Add("戴尔(DELL)");
-                    brands.Add("IBM(IBM)");
-                    return brands;
-
-
-
-
-
-                default:
-
-                    return null;
-            }
-
-
-        }
-
-
-        private List<ViewMode.ModelPresetInfo> loadModelList(int typeIndex = 0, int brandIndex = 0)
-        {
-
-
-            List<ViewMode.ModelPresetInfo> modelInfo = new List<ViewMode.ModelPresetInfo>();
-
-            switch (typeIndex)
-            {
-                case 0://交换机
-
-
-                    switch (brandIndex)
-                    {
-                        case 0://华为
-
-                            modelInfo.Add(new ViewMode.ModelPresetInfo("S5700-10P-LI-AC", 8, 2, 1));
-                            modelInfo.Add(new ViewMode.ModelPresetInfo("S5720-14X-PWH-SI-AC", 12, 2, 1));
-                            modelInfo.Add(new ViewMode.ModelPresetInfo("S5700-28P-LI-AC", 24, 4, 1));
-                            modelInfo.Add(new ViewMode.ModelPresetInfo("S5700-52X-LI-AC", 48, 4, 1));
-                            modelInfo.Add(new ViewMode.ModelPresetInfo("S5735-S32ST4X", 8, 28, 2));
-                            modelInfo.Add(new ViewMode.ModelPresetInfo("S5735S-H24S4XC-A", 0, 28, 2));
-
-
-
-                            return modelInfo;
-
-                        case 1://H3C
-
-                            return null;
-
-
-
-
-
-
-                        default:
-
-                            return null;
-                    }
-
-
-
-
-                    break;
-
-
-                case 1://服务器
-
-
-                    return null;
-
-
-                default://通用设备
-
-
-                    return null;
-            }
-
-
-
-        }
-
-
 
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e)
         {
-            //1、添加设备到设备总表
 
-
-            if (CheckInput() == 0)
+            if (DataBrige.DeviceAddStatus == 0)//添加
             {
 
-                string tableName = CreateTableName();
+                //1、添加设备到设备总表
 
-                //插入设备信息总表的数据
-                string sql = string.Format(
-                    $"INSERT INTO Devices (TableName,Name,Model,Number,People,Date,Description,Eport,Fport,Mport) VALUES ('{tableName}','{NameBox.Text}','{ModelBox.Text}','{NumberBox.Text}','{PeopleBox.Text}','{DatePicker.Text}','{DescriptionBox.Text}',{Convert.ToInt32(EthernetPort.Text)},{Convert.ToInt32(FiberPort.Text)},{Convert.ToInt32(ManagePort.Text)})");
-                dbClass.ExecuteQuery(sql);
+                if (CheckInput() == 0)
+                {
 
-                //创建表
-                CreateTable(tableName);
+                    string tableName = CreateTableName();
 
-                //初始化设备详细信息表
-                InitializedData(tableName);
+                    //插入设备信息总表的数据
+                    string sql = string.Format(
+                        $"INSERT INTO Devices (TableName,Name,Model,Number,People,Date,Description,Eport,Fport,Mport) VALUES ('{tableName}','{NameBox.Text}','{ModelBox.Text}','{NumberBox.Text}','{PeopleBox.Text}','{DateBox.Text}','{DescriptionBox.Text}',{Convert.ToInt32(EthernetPort.Text)},{Convert.ToInt32(FiberPort.Text)},{Convert.ToInt32(ManagePort.Text)})");
+                    dbClass.ExecuteQuery(sql);
 
-                //关闭窗口
-                CloseParentWindowRequested?.Invoke(this, EventArgs.Empty);
+                    //创建表
+                    CreateTable(tableName);
+
+                    //初始化设备详细信息表
+                    InitializedData(tableName);
+
+                    //关闭窗口
+                    CloseParentWindowRequested?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            else //编辑
+            {
+
+
+                if (NameBox.Text.Length > 0)
+                {
+                    string tableName = DataBrige.SelectDeviceInfo.TableName;
+
+                    string sql = string.Format(
+                        $"UPDATE Devices SET \"Name\" = '{NameBox.Text}', \"Model\" = '{ModelBox.Text}'  , \"Number\" = '{NumberBox.Text}' , \"People\" = '{PeopleBox.Text}', \"Description\" = '{DescriptionBox.Text}' WHERE TableName = '{tableName}'");
+                    Console.WriteLine(sql);
+
+                    dbClass.ExecuteQuery(sql); //写入端口信息
+
+                    //关闭窗口
+                    CloseParentWindowRequested?.Invoke(this, EventArgs.Empty);
+                }
+                else
+                {
+                    MessageBox.Show("设备名称不得为空", "必要信息不完整" , MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
             }
 
 
@@ -472,44 +405,7 @@ namespace IPAM_NOTE.DevicePage
         }
 
 
-        #region 选择设备预设
-        private void DeviceNamePreset_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (DeviceNamePreset.SelectedIndex != -1)
-            {
-                NameBox.Text = DeviceNamePreset.SelectedItem.ToString();
-                brandPresets = LoadBrandList(DeviceNamePreset.SelectedIndex);
-                BrandPreset.ItemsSource = brandPresets;
-            }
-        }
 
-        private void BrandPreset_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (BrandPreset.SelectedIndex != -1)
-            {
-                modelPresetInfos = loadModelList(DeviceNamePreset.SelectedIndex, BrandPreset.SelectedIndex);
-                ModelPreset.ItemsSource = modelPresetInfos;
-            }
-        }
-
-        private void ModelPreset_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ModelPreset.SelectedIndex != -1)
-            {
-
-                ViewMode.ModelPresetInfo info = (ViewMode.ModelPresetInfo)ModelPreset.SelectedItem;
-
-                ModelBox.Text = BrandPreset.SelectedItem.ToString() + info.Model;
-
-                EthernetSlider.Value = info.Eport;
-                FiberSlider.Value = info.Fport;
-                ManageSlider.Value = info.Mport;
-
-            }
-
-        }
-
-        #endregion
 
 
         /// <summary>
@@ -647,6 +543,11 @@ namespace IPAM_NOTE.DevicePage
         private void DiskSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             DiskBox.Text = DiskSlider.Value.ToString();
+        }
+
+        private void DatePicker_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DateBox.Text = DatePicker.Text;
         }
     }
 }

@@ -355,7 +355,7 @@
 
                 Style="{StaticResource MaterialDesignOutlinedButton}"
                 ToolTip="删除分配" 
-                
+                Click="ReleaseButton_OnClick"
                 materialDesign:ButtonAssist.CornerRadius="15"
             >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >

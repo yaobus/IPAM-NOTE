@@ -53,6 +53,7 @@
                             VerticalAlignment="Bottom"
                             >
                             <Label 
+                                Width="75"
                                 VerticalAlignment="Bottom" 
                                 Content="设备名称:" />
                             <TextBox
@@ -68,16 +69,7 @@
                                 
                             />
 
-                            <ComboBox
-                                Visibility="Collapsed"
-                                x:Name="DeviceNamePreset"
-                                Margin="5,0"
-                                Width="120"
-                                materialDesign:HintAssist.Hint="名称预设"
-                                VerticalAlignment="Bottom"
-                                SelectionChanged="DeviceNamePreset_OnSelectionChanged"
-                                ItemsSource="{Binding LongStringList}"
-                                Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+
 
                         </StackPanel>
 
@@ -89,8 +81,9 @@
                             VerticalAlignment="Bottom"
                         
                             >
-                            <Label VerticalAlignment="Bottom" Content="设备型号:"/>
+                            <Label Width="75" VerticalAlignment="Bottom" Content="设备型号:"/>
                             <TextBox
+
                                 Width="300"
                                 x:Name="ModelBox"
                                 Margin="0"
@@ -102,29 +95,6 @@
                                 Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
                                 
                             />
-
-                            <ComboBox
-                                Visibility="Collapsed"
-                                x:Name="BrandPreset"
-                                Margin="5,0"
-                                Width="120"
-                                materialDesign:HintAssist.Hint="品牌预设"
-                                VerticalAlignment="Bottom"
-                                ItemsSource="{Binding LongStringList}"
-                                SelectionChanged="BrandPreset_OnSelectionChanged"
-                                Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                            
-                            <ComboBox
-                                Visibility="Collapsed"
-                                x:Name="ModelPreset"
-                                Margin="5,0"
-                                Width="220"
-                                materialDesign:HintAssist.Hint="型号预设"
-                                VerticalAlignment="Bottom"
-                                DisplayMemberPath="Model"
-                                ItemsSource="{Binding LongStringList}"
-                                SelectionChanged="ModelPreset_OnSelectionChanged"
-                                Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
 
 
                         </StackPanel>
@@ -138,6 +108,7 @@
                         
                             >
                             <Label 
+                                Width="75"
                                 VerticalAlignment="Bottom"
                                 Content="设备编号:"/>
                             <TextBox
@@ -173,8 +144,10 @@
                             VerticalAlignment="Bottom"
                             >
                             <Label 
+                                Width="75"
+                                HorizontalAlignment="Stretch"
                                 VerticalAlignment="Bottom"
-                                Content="责 任 人:" />
+                                Content="责任人:" />
                             <TextBox
                                 Width="300"
                                 x:Name="PeopleBox"
@@ -199,15 +172,31 @@
                         
                             >
                             <Label 
+                                Width="75"
                                 VerticalAlignment="Bottom"
                                 Content="启用日期:"/>
 
+                            <TextBox
+                                Width="280"
+                                x:Name="DateBox"
+                                Margin="0"
+                                VerticalAlignment="Bottom"
+                                AcceptsReturn="False"
+                                TextWrapping="NoWrap" 
+                                materialDesign:HintAssist.FloatingScale="0"
+    
+                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
+    
+                            />
+
                             <DatePicker
                                 x:Name="DatePicker"
-                                Width="300"
+                                Width="20"
                                 VerticalAlignment="Bottom"
                                 materialDesign:CalendarAssist.IsHeaderVisible="True"
-                                materialDesign:HintAssist.Hint="">
+                                materialDesign:HintAssist.Hint=""
+                                SelectedDateChanged="DatePicker_OnSelectedDateChanged"
+                                >
                                 <DatePicker.SelectedDate>
                                     <Binding
                                         Path="FutureValidatingDate"
@@ -227,6 +216,7 @@
                         
                             >
                             <Label 
+                                Width="75"
                                 VerticalAlignment="Bottom"
                                 Content="设备备注:"/>
                             <TextBox
@@ -290,7 +280,7 @@
                             <CheckBox
                                 Margin="0,0,10,0"
                                 x:Name="ECheckBox"
-                                IsChecked="True"
+                                IsChecked="False"
                                 VerticalAlignment="Center"
                                 Foreground="GreenYellow"
                                 Click="ECheckBox_OnClick"
@@ -357,7 +347,7 @@
 
                         <StackPanel
                             x:Name="EPlan"
-                            Visibility="Visible"
+                            Visibility="Collapsed"
                             Height="50"
                             Margin="5"
                             HorizontalAlignment="Stretch"
@@ -372,6 +362,7 @@
                                 VerticalAlignment="Center"
                                 Kind="Ethernet" />
                             <Label 
+                                Width="80"
                                 Margin="5,0" 
                                 Content="电口数量：" 
                                 VerticalAlignment="Center"/>
@@ -485,7 +476,7 @@
                             x:Name="FPlan"
                             Height="50"
                             Margin="5"
-                            Visibility="Visible"
+                            Visibility="Collapsed"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Orientation="Horizontal"
@@ -500,6 +491,7 @@
                                 VerticalAlignment="Center"
                                 Kind="ViewStreamOutline" />
                             <Label 
+                                Width="80"
                                 Margin="5,0" 
                                 VerticalAlignment="Center"
                                 Content="光口数量："/>
@@ -610,7 +602,7 @@
 
 
                         <StackPanel
-                            Visibility="Visible"
+                            Visibility="Collapsed"
                             x:Name="DPlan"
                             Height="50"
                             Margin="5"
@@ -627,9 +619,10 @@
                                 VerticalAlignment="Center"
                                 Kind="Hdd" />
                             <Label 
+                                Width="80"
                                 Margin="5,0" 
                                 VerticalAlignment="Center"
-                                Content="硬 盘 位："/>
+                                Content="硬盘位："/>
 
                             <TextBox
                                 Width="50"
@@ -722,7 +715,7 @@
                         </StackPanel>
 
                         <StackPanel
-                            Visibility="Visible"
+                            Visibility="Collapsed"
                             x:Name="MPlan"
                             Height="50"
                             Margin="5"
@@ -738,10 +731,11 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Kind="Ethernet" />
-                            <Label 
+                            <Label
+                                Width="80"
                                 Margin="5,0" 
                                 VerticalAlignment="Center"
-                                Content="管 理 口："/>
+                                Content="管理口："/>
 
                             <TextBox
                                 Width="50"

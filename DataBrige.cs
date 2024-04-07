@@ -144,6 +144,9 @@ namespace IPAM_NOTE
 		public static ViewMode.DevicePortInfo SelectDevicePortInfo;
 
 
-
-	}
+        /// <summary>
+        /// 0为添加设备，1为编辑设备
+        /// </summary>
+        public static int DeviceAddStatus = 0;
+    }
 }

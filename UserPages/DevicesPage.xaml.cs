@@ -63,6 +63,9 @@ namespace IPAM_NOTE.UserPages
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
+            DataBrige.DeviceAddStatus = 0;
+            
+            
             AddDeviceWindow addWindow = new AddDeviceWindow();
 
             if (addWindow.ShowDialog() == true)
@@ -84,7 +87,7 @@ namespace IPAM_NOTE.UserPages
         public void LoadDevicesInfo(SQLiteConnection connection)
         {
             DataBrige.DeviceInfos.Clear();
-
+            Graphics.Children.Clear();
             try
             {
                 string query = "SELECT * FROM Devices";
@@ -140,7 +143,33 @@ namespace IPAM_NOTE.UserPages
 				//将所选设备信息存到临时区域
 				DataBrige.SelectDeviceInfo = info;
 
-			}
+
+                //启用删除按钮
+                MinusButton.IsEnabled=true;
+
+                //启用编辑按钮
+                EditButton.IsEnabled=true;
+
+                //状态栏显示设备信息
+                DeviceName.Text=info.Name;
+                DeviceModel.Text=info.Model;
+                DeviceNumber.Text=info.Number;
+                People.Text=info.People;
+                DeviceDate.Text=info.Date;
+                DeviceDescription.Text=info.Description;
+
+            }
+            else
+            {
+                MinusButton.IsEnabled = false;
+                EditButton.IsEnabled = false;
+                DeviceName.Text = "";
+                DeviceModel.Text = "";
+                DeviceNumber.Text = "";
+                People.Text = "";
+                DeviceDate.Text = "";
+                DeviceDescription.Text = "";
+            }
 		}
 
 
@@ -624,6 +653,53 @@ namespace IPAM_NOTE.UserPages
             stackPanel.Children.Add(textBlock);
 
             return stackPanel;
+        }
+
+
+
+        /// <summary>
+        /// 删除设备
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MinusButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("注意！你正在删除一个设备，是否继续？", "注意", MessageBoxButton.YesNo,
+                MessageBoxImage.Information);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                string tableName = DataBrige.SelectDeviceInfo.TableName;
+                string sql = string.Format("DELETE FROM Devices WHERE  TableName = '{0}'", tableName);
+
+                dbClass.ExecuteQuery(sql); //写入端口信息
+
+                sql = string.Format("DROP TABLE '{0}'", tableName);
+
+                dbClass.ExecuteQuery(sql);//删除设备详表
+
+                LoadDevicesInfo(dbClass.connection);
+            }
+        }
+
+
+        /// <summary>
+        /// 编辑设备信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            DataBrige.DeviceAddStatus = 1;
+
+            AddDeviceWindow addWindow = new AddDeviceWindow();
+
+            if (addWindow.ShowDialog() == true)
+            {
+                // 当子窗口关闭后执行这里的代码
+                LoadDevicesInfo(dbClass.connection);
+            }
+
         }
     }
 }
