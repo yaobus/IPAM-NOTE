@@ -68,8 +68,8 @@ namespace IPAM_NOTE
         {
             // 处理异常
             // 记录异常信息、显示友好的错误提示框等
-           // Console.WriteLine(e.Exception);
-            //e.Handled = true; // 标记为已处理，防止应用程序终止
+            Console.WriteLine(e.Exception);
+            e.Handled = true; // 标记为已处理，防止应用程序终止
         }
 
     }

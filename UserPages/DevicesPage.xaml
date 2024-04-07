@@ -276,7 +276,7 @@
                         Margin="0"
                         IsChecked="True"
                         
-                        ToolTip="以图形方式显示所选网段地址"
+                        ToolTip="以图形方式显示所选设备端口"
                        
                         Style="{StaticResource MaterialDesignTabRadioButton}" >
 
@@ -287,8 +287,8 @@
                         x:Name="ListButton"
                         Margin="0"
                         IsChecked="False"
-                        
-                        ToolTip="以列表方式显示所选网段地址"
+                        Visibility="Hidden"
+                        ToolTip="以列表方式显示所选设备端口"
                         Style="{StaticResource MaterialDesignTabRadioButton}" 
                         
                         >
@@ -298,20 +298,7 @@
                 </RadioButton>
 
 
-                <Button
-                        x:Name="StatusTestButton"
-                        Margin="20,5,5,5"
-                        Width="24"
-                        Height="24"
-                        
-                        ToolTip="检测所选网段地址在线状态"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="False"
-                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                        materialDesign:ButtonProgressAssist.Value="-1"
-                        Content="{materialDesign:PackIcon Radar}"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MaterialDesignFloatingActionButton}" />
-
+               
             </StackPanel>
 
 
@@ -321,7 +308,7 @@
                         x:Name="MultipleSelect"
                         Margin="5"
                         IsChecked="False"
-                        
+                        Visibility="Hidden"
                         materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=HexagonMultipleOutline}"
                         Content="{materialDesign:PackIcon Kind=HexagonOutline}"
                         Style="{StaticResource MaterialDesignActionToggleButton}"
@@ -330,11 +317,12 @@
 
 
             <StackPanel
+                    Visibility="Hidden"
                     Grid.Column="1"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
-                    materialDesign:HintAssist.Hint="被搜索网段"
+                    materialDesign:HintAssist.Hint="被搜索设备"
                     >
 
                 <ComboBox
