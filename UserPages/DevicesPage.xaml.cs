@@ -331,9 +331,9 @@ namespace IPAM_NOTE.UserPages
             //添加光口
              x = fList.Count;
 
-             if (x>0)
-             {
-                WrapPanel fSubitemPanel = new WrapPanel();
+			if (x > 0)
+			{
+				WrapPanel fSubitemPanel = new WrapPanel();
 
               
 
