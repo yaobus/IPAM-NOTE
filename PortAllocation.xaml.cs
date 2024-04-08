@@ -40,22 +40,25 @@ namespace IPAM_NOTE
             DeviceBlock.Text = DataBrige.SelectDeviceInfo.Name + " " + DataBrige.SelectDeviceInfo.Number;
             ModelTextBlock.Text = "型号:" + DataBrige.SelectDeviceInfo.Model;
             DescriptionBlock.Text = "备注:" + DataBrige.SelectDeviceInfo.Description;
+
             string type = DataBrige.SelectDevicePortInfo.PortType;
+            
 
             switch (type)
             {
                 case "E":
-                    TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                    TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + DataBrige.SelectDevicePortInfo.PortNumber;
                     break;
 
                 case "F":
-                    TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                    TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDeviceInfo.FportTag + DataBrige.SelectDevicePortInfo.PortNumber;
                     break;
                 case "D":
-                    TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                    TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDeviceInfo.DportTag + DataBrige.SelectDevicePortInfo.PortNumber;
                     break;
+
                 case "M":
-                    TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                    TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDeviceInfo.MportTag + DataBrige.SelectDevicePortInfo.PortNumber;
                     break;
             }
 

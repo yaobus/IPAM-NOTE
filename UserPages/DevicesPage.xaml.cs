@@ -617,7 +617,7 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "M" + mList[i].PortStatus,
+						Tag = "M" + mList[i].PortNumber,
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -663,26 +663,27 @@ namespace IPAM_NOTE.UserPages
 
 				char firstCharacter = DataBrige.SelectDeviceButtonTag[0];
 
+
 				// 将第一个字符转换为字符串
 				string type = firstCharacter.ToString();//端口类型
 
+
 				var list = DataBrige.DevicePortInfos.Where(data => data.PortType == type).ToList();
 
-				
-
-				foreach (var info in list)
-				{
-					if (info.PortNumber == port)
-					{
-
-						DataBrige.SelectDevicePortInfo = info;
-
-						break;
-					}
-				}
 
 
-				Window allocation = new PortAllocation();
+                foreach (var info in list)
+                {
+                    if (info.PortNumber == port)
+                    {
+                        DataBrige.SelectDevicePortInfo = info;
+
+                        break;
+                    }
+                }
+
+
+                Window allocation = new PortAllocation();
 
 				if (allocation.ShowDialog() == true)
 				{
