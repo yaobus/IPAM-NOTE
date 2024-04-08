@@ -279,18 +279,28 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    StackPanel panel = CreateButtonContent(i, PackIconKind.Ethernet);
 
-                    Button newButton = new Button()
+                    string content = (i+1).ToString();
+
+					if (eList[i].PortTag1 != "")
+					{
+                        content= eList[i].PortTag1;
+					}
+
+					StackPanel panel = CreateButtonContent(content, PackIconKind.Ethernet);
+
+
+
+					Button newButton = new Button()
                     {
-                        Width = 60,
-                        Height = 60,
+                        Width = 70,
+                        Height = 50,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "E" + (i + 1),
+                        Tag = "E" + (i + 1),
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -364,12 +374,19 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    StackPanel panel = CreateButtonContent(i, PackIconKind.ViewStreamOutline);
+                    string content = (i + 1).ToString();
+
+                    if (eList[i].PortTag1 != "")
+                    {
+	                    content = eList[i].PortTag1;
+                    }
+
+					StackPanel panel = CreateButtonContent(content, PackIconKind.ViewStreamOutline);
 
                     Button newButton = new Button()
                     {
-                        Width = 60,
-                        Height = 60,
+                        Width = 70,
+                        Height = 50,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
@@ -439,13 +456,20 @@ namespace IPAM_NOTE.UserPages
                     }
 
                     fontBrush = Brushes.AliceBlue;
+                    string content = (i + 1).ToString();
 
-                    StackPanel panel = CreateButtonContent(i, PackIconKind.Hdd);
+                    if (eList[i].PortTag1 != "")
+                    {
+	                    content = eList[i].PortTag1;
+                    }
+
+                   
+					StackPanel panel = CreateButtonContent(content, PackIconKind.Hdd);
 
                     Button newButton = new Button()
                     {
-                        Width = 60,
-                        Height = 60,
+                        Width = 70,
+                        Height = 50,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
@@ -517,12 +541,21 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    StackPanel panel = CreateButtonContent(i, PackIconKind.Ethernet);
+                    string content = (i + 1).ToString();
+
+                    if (eList[i].PortTag1 != "")
+                    {
+	                    content = eList[i].PortTag1;
+                    }
+
+                   
+
+					StackPanel panel = CreateButtonContent(content, PackIconKind.Ethernet);
 
                     Button newButton = new Button()
                     {
-                        Width = 60,
-                        Height = 60,
+                        Width = 70,
+                        Height = 50,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
@@ -626,30 +659,33 @@ namespace IPAM_NOTE.UserPages
 			/// <param name="buttonText"></param>
 			/// <param name="iconKind"></param>
 			/// <returns></returns>
-			private StackPanel CreateButtonContent(int buttonText, PackIconKind iconKind)
-        {
+			private StackPanel CreateButtonContent(string buttonText, PackIconKind iconKind)
+			 {
             // 创建包含图标和文本的 StackPanel
             StackPanel stackPanel = new StackPanel();
             stackPanel.Orientation = Orientation.Vertical;
-            stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
-
+            stackPanel.HorizontalAlignment = HorizontalAlignment.Right;
+            stackPanel.VerticalAlignment = VerticalAlignment.Top;
             // 创建图标
             PackIcon icon = new PackIcon();
             icon.Kind = iconKind;
-            icon.Width = 32;
-            icon.Height = 32;
+            icon.Width = 50;
+            icon.Height = 30;
             icon.HorizontalAlignment = HorizontalAlignment.Center;
-            
+            icon.VerticalAlignment = VerticalAlignment.Top;
             icon.Margin = new Thickness(0, 0, 0, 0);
 
             // 创建文本块
             TextBlock textBlock = new TextBlock();
-            textBlock.Text = (buttonText+1).ToString();
-            //textBlock.VerticalAlignment = VerticalAlignment.Center;
+            
+            textBlock.Text = buttonText;
+            textBlock.FontSize = 12;
             textBlock.HorizontalAlignment = HorizontalAlignment.Center;
-           
-            // 将图标和文本块添加到 StackPanel 中
-            stackPanel.Children.Add(icon);
+			textBlock.TextAlignment= TextAlignment.Center;
+            icon.Margin = new Thickness(0, 0, 0, 0);
+
+			// 将图标和文本块添加到 StackPanel 中
+			stackPanel.Children.Add(icon);
             stackPanel.Children.Add(textBlock);
 
             return stackPanel;
