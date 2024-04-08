@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MaterialDesignThemes.Wpf.Transitions;
 
 namespace IPAM_NOTE.DatabaseOperation
 {
@@ -58,6 +59,8 @@ namespace IPAM_NOTE.DatabaseOperation
 
 		public  SQLiteDataReader ExecuteQuery(string query)
 		{
+
+            Console.WriteLine(query);
 			using (SQLiteCommand command = new SQLiteCommand(query, connection))
 			{
 				using (SQLiteDataReader reader = command.ExecuteReader())
@@ -167,11 +170,10 @@ namespace IPAM_NOTE.DatabaseOperation
             if (!IsTableExists(tableName))
             {
 
-                    
                     using (SQLiteCommand command = new SQLiteCommand(connection))
                     {
                         // 创建表的 SQL 语句
-                        command.CommandText = $"CREATE TABLE \"Devices\" (\r\n  \"Id\" INTEGER PRIMARY KEY AUTOINCREMENT,\r\n  \"TableName\" TEXT,\r\n  \"Name\" TEXT,\r\n  \"Model\" TEXT,\r\n  \"Number\" TEXT,\r\n  \"People\" TEXT,\r\n  \"Date\" TEXT,\r\n  \"Description\" TEXT,\r\n  \"Eport\" integer,\r\n  \"Fport\" integer,\r\n  \"Mport\" integer\r\n);";
+                        command.CommandText = $"CREATE TABLE \"Devices\" (\r\n  \"Id\" INTEGER PRIMARY KEY AUTOINCREMENT,\r\n  \"TableName\" TEXT,\r\n  \"Name\" TEXT,\r\n  \"Model\" TEXT,\r\n  \"Number\" TEXT,\r\n  \"People\" TEXT,\r\n  \"Date\" TEXT,\r\n  \"Description\" TEXT,\r\n  \"Eport\" integer,\r\n  \"EportTag\" TEXT,\r\n  \"Fport\" integer,\r\n  \"FportTag\" TEXT,\r\n  \"Mport\" integer,\r\n  \"MportTag\" TEXT,\r\n  \"Dport\" integer,\r\n  \"DportTag\" TEXT\r\n);";
                         command.ExecuteNonQuery();
                     }
                 

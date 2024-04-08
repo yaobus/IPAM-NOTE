@@ -347,9 +347,10 @@
 
                         <StackPanel
                             x:Name="EPlan"
-                            Visibility="Visible"
+                            Visibility="Collapsed"
+                            d:Visibility="Visible"
                             Height="50"
-                            Margin="5"
+                            Margin="0,5"
                             HorizontalAlignment="Stretch"
                             Orientation="Horizontal"
                             VerticalAlignment="Center"
@@ -367,12 +368,46 @@
                                 Content="电口数量：" 
                                 VerticalAlignment="Center"/>
 
+
+                            <ComboBox
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="槽位标签">
+                                <ComboBoxItem
+                                    Content="0/0/" />
+                                <ComboBoxItem
+                                    Content="1/0/" />
+                                <ComboBoxItem
+                                    Content="0/" />
+                                <ComboBoxItem
+                                    Content="1/" />
+                            </ComboBox>
+
+                            <TextBox
+                               
+                                Width="100"
+                                x:Name="ETag"
+                                Margin="0"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="False"
+                                IsEnabled="False"
+                                TextWrapping="NoWrap" 
+                                materialDesign:HintAssist.FloatingScale="0"
+                                Text="0/0/"
+                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
+     
+                            />
+
+
+                           
+
+
                             <TextBox
                                
                                 Width="50"
                                 x:Name="EthernetPort"
                                 Margin="0"
                                 VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
                                 AcceptsReturn="False"
                                 IsEnabled="False"
                                 TextWrapping="NoWrap" 
@@ -383,8 +418,8 @@
                             />
                             <Slider
                                 x:Name="EthernetSlider"
-                                Margin="30,0"
-                                Width="395"
+                                Margin="10,0"
+                                Width="350"
                                 materialDesign:SliderAssist.HideActiveTrack="True"
                                 Maximum="96"
                                 Minimum="0"
@@ -392,9 +427,11 @@
                                 Style="{StaticResource MaterialDesignDiscreteSlider}"
                                 TickFrequency="{Binding DiscreteHorizontal.TickFrequency}"
                                 TickPlacement="BottomRight"
-                                VerticalAlignment="Bottom"
+                                VerticalAlignment="Center"
                                 ValueChanged="EthernetSlider_OnValueChanged"
                                 Value="0" />
+
+
 
                             <StackPanel
                                 Orientation="Horizontal"
@@ -475,8 +512,9 @@
                         <StackPanel
                             x:Name="FPlan"
                             Height="50"
-                            Margin="5"
+                            Margin="0,5"
                             Visibility="Collapsed"
+                            d:Visibility="Visible"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Orientation="Horizontal"
@@ -496,12 +534,40 @@
                                 VerticalAlignment="Center"
                                 Content="光口数量："/>
 
+                            <ComboBox
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="槽位标签">
+                                <ComboBoxItem
+                                    Content="0/0/" />
+                                <ComboBoxItem
+                                    Content="1/0/" />
+                                <ComboBoxItem
+                                    Content="0/" />
+                                <ComboBoxItem
+                                    Content="1/" />
+                            </ComboBox>
+
+                            <TextBox
+                               
+                                Width="100"
+                                x:Name="FTag"
+                                Margin="0"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="False"
+                                IsEnabled="False"
+                                TextWrapping="NoWrap" 
+                                materialDesign:HintAssist.FloatingScale="0"
+                                Text="0/0/"
+                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
+     
+                            />
                             <TextBox
                                 Width="50"
                                 x:Name="FiberPort"
                                 Margin="0"
                                 IsEnabled="False"
                                 VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
                                 AcceptsReturn="False"
                                 TextWrapping="NoWrap" 
                                 materialDesign:HintAssist.FloatingScale="0"
@@ -512,8 +578,8 @@
 
                             <Slider
                                 x:Name="FiberSlider"
-                                Margin="30,0"
-                                Width="395"
+                                Margin="10,0"
+                                Width="350"
                                 materialDesign:SliderAssist.HideActiveTrack="True"
                                 Maximum="96"
                                 Minimum="0"
@@ -603,9 +669,10 @@
 
                         <StackPanel
                             Visibility="Collapsed"
+                            d:Visibility="Visible"
                             x:Name="DPlan"
                             Height="50"
-                            Margin="5"
+                            Margin="0,5"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Orientation="Horizontal"
@@ -624,12 +691,35 @@
                                 VerticalAlignment="Center"
                                 Content="硬盘位："/>
 
+                            <ComboBox
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="槽位标签">
+                                <ComboBoxItem
+                                    Content="Slot" />
+
+                            </ComboBox>
+
+                            <TextBox
+                               
+                                Width="100"
+                                x:Name="DTag"
+                                Margin="0"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="False"
+                                IsEnabled="False"
+                                TextWrapping="NoWrap" 
+                                materialDesign:HintAssist.FloatingScale="0"
+                                Text="Slot"
+                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
+     
+                            />
                             <TextBox
                                 Width="50"
                                 x:Name="DiskBox"
                                 Margin="0"
                                 IsEnabled="False"
                                 VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
                                 AcceptsReturn="False"
                                 TextWrapping="NoWrap" 
                                 materialDesign:HintAssist.FloatingScale="0"
@@ -639,8 +729,8 @@
                             />
                             <Slider
                                 x:Name="DiskSlider"
-                                Margin="30,0"
-                                Width="395"
+                                Margin="10,0"
+                                Width="350"
                                 materialDesign:SliderAssist.HideActiveTrack="True"
                                 Maximum="48"
                                 Minimum="0"
@@ -716,9 +806,10 @@
 
                         <StackPanel
                             Visibility="Collapsed"
+                            d:Visibility="Visible"
                             x:Name="MPlan"
                             Height="50"
-                            Margin="5"
+                            Margin="0,5"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Orientation="Horizontal"
@@ -737,12 +828,37 @@
                                 VerticalAlignment="Center"
                                 Content="管理口："/>
 
+                            <ComboBox
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="槽位标签">
+                                <ComboBoxItem
+                                    Content="Mgmt" />
+
+                            </ComboBox>
+                            
+
+                            <TextBox
+                               
+                                Width="100"
+                                x:Name="MTag"
+                                Margin="0"
+                                VerticalAlignment="Center"
+                                AcceptsReturn="False"
+                                IsEnabled="False"
+                                TextWrapping="NoWrap" 
+                                materialDesign:HintAssist.FloatingScale="0"
+                                Text="Mgmt"
+                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
+     
+                            />
+
                             <TextBox
                                 Width="50"
                                 x:Name="ManagePort"
                                 Margin="0"
                                 IsEnabled="False"
                                 VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
                                 AcceptsReturn="False"
                                 TextWrapping="NoWrap" 
                                 materialDesign:HintAssist.FloatingScale="0"
@@ -752,8 +868,8 @@
                             />
                             <Slider
                                 x:Name="ManageSlider"
-                                Margin="30,0"
-                                Width="395"
+                                Margin="10,0"
+                                Width="350"
                                 materialDesign:SliderAssist.HideActiveTrack="True"
                                 Maximum="4"
                                 Minimum="0"
@@ -845,7 +961,7 @@
 
 
         <Button
-            Grid.Row="3"
+            Grid.Row="2"
             x:Name="SaveButton"
             Margin="30,0,30,50"
             Height="50"

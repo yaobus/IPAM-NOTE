@@ -56,7 +56,8 @@ namespace IPAM_NOTE.UserPages
 
             dbClass = new DbClass(dbFilePath);
             dbClass.OpenConnection();
-            dbClass.CreateTableIfNotExists("Devices");
+
+            dbClass.CreateTableIfNotExists("Devices");//检查表单是否创建
 
             LoadDevicesInfo(dbClass.connection);
         }
@@ -112,11 +113,16 @@ namespace IPAM_NOTE.UserPages
                     string date = reader["Date"].ToString();
                     string description = reader["Description"].ToString();
                     int ePort=Convert.ToInt32( reader["Eport"]);
+                    string ePortTag= reader["EportTag"].ToString();
                     int fPort = Convert.ToInt32(reader["Fport"]);
+                    string fPortTag = reader["FportTag"].ToString();
                     int mPort = Convert.ToInt32(reader["Mport"]);
+                    string mPortTag = reader["MportTag"].ToString();
+                    int dPort = Convert.ToInt32(reader["Mport"]);
+                    string dPortTag = reader["DportTag"].ToString();
 
-                    DataBrige.DeviceInfos.Add(new DeviceInfo(id, tableName, name, model, number, people, date, description, ePort, fPort, mPort));
-                    
+                    DataBrige.DeviceInfos.Add(new DeviceInfo(id, tableName, name, model, number, people, date, description, ePort, ePortTag, fPort, fPortTag, mPort, mPortTag, dPort, dPortTag));
+
                 }
 
                 DevicesView.ItemsSource = DataBrige.DeviceInfos;
@@ -134,29 +140,33 @@ namespace IPAM_NOTE.UserPages
         {
             if (DevicesView.SelectedIndex != -1)
             {
-                ViewMode.DeviceInfo info = DevicesView.SelectedItem as ViewMode.DeviceInfo;
+                if (DevicesView.SelectedItem is DeviceInfo info)
+                {
+                    //将所选设备信息存到临时区域
+                    DataBrige.SelectDeviceInfo = info;
+
+                    //加载所选设备信息
+                    GetDeviceInfo(info.TableName);
 
 
-                //加载所选设备信息
-                GetDeviceInfo(info.TableName);
+                    
+                    //启用删除按钮
+                    MinusButton.IsEnabled = true;
 
-				//将所选设备信息存到临时区域
-				DataBrige.SelectDeviceInfo = info;
+                    //启用编辑按钮
+                    EditButton.IsEnabled = true;
+
+                    //状态栏显示设备信息
+                    DeviceName.Text = info.Name;
+                    DeviceModel.Text = info.Model;
+                    DeviceNumber.Text = info.Number;
+                    People.Text = info.People;
+                    DeviceDate.Text = info.Date;
+                    DeviceDescription.Text = info.Description;
 
 
-                //启用删除按钮
-                MinusButton.IsEnabled=true;
+                }
 
-                //启用编辑按钮
-                EditButton.IsEnabled=true;
-
-                //状态栏显示设备信息
-                DeviceName.Text=info.Name;
-                DeviceModel.Text=info.Model;
-                DeviceNumber.Text=info.Number;
-                People.Text=info.People;
-                DeviceDate.Text=info.Date;
-                DeviceDescription.Text=info.Description;
 
             }
             else
@@ -170,6 +180,8 @@ namespace IPAM_NOTE.UserPages
                 DeviceDate.Text = "";
                 DeviceDescription.Text = "";
             }
+
+            
 		}
 
 
@@ -230,6 +242,9 @@ namespace IPAM_NOTE.UserPages
         /// <param name="ipAddressInfos"></param>
         private void WriteDeviceConfig(List<DevicePortInfo> devicePortInfos)
         {
+
+           
+
             GraphicsPlan.Children.Clear();
             Graphics.Children.Clear();
 
@@ -238,9 +253,46 @@ namespace IPAM_NOTE.UserPages
             var mList = devicePortInfos.Where(data => data.PortType == "M").ToList();//管理口
             var dList = devicePortInfos.Where(data => data.PortType == "D").ToList();//硬盘位
 
-            #region 添加电口
+            string etag = "";
+            string ftag = "";
+            string mtag = "";
+            string dtag = "";
 
-            
+
+            Console.WriteLine(DataBrige.SelectDeviceInfo.Id);
+
+            try
+            {
+                if (DataBrige.SelectDeviceInfo.EportTag != null)
+                {
+                    etag = DataBrige.SelectDeviceInfo.EportTag;
+                }
+
+                if (DataBrige.SelectDeviceInfo.FportTag != null)
+                {
+                    ftag = DataBrige.SelectDeviceInfo.FportTag;
+                }
+
+                if (DataBrige.SelectDeviceInfo.DportTag != null)
+                {
+                    dtag = DataBrige.SelectDeviceInfo.DportTag;
+                }
+
+                if (DataBrige.SelectDeviceInfo.MportTag != null)
+                {
+                    mtag = DataBrige.SelectDeviceInfo.MportTag;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
+
+
+
+            #region 添加电口
 
 
             //添加电口
@@ -280,27 +332,27 @@ namespace IPAM_NOTE.UserPages
                     fontBrush = Brushes.AliceBlue;
 
 
-                    string content = (i+1).ToString();
+                    string content = eList[i].PortNumber;
 
-					if (eList[i].PortTag1 != "")
-					{
-                        content= eList[i].PortTag1;
-					}
+                    if (etag != "")
+                    {
+                        content = etag + content;
+                    }
 
-					StackPanel panel = CreateButtonContent(content, PackIconKind.Ethernet);
+                    StackPanel panel = CreateButtonContent(content, PackIconKind.Ethernet);
 
 
 
 					Button newButton = new Button()
                     {
-                        Width = 70,
-                        Height = 50,
+                        Width = 60,
+                        Height = 40,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-                        Tag = "E" + (i + 1),
+                        Tag = "E" + eList[i].PortNumber,
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -374,25 +426,27 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    string content = (i + 1).ToString();
 
-                    if (eList[i].PortTag1 != "")
+                    string content = fList[i].PortNumber;
+
+                    if (ftag != "")
                     {
-	                    content = eList[i].PortTag1;
+                        content = ftag + content;
                     }
 
-					StackPanel panel = CreateButtonContent(content, PackIconKind.ViewStreamOutline);
+
+                    StackPanel panel = CreateButtonContent(content, PackIconKind.ViewStreamOutline);
 
                     Button newButton = new Button()
                     {
-                        Width = 70,
-                        Height = 50,
+                        Width = 60,
+                        Height = 40,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "F" + (i + 1),
+						Tag = "F" + fList[i].PortNumber,
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -456,26 +510,28 @@ namespace IPAM_NOTE.UserPages
                     }
 
                     fontBrush = Brushes.AliceBlue;
-                    string content = (i + 1).ToString();
 
-                    if (eList[i].PortTag1 != "")
+
+                    string content = dList[i].PortNumber;
+
+                    if (dtag!= "")
                     {
-	                    content = eList[i].PortTag1;
+                        content = dtag + content;
                     }
 
-                   
-					StackPanel panel = CreateButtonContent(content, PackIconKind.Hdd);
+
+                    StackPanel panel = CreateButtonContent(content, PackIconKind.Hdd);
 
                     Button newButton = new Button()
                     {
-                        Width = 70,
-                        Height = 50,
+                        Width = 60,
+                        Height = 40,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "D" + (i + 1),
+						Tag = "D" + dList[i].PortNumber,
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -541,27 +597,27 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    string content = (i + 1).ToString();
+                    string content = mList[i].PortNumber;
 
-                    if (eList[i].PortTag1 != "")
+                    if (mtag != "")
                     {
-	                    content = eList[i].PortTag1;
+                        content = mtag + content;
                     }
 
-                   
 
-					StackPanel panel = CreateButtonContent(content, PackIconKind.Ethernet);
+
+                    StackPanel panel = CreateButtonContent(content, PackIconKind.Ethernet);
 
                     Button newButton = new Button()
                     {
-                        Width = 70,
-                        Height = 50,
+                        Width = 60,
+                        Height = 40,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "M" + (i + 1),
+						Tag = "M" + mList[i].PortStatus,
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -654,23 +710,26 @@ namespace IPAM_NOTE.UserPages
 
 
         /// <summary>
-			/// 创建按钮内容
-			/// </summary>
-			/// <param name="buttonText"></param>
-			/// <param name="iconKind"></param>
-			/// <returns></returns>
-			private StackPanel CreateButtonContent(string buttonText, PackIconKind iconKind)
+        /// 创建按钮内容
+        /// </summary>
+        /// <param name="buttonText"></param>
+        /// <param name="iconKind"></param>
+        /// <returns></returns>
+        private StackPanel CreateButtonContent(string buttonText, PackIconKind iconKind)
 			 {
-            // 创建包含图标和文本的 StackPanel
+            
+                 // 创建包含图标和文本的 StackPanel
             StackPanel stackPanel = new StackPanel();
             stackPanel.Orientation = Orientation.Vertical;
             stackPanel.HorizontalAlignment = HorizontalAlignment.Right;
             stackPanel.VerticalAlignment = VerticalAlignment.Top;
+            stackPanel.Margin=new Thickness(-10,-5,-10,-5);
+            
             // 创建图标
             PackIcon icon = new PackIcon();
             icon.Kind = iconKind;
-            icon.Width = 50;
-            icon.Height = 30;
+            icon.Width = 24;
+            icon.Height = 24;
             icon.HorizontalAlignment = HorizontalAlignment.Center;
             icon.VerticalAlignment = VerticalAlignment.Top;
             icon.Margin = new Thickness(0, 0, 0, 0);

@@ -162,6 +162,7 @@
                 <TextBox
                     Width="340"
                     x:Name="Tag1TextBox"
+                    Margin="5"
                     Text=""
                     MaxHeight="55"
                     AcceptsReturn="True"

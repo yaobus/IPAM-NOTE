@@ -259,7 +259,15 @@ namespace IPAM_NOTE
             {
                 get; set;
             }
+            public string EportTag
+            {
+                get; set;
+            }
             public int Fport
+            {
+                get; set;
+            }
+            public string FportTag
             {
                 get; set;
             }
@@ -267,8 +275,19 @@ namespace IPAM_NOTE
             {
                 get; set;
             }
-
-            public DeviceInfo(int id, string tableName, string name, string model, string number, string people, string date, string description, int eport, int fport, int mport)
+            public string MportTag
+            {
+                get; set;
+            }
+            public int Dport
+            {
+                get; set;
+            }
+            public string DportTag
+            {
+                get; set;
+            }
+            public DeviceInfo(int id, string tableName, string name, string model, string number, string people, string date, string description, int ePort,string ePortTag, int fPort, string fPortTag, int mPort, string mPortTag, int dPort, string dPortTag)
             {
                 Id = id;
                 TableName = tableName;
@@ -278,9 +297,14 @@ namespace IPAM_NOTE
                 People = people;
                 Date = date;
                 Description = description;
-                Eport = eport;
-                Fport = fport;
-                Mport = mport;
+                Eport = ePort;
+                EportTag = ePortTag;
+                Fport = fPort;
+                FportTag=fPortTag;
+                Mport = mPort;
+                MportTag=mPortTag;
+                Dport = dPort;
+                DportTag = dPortTag;
 
 
             }
