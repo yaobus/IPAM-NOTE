@@ -439,7 +439,7 @@ namespace IPAM_NOTE.DevicePage
                 for (int i = 0; i < x; i++)
                 {
                     //PortStatus为0时表示未用端口，1表示已用端口
-                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('E', '{i}', 0, '', '', '', '')";
+                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('E', '{i+1}', 0, '', '', '', '')";
                     dbClass.ExecuteQuery(sql);
                 }
             }
@@ -451,7 +451,7 @@ namespace IPAM_NOTE.DevicePage
                 for (int i = 0; i < x; i++)
                 {
                     //PortStatus为0时表示未用端口，1表示已用端口
-                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('F', '{i}', 0, '', '', '', '')";
+                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('F', '{i+1}', 0, '', '', '', '')";
                     dbClass.ExecuteQuery(sql);
                 }
             }
@@ -463,7 +463,7 @@ namespace IPAM_NOTE.DevicePage
                 for (int i = 0; i < x; i++)
                 {
                     //PortStatus为0时表示未用端口，1表示已用端口
-                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('M', '{i}', 0, '', '', '', '')";
+                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('M', '{i + 1}', 0, '', '', '', '')";
                     dbClass.ExecuteQuery(sql);
                 }
             }
@@ -475,7 +475,7 @@ namespace IPAM_NOTE.DevicePage
                 for (int i = 0; i < x; i++)
                 {
                     //PortStatus为0时表示未用端口，1表示已用端口
-                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('D', '{i}', 0, '', '', '', '')";
+                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('D', '{i + 1}', 0, '', '', '', '')";
                     dbClass.ExecuteQuery(sql);
                 }
             }

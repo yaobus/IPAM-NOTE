@@ -86,9 +86,9 @@
                                 >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                
+
                                 <ColumnDefinition Width="*"/>
-                                
+
 
                             </Grid.ColumnDefinitions>
                             <TextBlock
@@ -147,7 +147,7 @@
                 Orientation="Horizontal"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
-                materialDesign:HintAssist.Hint="备注"
+                materialDesign:HintAssist.Hint="端口号"
                 >
 
                 <materialDesign:PackIcon 
@@ -159,17 +159,11 @@
                     
 
                 />
-
-
-
-
                 <TextBox
                     Width="340"
                     x:Name="Tag1TextBox"
-                    Margin="5"
                     Text=""
                     MaxHeight="55"
-                    VerticalAlignment="Top"
                     AcceptsReturn="True"
                     VerticalScrollBarVisibility="Auto"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   

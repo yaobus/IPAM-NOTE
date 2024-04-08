@@ -279,7 +279,7 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    StackPanel panel = CreateButtonContent(i.ToString(), PackIconKind.Ethernet);
+                    StackPanel panel = CreateButtonContent(i, PackIconKind.Ethernet);
 
                     Button newButton = new Button()
                     {
@@ -290,7 +290,7 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "E" + i.ToString(),
+						Tag = "E" + (i + 1),
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -364,7 +364,7 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    StackPanel panel = CreateButtonContent(i.ToString(), PackIconKind.ViewStreamOutline);
+                    StackPanel panel = CreateButtonContent(i, PackIconKind.ViewStreamOutline);
 
                     Button newButton = new Button()
                     {
@@ -375,7 +375,7 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "F" + i.ToString(),
+						Tag = "F" + (i + 1),
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -440,7 +440,7 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    StackPanel panel = CreateButtonContent(i.ToString(), PackIconKind.Hdd);
+                    StackPanel panel = CreateButtonContent(i, PackIconKind.Hdd);
 
                     Button newButton = new Button()
                     {
@@ -451,7 +451,7 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "D" + i.ToString(),
+						Tag = "D" + (i + 1),
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -517,7 +517,7 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    StackPanel panel = CreateButtonContent(i.ToString(), PackIconKind.Ethernet);
+                    StackPanel panel = CreateButtonContent(i, PackIconKind.Ethernet);
 
                     Button newButton = new Button()
                     {
@@ -528,7 +528,7 @@ namespace IPAM_NOTE.UserPages
                         FontWeight = FontWeights.ExtraBold,
                         Content = panel,
                         ToolTip = description,
-						Tag = "M" + i.ToString(),
+						Tag = "M" + (i + 1),
 						Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -626,7 +626,7 @@ namespace IPAM_NOTE.UserPages
 			/// <param name="buttonText"></param>
 			/// <param name="iconKind"></param>
 			/// <returns></returns>
-			private StackPanel CreateButtonContent(string buttonText, PackIconKind iconKind)
+			private StackPanel CreateButtonContent(int buttonText, PackIconKind iconKind)
         {
             // 创建包含图标和文本的 StackPanel
             StackPanel stackPanel = new StackPanel();
@@ -644,7 +644,7 @@ namespace IPAM_NOTE.UserPages
 
             // 创建文本块
             TextBlock textBlock = new TextBlock();
-            textBlock.Text = buttonText;
+            textBlock.Text = (buttonText+1).ToString();
             //textBlock.VerticalAlignment = VerticalAlignment.Center;
             textBlock.HorizontalAlignment = HorizontalAlignment.Center;
            
