@@ -22,7 +22,7 @@ namespace IPAM_NOTE
 		/// <summary>
 		/// 当前软件版本号
 		/// </summary>
-		public static string Ver= "1.15";
+		public static string Ver= "1.16";
 
 		/// <summary>
 		/// 最新版本号
@@ -154,5 +154,21 @@ namespace IPAM_NOTE
 		/// 设备端口的选择模式，0为未选择状态，1为已选择未分配端口准备分配，2为已选择已分配端口准备释放
 		/// </summary>
 		public static int SelectDevicePortMode = 0;
-	}
+
+        /// <summary>
+        /// 多选模式下首次选择的端口类型，E,F,M,D
+        /// </summary>
+        public static string SelectDevicePortType = "";
+
+
+        /// <summary>
+        /// 多选模式下首次选择的端口状态，0未分配，1已分配
+        /// </summary>
+        public static int SelectDevicePortStatus = -1;
+
+        /// <summary>
+        /// 多选模式下，一次选择的多个端口清单
+        /// </summary>
+        public static List<string> portList = new List<string>();//批量选择的端口号
+    }
 }

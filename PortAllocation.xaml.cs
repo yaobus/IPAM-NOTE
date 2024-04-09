@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
+using System.Net;
+using System.Web.UI.WebControls;
+using static IPAM_NOTE.ViewMode;
 
 namespace IPAM_NOTE
 {
@@ -38,46 +41,112 @@ namespace IPAM_NOTE
 
             dbClass.OpenConnection();
 
+
             DeviceBlock.Text = DataBrige.SelectDeviceInfo.Name + " " + DataBrige.SelectDeviceInfo.Number;
             ModelTextBlock.Text = "型号:" + DataBrige.SelectDeviceInfo.Model;
             DescriptionBlock.Text = "备注:" + DataBrige.SelectDeviceInfo.Description;
 
-            string type = DataBrige.SelectDevicePortInfo.PortType;
-            
-
-            switch (type)
+            if (DataBrige.portList.Count == 0)//单个分配
             {
-                case "E":
-                    TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + DataBrige.SelectDevicePortInfo.PortNumber;
+                
+                string type = DataBrige.SelectDevicePortInfo.PortType;
 
-					Tag1Panel.ClearValue(HintAssist.HintProperty);
-					HintAssist.SetHint(Tag1Panel, "对端设备:");
-					break;
 
-                case "F":
-                    TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDeviceInfo.FportTag + DataBrige.SelectDevicePortInfo.PortNumber;
+                switch (type)
+                {
+                    case "E":
+                        TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        break;
 
-					Tag1Panel.ClearValue(HintAssist.HintProperty);
-					HintAssist.SetHint(Tag1Panel, "对端设备:");
-					break;
-                case "D":
-                    TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDeviceInfo.DportTag + DataBrige.SelectDevicePortInfo.PortNumber;
-					Tag1Panel.ClearValue(HintAssist.HintProperty);
-					HintAssist.SetHint(Tag1Panel, "硬盘信息:");
+                    case "F":
+                        TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDeviceInfo.FportTag + DataBrige.SelectDevicePortInfo.PortNumber;
 
-					break;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        break;
+                    case "D":
+                        TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDeviceInfo.DportTag + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "硬盘信息:");
 
-                case "M":
-                    TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDeviceInfo.MportTag + DataBrige.SelectDevicePortInfo.PortNumber;
-                    Tag1Panel.ClearValue(HintAssist.HintProperty);
-                    HintAssist.SetHint(Tag1Panel, "管理地址:");
-					break;
+                        break;
+
+                    case "M":
+                        TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDeviceInfo.MportTag + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "管理地址:");
+                        break;
+                }
+
+                Tag1TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag1;
+                Tag2TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag2;
+                Tag3TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag3;
+                DescriptionTextBox.Text = DataBrige.SelectDevicePortInfo.Description;
+            }
+            else//多个分配
+            {
+
+                string ports = "";
+
+                for (int i = 0; i < DataBrige.portList.Count; i++)
+                {
+                    if (i < 4)
+                    {
+                        ports += (DataBrige.portList[i].ToString() + ",");
+                    }
+                    else
+                    {
+
+                        ports = ports.Remove(ports.Length - 1);
+
+                        ports += "等" + DataBrige.portList.Count.ToString() + "个";
+
+                        break;
+                    }
+                }
+
+                if (ports[ports.Length - 1] == ',')
+                {
+                    // 删除最后一个字符
+                    ports = ports.Remove(ports.Length - 1);
+                }
+
+
+                switch (DataBrige.SelectDevicePortType)
+                {
+                    case "E":
+                        TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + ports + "端口";
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        break;
+
+                    case "F":
+                        TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDeviceInfo.FportTag + ports + "端口";
+
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        break;
+                    case "D":
+                        TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDeviceInfo.DportTag + ports + "槽位";
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "硬盘信息:");
+
+                        break;
+
+                    case "M":
+                        TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDeviceInfo.MportTag + ports + "端口";
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "管理地址:");
+                        break;
+                }
+
+
+
             }
 
-            Tag1TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag1;
-            Tag2TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag2;
-            Tag3TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag3;
-            DescriptionTextBox.Text = DataBrige.SelectDevicePortInfo.Description;
+
 
         }
 
@@ -86,33 +155,117 @@ namespace IPAM_NOTE
         private void SaveButton_OnClick(object sender, RoutedEventArgs e)
         {
             string tableName = DataBrige.SelectDeviceInfo.TableName;
-            string type = DataBrige.SelectDevicePortInfo.PortType;
-            string port = DataBrige.SelectDevicePortInfo.PortNumber;
-
-            string sql = string.Format(
-                $"UPDATE {tableName} SET \"PortStatus\" = 1, \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
-
-            dbClass.ExecuteQuery(sql); //写入端口信息
 
 
-
-            int index = 0;
-            foreach (var item in DataBrige.DevicePortInfos)
+            if (DataBrige.portList.Count == 0)//单个分配
             {
-                if (item.PortType == type && item.PortNumber == port)
+
+                string type = DataBrige.SelectDevicePortInfo.PortType;
+                string port = DataBrige.SelectDevicePortInfo.PortNumber;
+
+                string sql = string.Format(
+                    $"UPDATE {tableName} SET \"PortStatus\" = 1, \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+                dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+                int index = 0;
+                foreach (var item in DataBrige.DevicePortInfos)
                 {
-                    DataBrige.DevicePortInfos[index].PortStatus = 1;
-                    DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
-                    DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
-                    DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
-                    DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
+                    if (item.PortType == type && item.PortNumber == port)
+                    {
+                        DataBrige.DevicePortInfos[index].PortStatus = 1;
+                        DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
+                        DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
+                        DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
+                        DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
 
 
-                    break;
+                        break;
+                    }
+
+                    index++;
                 }
 
-                index++;
             }
+            else//多个分配
+            {
+                string type = DataBrige.SelectDevicePortType;
+
+                if (DataBrige.portList.Count == 1)//多选模式只选了一个
+                {
+
+                    string port = DataBrige.portList[0];
+
+                    string sql = string.Format(
+                        $"UPDATE {tableName} SET \"PortStatus\" = 1, \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+                    dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+                    int index = 0;
+                    foreach (var item in DataBrige.DevicePortInfos)
+                    {
+                        if (item.PortType == type && item.PortNumber == port)
+                        {
+                            DataBrige.DevicePortInfos[index].PortStatus = 1;
+                            DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
+                            DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
+                            DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
+                            DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
+
+
+                            break;
+                        }
+
+                        index++;
+                    }
+
+                }
+                else//正常多选
+                {
+                    string port;
+
+                  
+
+                    for (int i = 0; i < DataBrige.portList.Count; i++)
+                    {
+                       port = DataBrige.portList[i];
+
+                        string sql = string.Format(
+                           $"UPDATE {tableName} SET \"PortStatus\" = 1, \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+                       dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+                       int index = 0;
+
+
+                       foreach (var item in DataBrige.DevicePortInfos)
+                       {
+                           if (item.PortType == type && item.PortNumber == port)
+                           {
+                               DataBrige.DevicePortInfos[index].PortStatus = 1;
+                               DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
+                               DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
+                               DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
+                               DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
+
+
+                               break;
+                           }
+
+                           index++;
+                       }
+
+                    }
+
+
+
+                }
+
+            }
+
 
 
 
@@ -134,32 +287,117 @@ namespace IPAM_NOTE
             if (result == MessageBoxResult.Yes)
             {
                 string tableName = DataBrige.SelectDeviceInfo.TableName;
-                string type = DataBrige.SelectDevicePortInfo.PortType;
-                string port = DataBrige.SelectDevicePortInfo.PortNumber;
-
-                string sql = string.Format(
-                    $"UPDATE {tableName} SET \"PortStatus\" = 0, \"PortTag1\" = ''  , \"PortTag2\" = '' , \"PortTag3\" = '', \"Description\" = '' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
-
-                dbClass.ExecuteQuery(sql); //写入端口信息
 
 
-                int index = 0;
-                foreach (var item in DataBrige.DevicePortInfos)
+                if (DataBrige.portList.Count == 0) //单个释放
                 {
-                    if (item.PortType == type && item.PortNumber == port)
+                    string type = DataBrige.SelectDevicePortInfo.PortType;
+                    string port = DataBrige.SelectDevicePortInfo.PortNumber;
+
+                    string sql = string.Format(
+                        $"UPDATE {tableName} SET \"PortStatus\" = 0, \"PortTag1\" = ''  , \"PortTag2\" = '' , \"PortTag3\" = '', \"Description\" = '' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+                    dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+                    int index = 0;
+                    foreach (var item in DataBrige.DevicePortInfos)
                     {
-                        DataBrige.DevicePortInfos[index].PortStatus = 0;
-                        DataBrige.DevicePortInfos[index].PortTag1 = "";
-                        DataBrige.DevicePortInfos[index].PortTag2 = "";
-                        DataBrige.DevicePortInfos[index].PortTag3 = "";
-                        DataBrige.DevicePortInfos[index].Description = "";
+                        if (item.PortType == type && item.PortNumber == port)
+                        {
+                            DataBrige.DevicePortInfos[index].PortStatus = 0;
+                            DataBrige.DevicePortInfos[index].PortTag1 = "";
+                            DataBrige.DevicePortInfos[index].PortTag2 = "";
+                            DataBrige.DevicePortInfos[index].PortTag3 = "";
+                            DataBrige.DevicePortInfos[index].Description = "";
 
 
-                        break;
+                            break;
+                        }
+
+                        index++;
                     }
 
-                    index++;
                 }
+                else//多个释放
+                {
+                    string type = DataBrige.SelectDevicePortType;
+
+                    if (DataBrige.portList.Count == 1) //多选模式只选了一个
+                    {
+                        string port = DataBrige.portList[0];
+
+                        string sql = string.Format(
+                            $"UPDATE {tableName} SET \"PortStatus\" = 0, \"PortTag1\" = ''  , \"PortTag2\" = '' , \"PortTag3\" = '', \"Description\" = '' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+                        dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+                        int index = 0;
+                        foreach (var item in DataBrige.DevicePortInfos)
+                        {
+                            if (item.PortType == type && item.PortNumber == port)
+                            {
+                                DataBrige.DevicePortInfos[index].PortStatus = 0;
+                                DataBrige.DevicePortInfos[index].PortTag1 = "";
+                                DataBrige.DevicePortInfos[index].PortTag2 = "";
+                                DataBrige.DevicePortInfos[index].PortTag3 = "";
+                                DataBrige.DevicePortInfos[index].Description = "";
+
+
+                                break;
+                            }
+
+                            index++;
+                        }
+
+
+                    }
+                    else //正常多选
+                    {
+                        string port;
+
+
+                        for (int i = 0; i < DataBrige.portList.Count; i++)
+                        {
+                            port = DataBrige.portList[i];
+
+
+                            string sql = string.Format(
+                                $"UPDATE {tableName} SET \"PortStatus\" = 0, \"PortTag1\" = ''  , \"PortTag2\" = '' , \"PortTag3\" = '', \"Description\" = '' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+                            dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+                            int index = 0;
+                            foreach (var item in DataBrige.DevicePortInfos)
+                            {
+                                if (item.PortType == type && item.PortNumber == port)
+                                {
+                                    DataBrige.DevicePortInfos[index].PortStatus = 0;
+                                    DataBrige.DevicePortInfos[index].PortTag1 = "";
+                                    DataBrige.DevicePortInfos[index].PortTag2 = "";
+                                    DataBrige.DevicePortInfos[index].PortTag3 = "";
+                                    DataBrige.DevicePortInfos[index].Description = "";
+
+
+                                    break;
+                                }
+
+                                index++;
+                            }
+
+
+
+                        }
+
+                    }
+
+                }
+
+
+
+
 
                 this.Close();
 

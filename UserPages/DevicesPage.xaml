@@ -287,8 +287,8 @@
                     x:Name="ListButton"
                     Margin="0"
                     IsChecked="False"
-                    d:Visibility="Visible"    
-                    Visibility="Hidden"
+                   IsEnabled="False"   
+                    Visibility="Visible"
                     ToolTip="以列表方式显示所选设备端口"
                     Style="{StaticResource MaterialDesignTabRadioButton}" 
                         
@@ -321,7 +321,8 @@
 
 
             <StackPanel
-                    Visibility="Hidden"
+                    Visibility="Visible"
+                    IsEnabled="False"
                     Grid.Column="1"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
@@ -622,7 +623,7 @@
                     materialDesign:ButtonProgressAssist.Value="-1"
                     materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                     materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                                   
+                    Click="DistributionButton_OnClick"               
                     ToolTip="一键配置所选地址"
                     >
                     <materialDesign:PackIcon x:Name="Icon" Kind="CogOutline" Width="16" Height="16"/>

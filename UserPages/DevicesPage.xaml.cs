@@ -417,7 +417,7 @@ namespace IPAM_NOTE.UserPages
 
                         case 1:
                             colorBrush = Brushes.Coral;
-                            description = "类型：光纤网口\r已使用端口" + "\r" + eList[i].PortTag1 + "\r" + eList[i].PortTag2 + "\r" + eList[i].PortTag3 + "\r" + eList[i].Description;
+                            description = "类型：光纤网口\r已使用端口" + "\r" + fList[i].PortTag1 + "\r" + fList[i].PortTag2 + "\r" + fList[i].PortTag3 + "\r" + fList[i].Description;
 
                             break;
 
@@ -502,7 +502,7 @@ namespace IPAM_NOTE.UserPages
 
                         case 1:
                             colorBrush = Brushes.Coral;
-                            description = "类型：硬盘插槽\r已使用插槽" + "\r" + eList[i].PortTag1 + "\r" + eList[i].PortTag2 + "\r" + eList[i].PortTag3 + "\r" + eList[i].Description;
+                            description = "类型：硬盘插槽\r已使用插槽" + "\r" + dList[i].PortTag1 + "\r" + dList[i].PortTag2 + "\r" + dList[i].PortTag3 + "\r" + dList[i].Description;
 
                             break;
 
@@ -588,7 +588,7 @@ namespace IPAM_NOTE.UserPages
 
                         case 1:
                             colorBrush = Brushes.Coral;
-                            description = "类型：管理网口\r已使用端口" + "\r" + eList[i].PortTag1 + "\r" + eList[i].PortTag2 + "\r" + eList[i].PortTag3 + "\r" + eList[i].Description;
+                            description = "类型：管理网口\r已使用端口" + "\r" + mList[i].PortTag1 + "\r" + mList[i].PortTag2 + "\r" + mList[i].PortTag3 + "\r" + mList[i].Description;
 
                             break;
 
@@ -652,25 +652,28 @@ namespace IPAM_NOTE.UserPages
 
         }
 
+
+        
+
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
 	        if (sender is Button button)
 	        {
-                //TODO多选、单选
+                DataBrige.SelectDeviceButtonTag = button.Tag.ToString();
+
+                string port = DataBrige.SelectDeviceButtonTag.Substring(1);//端口号
+
+
+                char firstCharacter = DataBrige.SelectDeviceButtonTag[0];
+
+
+                // 将第一个字符转换为字符串
+                string type = firstCharacter.ToString();//端口类型
+
+
 
                 if (MultipleSelect.IsChecked == false)//如果是单选
                 {
-
-					DataBrige.SelectDeviceButtonTag = button.Tag.ToString();
-
-					string port = DataBrige.SelectDeviceButtonTag.Substring(1);//端口号
-
-
-					char firstCharacter = DataBrige.SelectDeviceButtonTag[0];
-
-
-					// 将第一个字符转换为字符串
-					string type = firstCharacter.ToString();//端口类型
 
 
 					var list = DataBrige.DevicePortInfos.Where(data => data.PortType == type).ToList();
@@ -709,27 +712,107 @@ namespace IPAM_NOTE.UserPages
                 }
                 else//多选
                 {
+                   
 
-					if (DataBrige.SelectDevicePortMode == 0)//初次选择
-					{
-						
-                        //可同时选择光口和电口
-                        //管理口和磁盘必须分开选择
+                    if (DataBrige.SelectDevicePortMode == 0)//初次选择
+                    {
+
+                        //记录首次选择的端口类型
+                        DataBrige.SelectDevicePortType = type;
+                        DataBrige.SelectDevicePortMode = 1;
+
+                        //记录首次选择的端口是已分配还是未分配
+                        if (button.Background == Brushes.Coral)
+                        {
+                            DataBrige.SelectDevicePortStatus = 1;
+                        }
+                        else
+                        {
+                            DataBrige.SelectDevicePortStatus = 0;
+                        }
+
+                        button.Background = Brushes.HotPink;
+                        DataBrige.portList.Add(port);
+                    }
+                    else//再次选择
+                    {
+                        int status = -1;
+                        //判断端口是已分配还是未分配
+
+                        var list = DataBrige.DevicePortInfos .Where(data => data.PortType == type).ToList();//电口
+
+                        foreach (var item in list)
+                        {
+                            if (item.PortNumber == port)
+                            {
+                                status = item.PortStatus;
+                                break;
+                            }
+                        }
+
+                        //如果端口类型和状态一样则下一步验证
+                        if (type == DataBrige.SelectDevicePortType && status == DataBrige.SelectDevicePortStatus)
+                        {
+                            
+                            //地址不存在则添加
+                            if (!DataBrige.portList.Contains(port))
+                            {
+
+                                button.Background = Brushes.HotPink;
+
+                                DataBrige.portList.Add(port);
+                            }
+                            else//存在则删除
+                            {
+                                Brush brush = null;
+                                if (status == 1)
+                                {
+                                    brush = Brushes.Coral;
+                                }
+                                else
+                                {
+                                    switch (type)
+                                    {
+                                        case "E":
+
+                                            brush = Brushes.YellowGreen;
+                                            break;
+
+                                        case "F":
+                                            brush = Brushes.DarkTurquoise;
+
+                                            break;
+                                        case "D":
+
+                                            brush = Brushes.ForestGreen;
+
+                                            break;
+
+                                        case "M":
+
+                                            brush = Brushes.DarkRed;
+                                            break;
+                                    }
+
+                                }
+
+
+                                button.Background = brush;
+
+                                Icon.Kind = PackIconKind.CogOutline;
+
+                                DataBrige.portList.Remove(port);
+
+              
+
+                            }
+
+                            
+                        }
 
 
 
-					}
-					else//再次选择
-					{
-
-
-
-
-
-
-
-
-					}
+                    }
 
 
 		
@@ -737,10 +820,24 @@ namespace IPAM_NOTE.UserPages
 
 
 
+                if (DataBrige.portList.Count > 0)
+                {
+                    MultipleSelectStatus.Visibility = Visibility.Visible;
+                    //GraphicsPlan.Height = GraphicsPlan.Height - 30;
+                    CountBox.Text = DataBrige.portList.Count.ToString();
+                }
+                else
+                {
+                    MultipleSelectStatus.Visibility = Visibility.Collapsed;
+                    //GraphicsPlan.Height = GraphicsPlan.Height + 30;
+                    DataBrige.SelectDevicePortMode = 0;
+                    DataBrige.SelectDevicePortType = "";
+                    DataBrige.SelectDevicePortStatus = -1;
+                    
+                }
 
 
-
-			}
+            }
         }
 
 
@@ -846,10 +943,45 @@ namespace IPAM_NOTE.UserPages
 		{
 
             DataBrige.SelectDevicePortMode = 0;
+            DataBrige.SelectDevicePortType = "";
+            DataBrige.SelectDevicePortStatus = -1;
+            DataBrige.portList.Clear();
 
+            //if (LoadMode == 0)
+            //{
+            WriteDeviceConfig(DataBrige.DevicePortInfos);
+            //}
+            //else
+            //{
 
+            //    ListLoad();
 
+            //}
 
+        }
+
+        private void DistributionButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Window allocation = new PortAllocation();
+
+            if (allocation.ShowDialog() == true)
+            {
+                MultipleSelectStatus.Visibility = Visibility.Hidden;//隐藏多选按钮
+                DataBrige.SelectDevicePortMode = 0;
+                DataBrige.SelectDevicePortType = "";
+                DataBrige.SelectDevicePortStatus = -1;
+                DataBrige.portList.Clear();
+
+                //if (LoadMode == 0)
+                //{
+                WriteDeviceConfig(DataBrige.DevicePortInfos);
+                //}
+                //else
+                //{
+                //    ListLoad();
+
+                //}
+            }
 
         }
     }
