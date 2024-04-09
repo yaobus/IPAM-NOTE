@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace IPAM_NOTE
 {
@@ -48,18 +49,29 @@ namespace IPAM_NOTE
             {
                 case "E":
                     TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + DataBrige.SelectDevicePortInfo.PortNumber;
-                    break;
+
+					Tag1Panel.ClearValue(HintAssist.HintProperty);
+					HintAssist.SetHint(Tag1Panel, "对端设备:");
+					break;
 
                 case "F":
                     TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDeviceInfo.FportTag + DataBrige.SelectDevicePortInfo.PortNumber;
-                    break;
+
+					Tag1Panel.ClearValue(HintAssist.HintProperty);
+					HintAssist.SetHint(Tag1Panel, "对端设备:");
+					break;
                 case "D":
                     TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDeviceInfo.DportTag + DataBrige.SelectDevicePortInfo.PortNumber;
-                    break;
+					Tag1Panel.ClearValue(HintAssist.HintProperty);
+					HintAssist.SetHint(Tag1Panel, "硬盘信息:");
+
+					break;
 
                 case "M":
                     TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDeviceInfo.MportTag + DataBrige.SelectDevicePortInfo.PortNumber;
-                    break;
+                    Tag1Panel.ClearValue(HintAssist.HintProperty);
+                    HintAssist.SetHint(Tag1Panel, "管理地址:");
+					break;
             }
 
             Tag1TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag1;

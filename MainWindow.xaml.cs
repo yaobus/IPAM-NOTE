@@ -407,5 +407,18 @@ namespace IPAM_NOTE
             FunctionPanel.Children.Add(aboutPage);
 
         }
-    }
+
+
+
+		/// <summary>
+		/// 内测邀请
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+        private void HumanGreeting_OnClick(object sender, RoutedEventArgs e)
+        {
+			MessageBox.Show("如果你希望参与到本软件的成长过程\r可以加入BUG反馈企鹅群957648723", "哦？", MessageBoxButton.YesNo,
+				MessageBoxImage.Information);
+		}
+	}
 }

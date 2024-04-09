@@ -301,7 +301,7 @@ namespace IPAM_NOTE.DevicePage
                     string sql = string.Format(
                         $"INSERT INTO Devices (TableName,Name,Model,Number,People,Date,Description,Eport,EportTag,Fport,FportTag,Mport,MportTag,Dport,DportTag) " +
                         $"VALUES ('{tableName}','{NameBox.Text}','{ModelBox.Text}','{NumberBox.Text}','{PeopleBox.Text}','{DateBox.Text}','{DescriptionBox.Text}'," +
-                        $"{Convert.ToInt32(EthernetPort.Text)},'{ETag.Text}',{Convert.ToInt32(FiberPort.Text)},'{FTag.Text}',{Convert.ToInt32(ManagePort.Text)},'{MTag.Text}',{Convert.ToInt32(DiskBox.Text)},'{DTag.Text}')");
+                        $"{Convert.ToInt32(EthernetPort.Text)},'{EComboBox.Text}',{Convert.ToInt32(FiberPort.Text)},'{FiberComboBox.Text}',{Convert.ToInt32(ManagePort.Text)},'{MgmtComboBox.Text}',{Convert.ToInt32(DiskBox.Text)},'{DiskComboBox.Text}')");
                     dbClass.ExecuteQuery(sql);
 
                     //创建表

@@ -371,6 +371,7 @@
 
                             <ComboBox
                                 x:Name="EComboBox"
+                                SelectedIndex="0"
                                 VerticalAlignment="Center"
                                 materialDesign:HintAssist.Hint="槽位标签">
                                 <ComboBoxItem
@@ -385,20 +386,7 @@
                                     Content="" />
                             </ComboBox>
 
-                            <TextBox
-                               
-                                Width="100"
-                                x:Name="ETag"
-                                Margin="0"
-                                VerticalAlignment="Center"
-                                AcceptsReturn="False"
-                                IsEnabled="True"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                Text="{Binding  SelectedItem.Content, Mode=OneWay,ElementName=EComboBox}"
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-     
-                            />
+
 
 
                            
@@ -539,6 +527,7 @@
 
                             <ComboBox
                                 x:Name="FiberComboBox"
+                                SelectedIndex="0"
                                 VerticalAlignment="Center"
                                 materialDesign:HintAssist.Hint="槽位标签">
                                 <ComboBoxItem
@@ -553,20 +542,7 @@
                                     Content="1/" />
                             </ComboBox>
 
-                            <TextBox
-                               
-                                Width="100"
-                                x:Name="FTag"
-                                Margin="0"
-                                VerticalAlignment="Center"
-                                AcceptsReturn="False"
-                                IsEnabled="True"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                Text="{Binding  SelectedItem.Content, Mode=OneWay,ElementName=FiberComboBox}"
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-     
-                            />
+
                             <TextBox
                                 Width="50"
                                 x:Name="FiberPort"
@@ -699,29 +675,15 @@
 
                             <ComboBox
                                 x:Name="DiskComboBox"
+                                SelectedIndex="0"
                                 VerticalAlignment="Center"
                                 materialDesign:HintAssist.Hint="槽位标签">
                                 <ComboBoxItem
                                     Content="Slot" />
-                                <ComboBoxItem
-                                    Content="1/" />
+
 
                             </ComboBox>
 
-                            <TextBox
-                               
-                                Width="100"
-                                x:Name="DTag"
-                                Margin="0"
-                                VerticalAlignment="Center"
-                                AcceptsReturn="False"
-                                IsEnabled="True"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                Text="{Binding  SelectedItem.Content, Mode=OneWay,ElementName=DiskComboBox}"
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-     
-                            />
                             <TextBox
                                 Width="50"
                                 x:Name="DiskBox"
@@ -839,6 +801,7 @@
 
                             <ComboBox
                                 x:Name="MgmtComboBox"
+                                SelectedIndex="0"
                                 VerticalAlignment="Center"
                                 
                                 materialDesign:HintAssist.Hint="槽位标签">
@@ -849,24 +812,6 @@
 
                             </ComboBox>
                             
-
-                            <TextBox
-                               
-                                Width="100"
-                                x:Name="MTag"
-                                Margin="0"
-                                VerticalAlignment="Center"
-                                AcceptsReturn="False"
-                                IsEnabled="True"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                Text="{Binding  SelectedItem.Content, Mode=OneWay,ElementName=MgmtComboBox}"
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-     
-                               
-
-                            />
-                            <!--IsChecked, ElementName=EnableListBox-->
 
                             <TextBox
                                 Width="50"

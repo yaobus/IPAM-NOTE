@@ -280,6 +280,40 @@
                                 </StackPanel>
                             </TabItem.Header>
                         </TabItem>
+
+                        <TabItem
+                            IsSelected="False"
+                        >
+                            <TabItem.Header>
+                                <StackPanel
+                                    Width="auto"
+                                    Height="auto">
+
+                                    <Button
+                                        x:Name="HumanGreeting"
+                                        Margin="0"
+                                        Height="60"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}" 
+                                        BorderThickness="0"
+                                        ToolTip="内测群邀请"
+                                        VerticalAlignment="Center"
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                        materialDesign:ButtonProgressAssist.Value="-1"
+                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                        Click="HumanGreeting_OnClick"
+                                        >
+
+                                        <materialDesign:PackIcon 
+                                            Kind="HumanGreeting" 
+                                            Width="28"
+                                            Height="28"
+                                        />
+
+                                    </Button>
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
                     </TabControl>
 
 
