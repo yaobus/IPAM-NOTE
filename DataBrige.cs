@@ -148,5 +148,11 @@ namespace IPAM_NOTE
         /// 0为添加设备，1为编辑设备
         /// </summary>
         public static int DeviceAddStatus = 0;
-    }
+
+
+		/// <summary>
+		/// 设备端口的选择模式，0为未选择状态，1为已选择未分配端口准备分配，2为已选择已分配端口准备释放
+		/// </summary>
+		public static int SelectDevicePortMode = 0;
+	}
 }

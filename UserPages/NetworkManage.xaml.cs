@@ -2206,6 +2206,7 @@ namespace IPAM_NOTE.UserPages
         private void MultipleSelect_Click(object sender, RoutedEventArgs e)
         {
             DataBrige.SelectMode = 0;
+
             DataBrige.SelectedIpAddress.Clear();
 
             if (LoadMode == 0)
@@ -2214,6 +2215,7 @@ namespace IPAM_NOTE.UserPages
             }
             else
             {
+
                 ListLoad();
 
             }

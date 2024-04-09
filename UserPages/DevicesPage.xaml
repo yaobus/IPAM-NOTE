@@ -284,14 +284,15 @@
 
                 </RadioButton>
                 <RadioButton
-                        x:Name="ListButton"
-                        Margin="0"
-                        IsChecked="False"
-                        Visibility="Hidden"
-                        ToolTip="以列表方式显示所选设备端口"
-                        Style="{StaticResource MaterialDesignTabRadioButton}" 
+                    x:Name="ListButton"
+                    Margin="0"
+                    IsChecked="False"
+                    d:Visibility="Visible"    
+                    Visibility="Hidden"
+                    ToolTip="以列表方式显示所选设备端口"
+                    Style="{StaticResource MaterialDesignTabRadioButton}" 
                         
-                        >
+                    >
 
                     <materialDesign:PackIcon Kind="FormatListText" Width="24" Height="24"/>
 
@@ -303,16 +304,19 @@
 
 
             <ToggleButton
-                        Grid.Column="0"
-                        HorizontalAlignment="Right"
-                        x:Name="MultipleSelect"
-                        Margin="5"
-                        IsChecked="False"
-                        Visibility="Hidden"
-                        materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=HexagonMultipleOutline}"
-                        Content="{materialDesign:PackIcon Kind=HexagonOutline}"
-                        Style="{StaticResource MaterialDesignActionToggleButton}"
-                        ToolTip="单选/多选" />
+                Grid.Column="0"
+                HorizontalAlignment="Right"
+                x:Name="MultipleSelect"
+                Margin="5"
+                IsChecked="False"
+                d:Visibility="Visible" 
+                Visibility="Visible"
+                materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=HexagonMultipleOutline}"
+                Content="{materialDesign:PackIcon Kind=HexagonOutline}"
+                Style="{StaticResource MaterialDesignActionToggleButton}"
+                ToolTip="单选/多选" 
+                Click="MultipleSelect_Click"
+                />
 
 
 

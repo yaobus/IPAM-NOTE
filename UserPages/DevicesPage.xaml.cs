@@ -656,48 +656,86 @@ namespace IPAM_NOTE.UserPages
         {
 	        if (sender is Button button)
 	        {
-		        DataBrige.SelectDeviceButtonTag = button.Tag.ToString();
+                //TODO多选、单选
 
-		        string port = DataBrige.SelectDeviceButtonTag.Substring(1);//端口号
-
-
-				char firstCharacter = DataBrige.SelectDeviceButtonTag[0];
-
-
-				// 将第一个字符转换为字符串
-				string type = firstCharacter.ToString();//端口类型
-
-
-				var list = DataBrige.DevicePortInfos.Where(data => data.PortType == type).ToList();
-
-
-
-                foreach (var info in list)
+                if (MultipleSelect.IsChecked == false)//如果是单选
                 {
-                    if (info.PortNumber == port)
-                    {
-                        DataBrige.SelectDevicePortInfo = info;
 
-                        break;
-                    }
-                }
+					DataBrige.SelectDeviceButtonTag = button.Tag.ToString();
+
+					string port = DataBrige.SelectDeviceButtonTag.Substring(1);//端口号
 
 
-                Window allocation = new PortAllocation();
+					char firstCharacter = DataBrige.SelectDeviceButtonTag[0];
 
-				if (allocation.ShowDialog() == true)
-				{
-					
-					//if (LoadMode == 0)
-					//{
+
+					// 将第一个字符转换为字符串
+					string type = firstCharacter.ToString();//端口类型
+
+
+					var list = DataBrige.DevicePortInfos.Where(data => data.PortType == type).ToList();
+
+
+
+					foreach (var info in list)
+					{
+						if (info.PortNumber == port)
+						{
+							DataBrige.SelectDevicePortInfo = info;
+
+							break;
+						}
+					}
+
+
+					Window allocation = new PortAllocation();
+
+					if (allocation.ShowDialog() == true)
+					{
+
+						//if (LoadMode == 0)
+						//{
 						WriteDeviceConfig(DataBrige.DevicePortInfos);
-					//}
-					//else
-					//{
-					//	ListLoad();
+						//}
+						//else
+						//{
+						//	ListLoad();
 
-					//}
+						//}
+					}
+
+
+
+                }
+                else//多选
+                {
+
+					if (DataBrige.SelectDevicePortMode == 0)//初次选择
+					{
+						
+                        //可同时选择光口和电口
+                        //管理口和磁盘必须分开选择
+
+
+
+					}
+					else//再次选择
+					{
+
+
+
+
+
+
+
+
+					}
+
+
+		
 				}
+
+
 
 
 
@@ -795,6 +833,23 @@ namespace IPAM_NOTE.UserPages
                 // 当子窗口关闭后执行这里的代码
                 LoadDevicesInfo(dbClass.connection);
             }
+
+        }
+
+
+        /// <summary>
+        /// 启用多选
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void MultipleSelect_Click(object sender, RoutedEventArgs e)
+		{
+
+            DataBrige.SelectDevicePortMode = 0;
+
+
+
+
 
         }
     }
