@@ -243,9 +243,7 @@ namespace IPAM_NOTE.UserPages
         private void WriteDeviceConfig(List<DevicePortInfo> devicePortInfos)
         {
 
-           
-
-            GraphicsPlan.Children.Clear();
+			GraphicsPlan.Children.Clear();
             Graphics.Children.Clear();
 
             var eList = devicePortInfos.Where(data => data.PortType == "E").ToList();//电口
@@ -259,8 +257,7 @@ namespace IPAM_NOTE.UserPages
             string dtag = "";
 
 
-            Console.WriteLine(DataBrige.SelectDeviceInfo.Id);
-
+           
             try
             {
                 if (DataBrige.SelectDeviceInfo.EportTag != null)
@@ -984,5 +981,130 @@ namespace IPAM_NOTE.UserPages
             }
 
         }
-    }
+
+
+        /// <summary>
+        /// 列表加载
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void ListButton_Click(object sender, RoutedEventArgs e)
+		{
+			//Graphics.Visibility = Visibility.Visible;
+
+			//GraphicsPlan.Visibility = Visibility.Collapsed;
+
+			List<ViewMode.DevicePortInfo> infos = new List<ViewMode.DevicePortInfo>();
+
+			foreach (var item in DataBrige.DevicePortInfos)
+            {
+                var info = item;
+                switch (info.PortType)
+                {
+                    case "E":
+                        info.PortType = "RJ45网口";
+                        info.PortNumber = DataBrige.SelectDeviceInfo.EportTag+ info.PortNumber;
+						break;
+
+					case "F":
+						info.PortType = "光纤网口";
+						info.PortNumber = DataBrige.SelectDeviceInfo.FportTag+info.PortNumber;
+						break;
+					case "M":
+						info.PortType = "管理网口";
+						info.PortNumber = DataBrige.SelectDeviceInfo.MportTag+info.PortNumber;
+						break;
+					case "D":
+						info.PortType = "硬盘插槽";
+						info.PortNumber = DataBrige.SelectDeviceInfo.DportTag+info.PortNumber;
+						break;
+					case "I":
+						info.PortType = "访问标签";
+
+						break;
+
+				}
+
+                infos.Add(info);
+
+            }
+
+
+            //清空图表
+            GraphicsPlan.Children.Clear();
+			Graphics.Children.Clear();
+
+			// 创建一个 ListView
+			ListView listView = new ListView();
+
+			// 设置 ListView 的垂直对齐方式为拉伸
+			listView.VerticalAlignment = VerticalAlignment.Stretch;
+
+			// 设置 ListView 的内容垂直对齐方式为顶部对齐
+			listView.VerticalContentAlignment = VerticalAlignment.Stretch;
+
+			ScrollViewer.SetCanContentScroll(listView, false);
+
+			// 创建 ScrollViewer 控件
+			ScrollViewer scrollViewer = new ScrollViewer();
+
+			// 设置垂直滚动条的可见性为自动
+			scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+
+
+
+			// 创建一个 GridView
+			GridView gridView = new GridView();
+
+
+			// 添加列到 GridView
+			gridView.Columns.Add(new GridViewColumn { Header = "端口类型", DisplayMemberBinding = new Binding("PortType")});
+			gridView.Columns.Add(new GridViewColumn { Header = "端口编号", DisplayMemberBinding = new Binding("PortNumber") });
+			gridView.Columns.Add(new GridViewColumn { Header = "备注1", DisplayMemberBinding = new Binding("PortTag1") });
+			gridView.Columns.Add(new GridViewColumn { Header = "备注2", DisplayMemberBinding = new Binding("PortTag1") });
+			gridView.Columns.Add(new GridViewColumn { Header = "备注3", DisplayMemberBinding = new Binding("PortTag1") });
+			gridView.Columns.Add(new GridViewColumn { Header = "说明", DisplayMemberBinding = new Binding("Description") });
+			// 将 GridView 设置为 ListView 的 View
+			listView.View = gridView;
+
+
+
+			// 设置 ListView 的属性
+
+			Binding bindingWidth = new Binding("ActualWidth");
+			bindingWidth.Source = GraphicsPlan;
+			listView.SetBinding(ListView.WidthProperty, bindingWidth);
+
+			// 设置 ListView 的高度为 Auto
+			listView.Height = double.NaN;
+
+			listView.Margin = new Thickness(10);
+
+
+			listView.ItemsSource = infos;
+			//listView.SelectionChanged += ListView_SelectionChanged;
+			//listView.MouseDoubleClick += ListView_MouseDoubleClick;
+
+
+
+
+			scrollViewer.Content = listView;
+			//scrollViewer.PreviewMouseWheel += ScrollViewer_PreviewMouseWheel;
+
+
+			GraphicsPlan.Children.Add(scrollViewer);
+
+
+		}
+
+		private void GraphicsButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (DataBrige.DevicePortInfos != null)
+			{
+                Console.WriteLine(DataBrige.DevicePortInfos.Count);
+                WriteDeviceConfig(DataBrige.DevicePortInfos);
+				//图形加载
+			}
+		}
+	}
 }

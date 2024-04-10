@@ -277,7 +277,7 @@
                         IsChecked="True"
                         
                         ToolTip="以图形方式显示所选设备端口"
-                       
+                       Click="GraphicsButton_Click"
                         Style="{StaticResource MaterialDesignTabRadioButton}" >
 
                     <materialDesign:PackIcon Kind="Apps" Width="24" Height="24"/>
@@ -287,11 +287,11 @@
                     x:Name="ListButton"
                     Margin="0"
                     IsChecked="False"
-                   IsEnabled="False"   
+                  
                     Visibility="Visible"
                     ToolTip="以列表方式显示所选设备端口"
                     Style="{StaticResource MaterialDesignTabRadioButton}" 
-                        
+                    Click="ListButton_Click" 
                     >
 
                     <materialDesign:PackIcon Kind="FormatListText" Width="24" Height="24"/>
@@ -482,7 +482,8 @@
                 Margin="5"
                 Orientation="Vertical"
                 x:Name="Graphics"
-               
+                
+                Visibility="Visible"
                 >
 
 
@@ -499,8 +500,9 @@
             Grid.Column="2"
             Grid.Row="1"
             x:Name="GraphicsPlan"
-               
-        >
+            
+           
+            >
 
 
         </WrapPanel>
