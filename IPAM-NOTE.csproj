@@ -184,6 +184,12 @@
     <Compile Include="UserPages\NetworkManage.xaml.cs">
       <DependentUpon>NetworkManage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserWindows\SetPasswordWindow.xaml.cs">
+      <DependentUpon>SetPasswordWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserWindows\VerifyPasswordWindow.xaml.cs">
+      <DependentUpon>VerifyPasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewMode.cs" />
     <Page Include="AddDeviceWindow.xaml">
       <SubType>Designer</SubType>
@@ -246,6 +252,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserWindows\SetPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserWindows\VerifyPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -295,7 +309,9 @@
   <ItemGroup>
     <Resource Include="Resources\ALLOCATION.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\LOGIN.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Devices\SWITCH1.png" />
   </ItemGroup>

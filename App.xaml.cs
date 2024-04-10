@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IPAM_NOTE.DatabaseOperation;
+using IPAM_NOTE.UserWindows;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -21,12 +23,12 @@ namespace IPAM_NOTE
 
 			base.OnStartup(e);
 
-            //订阅全局异常信息
-            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+			//订阅全局异常信息
+			this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
 
-            // 检查 SQLite 数据库文件是否存在
-            string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
+			// 检查 SQLite 数据库文件是否存在
+			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 			string dbName = "Address_database.db";
 
 			if (!Directory.Exists(dbFilePath))
@@ -55,22 +57,71 @@ namespace IPAM_NOTE
 				}
 			}
 
+			CheckDatabasePassword();
+		}
 
-        }
+
+		/// <summary>
+		/// 全局异常处理
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+		{
+			// 处理异常
+			// 记录异常信息、显示友好的错误提示框等
+			Console.WriteLine(e.Exception);
+			e.Handled = true; // 标记为已处理，防止应用程序终止
+		}
+
+		private DbClass dbClass;
 
 
-        /// <summary>
-        /// 全局异常处理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            // 处理异常
-            // 记录异常信息、显示友好的错误提示框等
-            Console.WriteLine(e.Exception);
-            e.Handled = true; // 标记为已处理，防止应用程序终止
-        }
+		/// <summary>
+		/// 检查数据库是否加密
+		/// </summary>
+		private void CheckDatabasePassword()
+		{
+			string dbFilePath = AppDomain.CurrentDomain.BaseDirectory + @"db\";
 
-    }
+
+			string dbName = "Address_database.db";
+
+
+			dbFilePath = dbFilePath + dbName;
+
+			dbClass = new DbClass(dbFilePath);
+
+			try
+			{
+					dbClass.OpenConnection();
+
+				
+
+					// 尝试执行一个简单的查询
+					SQLiteCommand checkCommand = new SQLiteCommand("SELECT 1;", dbClass.connection);
+					checkCommand.ExecuteNonQuery();
+
+					// 如果没有遇到异常，表明数据库没有加密，显示设置密码窗口
+					SetPasswordWindow setPasswordWindow = new SetPasswordWindow();
+					setPasswordWindow.ShowDialog();
+				
+			}
+			catch (SQLiteException ex)
+			{
+				// 如果遇到异常，表明数据库已经加密，显示验证密码窗口
+				VerifyPasswordWindow verifyPasswordWindow = new VerifyPasswordWindow();
+				verifyPasswordWindow.ShowDialog();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"发生错误: {ex.Message}", "错误");
+			}
+		}
+
+
+
+
+
+	}
 }
