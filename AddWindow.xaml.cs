@@ -99,7 +99,7 @@ namespace IPAM_NOTE
 
 						
 
-						int num = DbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
+						int num = dbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
 
 						//IP地址段已存在
 						if (num > 0)

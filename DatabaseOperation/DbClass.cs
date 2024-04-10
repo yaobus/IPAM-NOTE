@@ -102,7 +102,7 @@ namespace IPAM_NOTE.DatabaseOperation
 		/// </summary>
 		/// <param name="sql"></param>
 		/// <returns></returns>
-		public static int ExecuteScalarTableNum(string sql,SQLiteConnection connection)
+		public  int ExecuteScalarTableNum(string sql,SQLiteConnection connection)
 		{
 			
 				
@@ -164,7 +164,10 @@ namespace IPAM_NOTE.DatabaseOperation
         }
 
 
-        // 创建设备表
+        /// <summary>
+        /// 创建设备表
+        /// </summary>
+        /// <param name="tableName"></param>
         public void CreateTableIfNotExists(string tableName)
         {
             if (!IsTableExists(tableName))
@@ -177,6 +180,27 @@ namespace IPAM_NOTE.DatabaseOperation
                         command.ExecuteNonQuery();
                     }
                 
+            }
+        }
+
+
+        /// <summary>
+        /// 创建用户表
+        /// </summary>
+        /// <param name="tableName"></param>
+        public void CreateTableIfNotExistsUser(string tableName)
+        {
+            if (!IsTableExists(tableName))
+            {
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    // 创建表的 SQL 语句
+                    command.CommandText = $"CREATE TABLE \"{tableName}\" (\r\n  \"Id\" INTEGER PRIMARY KEY AUTOINCREMENT,\r\n  \"Password\" TEXT);";
+                    command.ExecuteNonQuery();
+
+                }
+
             }
         }
     }

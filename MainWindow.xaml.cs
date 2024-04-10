@@ -262,19 +262,6 @@ namespace IPAM_NOTE
 
 
 
-        ///// <summary>
-        ///// 关于页面
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void AboutButton_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    AboutWindow about = new AboutWindow();
-
-
-        //    about.ShowDialog();
-
-        //}
 
 
         /// <summary>

@@ -148,7 +148,25 @@
                             </TabItem.Header>
                         </TabItem>
 
-
+                        <TabItem
+                            IsEnabled="False"
+                            IsSelected="False"
+                        >
+                            <TabItem.Header>
+                                <StackPanel
+                                    Width="auto"
+                                    Height="auto">
+                                    <materialDesign:PackIcon
+                                        Width="28"
+                                        Height="28"
+                                        HorizontalAlignment="Center"
+                                        Kind="Warehouse" />
+                                    <!--<TextBlock
+                                    HorizontalAlignment="Center"
+                                    Text="地址收藏" />-->
+                                </StackPanel>
+                            </TabItem.Header>
+                        </TabItem>
                     </TabControl>
 
 
