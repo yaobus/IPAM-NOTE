@@ -481,7 +481,7 @@
             <WrapPanel  
                 Margin="5"
                 Orientation="Vertical"
-                x:Name="Graphics"
+                x:Name="GraphicsPlan"
                 
                 Visibility="Visible"
                 >
@@ -499,7 +499,7 @@
             Margin="5"
             Grid.Column="2"
             Grid.Row="1"
-            x:Name="GraphicsPlan"
+            x:Name="ListPlan"
             
            
             >

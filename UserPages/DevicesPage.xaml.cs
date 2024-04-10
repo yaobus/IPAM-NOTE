@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,7 +89,7 @@ namespace IPAM_NOTE.UserPages
         public void LoadDevicesInfo(SQLiteConnection connection)
         {
             DataBrige.DeviceInfos.Clear();
-            Graphics.Children.Clear();
+			GraphicsPlan.Children.Clear();//
             try
             {
                 string query = "SELECT * FROM Devices";
@@ -244,7 +245,7 @@ namespace IPAM_NOTE.UserPages
         {
 
 			GraphicsPlan.Children.Clear();
-            Graphics.Children.Clear();
+            ListPlan.Children.Clear();
 
             var eList = devicePortInfos.Where(data => data.PortType == "E").ToList();//电口
             var fList = devicePortInfos.Where(data => data.PortType == "F").ToList();//光口
@@ -364,18 +365,18 @@ namespace IPAM_NOTE.UserPages
 
 
 
-                Graphics.Children.Add(subitemPanel);
+				GraphicsPlan.Children.Add(subitemPanel);//
 
                 Separator separator = new Separator();
                 separator.Width = 10000; // 设置横线的宽度，根据需要调整
                 separator.Opacity = 0.3;
-                //separator.Loaded += (sender, e) =>
-                //{
-                //    // 设置横线的宽度为父容器的宽度
-                //    separator.Width = Graphics.ActualWidth;
-                //};
+				//separator.Loaded += (sender, e) =>
+				//{
+				//    // 设置横线的宽度为父容器的宽度
+				//    separator.Width = Graphics.ActualWidth;
+				//};
 
-                Graphics.Children.Add(separator);
+				GraphicsPlan.Children.Add(separator);
 
 
             }
@@ -456,14 +457,14 @@ namespace IPAM_NOTE.UserPages
 
                 }
 
-                Graphics.Children.Add(fSubitemPanel);
+				GraphicsPlan.Children.Add(fSubitemPanel);
 
                 Separator fiberseparator = new Separator();
                 fiberseparator.Width = 10000; // 设置横线的宽度，根据需要调整
                 fiberseparator.Opacity = 0.3;
 
 
-				Graphics.Children.Add(fiberseparator);
+				GraphicsPlan.Children.Add(fiberseparator);
             }
 
 
@@ -542,14 +543,14 @@ namespace IPAM_NOTE.UserPages
 
                 }
 
-                Graphics.Children.Add(dSubitemPanel);
+                GraphicsPlan.Children.Add(dSubitemPanel);
 
                 Separator diskSeparator = new Separator();
                 diskSeparator.Width = 10000; // 设置横线的宽度，根据需要调整
                 diskSeparator.Opacity = 0.3;
 
 
-				Graphics.Children.Add(diskSeparator);
+				GraphicsPlan.Children.Add(diskSeparator);
             }
 
 
@@ -627,7 +628,7 @@ namespace IPAM_NOTE.UserPages
 
                 }
 
-                Graphics.Children.Add(mSubitemPanel);
+                GraphicsPlan.Children.Add(mSubitemPanel);
 
                 Separator mSeparator = new Separator();
                 mSeparator.Width = 10000; // 设置横线的宽度，根据需要调整
@@ -638,7 +639,7 @@ namespace IPAM_NOTE.UserPages
 				//    miberseparator.Width = Graphics.ActualWidth;
 				//};
 
-				Graphics.Children.Add(mSeparator);
+				GraphicsPlan.Children.Add(mSeparator);
             }
 
 
@@ -990,9 +991,9 @@ namespace IPAM_NOTE.UserPages
         /// <param name="e"></param>
 		private void ListButton_Click(object sender, RoutedEventArgs e)
 		{
-			//Graphics.Visibility = Visibility.Visible;
+			
 
-			//GraphicsPlan.Visibility = Visibility.Collapsed;
+			GraphicsPlan.Children.Clear();
 
 			List<ViewMode.DevicePortInfo> infos = new List<ViewMode.DevicePortInfo>();
 
@@ -1031,8 +1032,8 @@ namespace IPAM_NOTE.UserPages
 
 
             //清空图表
-            GraphicsPlan.Children.Clear();
-			Graphics.Children.Clear();
+            ListPlan.Children.Clear();
+			//Graphics.Children.Clear();
 
 			// 创建一个 ListView
 			ListView listView = new ListView();
@@ -1082,29 +1083,209 @@ namespace IPAM_NOTE.UserPages
 
 
 			listView.ItemsSource = infos;
-			//listView.SelectionChanged += ListView_SelectionChanged;
-			//listView.MouseDoubleClick += ListView_MouseDoubleClick;
+			listView.SelectionChanged += ListView_SelectionChanged;
+			listView.MouseDoubleClick += ListView_MouseDoubleClick;
 
 
 
 
 			scrollViewer.Content = listView;
-			//scrollViewer.PreviewMouseWheel += ScrollViewer_PreviewMouseWheel;
+			scrollViewer.PreviewMouseWheel += ScrollViewer_PreviewMouseWheel;
 
 
-			GraphicsPlan.Children.Add(scrollViewer);
+			ListPlan.Children.Add(scrollViewer);
 
 
 		}
 
+
+		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			// 获取当前的 ScrollViewer 控件
+			ScrollViewer currentScrollViewer = sender as ScrollViewer;
+
+			if (currentScrollViewer != null)
+			{
+				// 计算滚动的增量
+				double delta = e.Delta;
+
+				// 计算新的滚动位置
+				double newOffset = currentScrollViewer.VerticalOffset - delta;
+
+				// 限制滚动位置在合理范围内
+				if (newOffset < 0)
+				{
+					newOffset = 0;
+				}
+				else if (newOffset > currentScrollViewer.ScrollableHeight)
+				{
+					newOffset = currentScrollViewer.ScrollableHeight;
+				}
+
+				// 设置新的滚动位置
+				currentScrollViewer.ScrollToVerticalOffset(newOffset);
+			}
+
+			// 标记事件为已处理，以阻止默认的滚动行为
+			e.Handled = true;
+
+		}
+
+
+		/// <summary>
+		/// 表项被选择
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (sender is ListView listView)
+			{
+				////Console.WriteLine("当前表项INDEX：" + listView.SelectedIndex);
+				//if (listView.SelectedIndex != -1)
+				//{
+				//	IpAddressInfo ipAddressInfo = listView.SelectedItem as IpAddressInfo;
+				//	int ip = ipAddressInfo.Address;
+				//	Console.WriteLine("当前表项IP：" + ip);
+
+
+				//	//计算广播IP
+				//	int broadcast = 0;
+				//	IPAddress ipAddress;
+				//	IPAddress mask = IPAddress.Parse(DataBrige.TempAddress.NetMask);
+
+				//	MaskText.Text = DataBrige.TempAddress.NetMask;
+
+
+
+				//	//如果网段IP中有*则替换为0
+				//	string tempNetwork = DataBrige.TempAddress.Network;
+
+				//	if (tempNetwork.IndexOf("*") != -1)
+				//	{
+				//		tempNetwork = tempNetwork.Replace("*", "0");
+
+				//	}
+
+
+				//	Network.Text = tempNetwork;
+
+				//	//计算IP地址
+				//	UpdateIPCalculations();
+
+				//	if (IPAddress.TryParse(tempNetwork, out ipAddress))
+				//	{
+				//		IPAddress networkAddress = ipAddress.GetNetworkAddress(mask);
+				//		int maskLength = IPAddressCalculations.CalculateSubnetMaskLength(mask);
+				//		IPAddress broadcastAddress = networkAddress.GetBroadcastAddress(maskLength);
+
+				//		string[] parts = broadcastAddress.ToString().Split('.');
+
+				//		//取出广播IP
+				//		broadcast = Convert.ToInt32(parts[3]);
+				//		Console.WriteLine(broadcast);
+				//	}
+
+
+				//	//取出网段IP
+				//	string[] parts2 = tempNetwork.Split('.');
+
+
+				//	int firstIp = Convert.ToInt32(parts2[3]);
+
+
+
+				//	if (ip != firstIp && ip != broadcast)
+				//	{
+				//		DataBrige.SelectIp = ip.ToString();
+				//		DataBrige.SelectIndex = listView.SelectedIndex;
+				//		Console.WriteLine("DataBrige.SelectIndex=" + DataBrige.SelectIndex);
+				//		DataBrige.IpAddress.HostName = DataBrige.ipAddressInfos[listView.SelectedIndex].HostName;
+				//		DataBrige.IpAddress.MacAddress = DataBrige.ipAddressInfos[listView.SelectedIndex].MacAddress;
+
+
+				//	}
+				//}
+			}
+		}
+
+		/// <summary>
+		/// 表项被双击
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+
+			//if (sender is ListView listView)
+			//{
+			//	if (listView.SelectedIndex != -1)
+			//	{
+			//		IpAddressInfo ipAddressInfo = listView.SelectedItem as IpAddressInfo;
+
+			//		int ip = ipAddressInfo.Address;
+
+			//		//Console.WriteLine("MouseDoubleClickIp="+ip.ToString());
+
+
+			//		//计算广播IP
+			//		string[] parts = Broadcast.Text.Split('.');
+			//		int broadcast = Convert.ToInt32(parts[3]);
+
+			//		//Console.WriteLine("broadcast=" + broadcast.ToString());
+
+			//		//计算网段IP
+			//		string[] parts2 = Network.Text.Split('.');
+			//		int firstIp = Convert.ToInt32(parts2[3]);
+
+
+			//		//Console.WriteLine("firstIp=" + firstIp.ToString());
+
+			//		if (ip != firstIp && ip != broadcast)
+			//		{
+
+
+			//			Window allocation = new Allocation();
+			//			//allocation.ShowDialog();
+
+			//			if (allocation.ShowDialog() == true)
+			//			{
+
+			//				//AddressListView_OnSelectionChanged(null, null);
+			//				if (LoadMode == 0)
+			//				{
+			//					WriteAddressConfig(DataBrige.ipAddressInfos);
+			//				}
+			//				else
+			//				{
+			//					ListLoad(Convert.ToInt32(ip));
+
+			//				}
+			//			}
+			//		}
+
+
+
+
+			//	}
+
+
+
+			//}
+		}
+
+
 		private void GraphicsButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (DataBrige.DevicePortInfos != null)
-			{
-                Console.WriteLine(DataBrige.DevicePortInfos.Count);
-                WriteDeviceConfig(DataBrige.DevicePortInfos);
-				//图形加载
-			}
+
+            DevicesView_OnSelectionChanged(null, null);
+
+			//if (DataBrige.DevicePortInfos != null)
+			//{
+   //             Console.WriteLine(DataBrige.DevicePortInfos.Count);
+   //             WriteDeviceConfig(DataBrige.DevicePortInfos);
+			//	//图形加载
+			//}
 		}
 	}
 }
