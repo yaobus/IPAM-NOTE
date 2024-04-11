@@ -1135,8 +1135,8 @@ namespace IPAM_NOTE.UserPages
                 DisplayMemberBinding = new Binding("PortStatus")
             });
             gridView.Columns.Add(new GridViewColumn { Header = "端口标记", DisplayMemberBinding = new Binding("PortTag1") });
-            gridView.Columns.Add(new GridViewColumn { Header = "端口标记", DisplayMemberBinding = new Binding("PortTag1") });
-            gridView.Columns.Add(new GridViewColumn { Header = "端口标记", DisplayMemberBinding = new Binding("PortTag1") });
+            gridView.Columns.Add(new GridViewColumn { Header = "端口标记", DisplayMemberBinding = new Binding("PortTag2") });
+            gridView.Columns.Add(new GridViewColumn { Header = "端口标记", DisplayMemberBinding = new Binding("PortTag3") });
             gridView.Columns.Add(new GridViewColumn { Header = "端口注释", DisplayMemberBinding = new Binding("Description") });
             // 将 GridView 设置为 ListView 的 View
             listView.View = gridView;
