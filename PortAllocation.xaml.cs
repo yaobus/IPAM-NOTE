@@ -134,13 +134,18 @@ namespace IPAM_NOTE
             {
 	           // string type = DataBrige.SelectDevicePortInfo.PortType;
 
-	            if (DataBrige.SelectDevicePortStatus == "0")
+	            if (DataBrige.SelectDevicePortStatus == "0")//未分配状态
 	            {
 		            EnableBox.IsChecked = false;
 	            }
 	            else
 	            {
-		            EnableBox.IsChecked = true;
+		            EnableBox.IsChecked = true;//已分配状态
+		            Tag1TextBox.IsEnabled = false;
+                    Tag2TextBox.IsEnabled = false;
+                    Tag3TextBox.IsEnabled = false;
+                    DescriptionTextBox.IsEnabled= false;
+
 	            }
 
 				string ports = "";
@@ -336,43 +341,80 @@ namespace IPAM_NOTE
                 {
                     string port;
 
-                  
+					if (DataBrige.SelectDevicePortStatus == "1")//多选状态下选择了已启用的端口准备释放
+					{
 
-                    for (int i = 0; i < DataBrige.portList.Count; i++)
+						for (int i = 0; i < DataBrige.portList.Count; i++)
+						{
+							port = DataBrige.portList[i];
+
+							string sql = string.Format(
+								$"UPDATE {tableName} SET \"PortStatus\" = '{enable}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+							dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+							int index = 0;
+
+
+							foreach (var item in DataBrige.DevicePortInfos)
+							{
+								if (item.PortType == type && item.PortNumber == port)
+								{
+									DataBrige.DevicePortInfos[index].PortStatus = enable.ToString();
+
+
+
+									break;
+								}
+
+								index++;
+							}
+
+						}
+
+
+					}
+					else
                     {
-                       port = DataBrige.portList[i];
 
-                        string sql = string.Format(
-                           $"UPDATE {tableName} SET \"PortStatus\" = '{enable}', \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+						for (int i = 0; i < DataBrige.portList.Count; i++)
+						{
+							port = DataBrige.portList[i];
 
-                       dbClass.ExecuteQuery(sql); //写入端口信息
+							string sql = string.Format(
+								$"UPDATE {tableName} SET \"PortStatus\" = '{enable}', \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
 
-
-                       int index = 0;
-
-
-                       foreach (var item in DataBrige.DevicePortInfos)
-                       {
-                           if (item.PortType == type && item.PortNumber == port)
-                           {
-                               DataBrige.DevicePortInfos[index].PortStatus = enable.ToString();
-                               DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
-                               DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
-                               DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
-                               DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
+							dbClass.ExecuteQuery(sql); //写入端口信息
 
 
-                               break;
-                           }
-
-                           index++;
-                       }
-
-                    }
+							int index = 0;
 
 
+							foreach (var item in DataBrige.DevicePortInfos)
+							{
+								if (item.PortType == type && item.PortNumber == port)
+								{
+									DataBrige.DevicePortInfos[index].PortStatus = enable.ToString();
+									DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
+									DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
+									DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
+									DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
 
-                }
+
+									break;
+								}
+
+								index++;
+							}
+
+						}
+
+
+					}
+
+
+				}
 
             }
 

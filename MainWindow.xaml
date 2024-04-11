@@ -188,7 +188,7 @@
                         <TabItem
                             IsSelected="False"
                             IsEnabled="False"
-                        >
+                            >
 
                             <TabItem.Header>
                                 <StackPanel
