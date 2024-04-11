@@ -213,6 +213,9 @@ namespace IPAM_NOTE
 			public string MacAddress { get; set; }
 		}
 
+
+        //-------------------------------------Devices-------------------------------------------
+
         /// <summary>
         /// 设备总表设备信息数据类型
         /// </summary>
@@ -409,6 +412,61 @@ namespace IPAM_NOTE
             }
         }
 
+
+        /// <summary>
+        /// 通过全局搜索获取到的设备数据类型
+        /// </summary>
+        public class SearchDeviceInfo
+        {
+            // SearchInfo类的定义
+            public string TableName
+            {
+                get; set;
+            }
+            public string Name
+            {//设备名
+                get; set;
+            }
+            public string Model
+            {//设备型号
+                get; set;
+            }
+            public string Number
+            {//设备编号
+                get; set;
+            }
+            public string PortType
+            {//端口类型
+                get; set;
+            }
+            public string PortNumber
+            {
+                get; set;
+            }
+
+            public string PortStatus
+            {//端口状态
+                get; set;
+            }
+            public string PortTag1
+            {
+                get; set;
+            }
+            public string PortTag2
+            {
+                get; set;
+            }
+            public string PortTag3
+            {
+                get; set;
+            }
+
+            public string Description
+            {
+                get; set;
+            }
+
+        }
 
     }
 }

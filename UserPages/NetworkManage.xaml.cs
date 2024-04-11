@@ -1812,6 +1812,7 @@ namespace IPAM_NOTE.UserPages
             return searchResults;
         }
 
+
         private List<SearchInfo> SearchInTable(string tableName, string network, string netmask)
         {
             List<SearchInfo> tableSearchResults = new List<SearchInfo>();
@@ -1994,7 +1995,6 @@ namespace IPAM_NOTE.UserPages
 
             if (AddressListView.SelectedIndex != -1)
             {
-
                 tableName = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].TableName;
                 Network.Text = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].Network;
                 MaskText.Text = DataBrige.ComBoxAddressInfos[AddressListView.SelectedIndex].NetMask;

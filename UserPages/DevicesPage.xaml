@@ -415,7 +415,7 @@
 
                 <Button
                         x:Name="SearchButton"
-                        
+                        Click="SearchButton_OnClick"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         ToolTip="给我搜"
                         materialDesign:ButtonAssist.CornerRadius="15"
@@ -428,7 +428,7 @@
                         x:Name="SearchClear"
                         Visibility="Visible"
                         IsEnabled="False"
-                        
+                        Click="SearchClear_OnClick"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         ToolTip="清空搜索"
                         materialDesign:ButtonAssist.CornerRadius="15"
