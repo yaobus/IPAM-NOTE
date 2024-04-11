@@ -284,39 +284,18 @@
             Grid.Row="1"
             Grid.Column="1"
             VerticalAlignment="Center"
-        >
+            >
 
-            <Button
-                Visibility="Hidden"
-                Grid.Column="1"
-                x:Name="PingButton"
+            <CheckBox
+                x:Name="EnableBox"
                 Margin="10"
-                Height="50"
-                Foreground="AliceBlue"
-                
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="PING测试" 
-                
-                materialDesign:ButtonAssist.CornerRadius="15"
-                >
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                    <materialDesign:PackIcon 
-                        Kind="Timelapse" 
-                        VerticalAlignment="Center"
-                        Height="32"
-                        Width="32"
-                        />
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        Text="  Ping -t"
-
-                        />
-                </StackPanel>
-            </Button>
+                Content="是否启用"
+                Height="40"
+                Style="{StaticResource MaterialDesignCheckBox}" />
 
             <Button
                 Visibility="Hidden"
-                Grid.Column="2"
+                
                 x:Name="WebOpen"
                 Margin="10"
                 Height="50"
@@ -344,6 +323,7 @@
 
 
             <Button
+                Visibility="Hidden"
                 Grid.Column="1"
                 x:Name="ReleaseButton"
                 Margin="10"
@@ -374,7 +354,7 @@
                 Height="50"
                 Click="SaveButton_OnClick"
                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                ToolTip="保存分配" 
+                ToolTip="保存配置" 
                 
                 materialDesign:ButtonAssist.CornerRadius="15"
                 >
@@ -387,7 +367,7 @@
                     />
                     <TextBlock
                         VerticalAlignment="Center"
-                    >保存分配</TextBlock>
+                    >保存配置</TextBlock>
                 </StackPanel>
             </Button>
 

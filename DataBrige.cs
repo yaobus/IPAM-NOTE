@@ -164,11 +164,17 @@ namespace IPAM_NOTE
         /// <summary>
         /// 多选模式下首次选择的端口状态，0未分配，1已分配
         /// </summary>
-        public static int SelectDevicePortStatus = -1;
+        public static string SelectDevicePortStatus = "-1";
 
         /// <summary>
         /// 多选模式下，一次选择的多个端口清单
         /// </summary>
         public static List<string> portList = new List<string>();//批量选择的端口号
-    }
+
+		/// <summary>
+		/// 列表显示还是图形显示，0为图形，1为列表
+		/// </summary>
+		public static int GraphicsMode = 0;
+
+	}
 }

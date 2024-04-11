@@ -367,7 +367,7 @@ namespace IPAM_NOTE
                 get; set;
             }
             //端口状态，0为未使用，1为已使用
-            public int PortStatus
+            public string PortStatus
             {
                 get; set;
             }
@@ -398,7 +398,7 @@ namespace IPAM_NOTE
             {
                 PortType=portType;
                 PortNumber=portNumber;
-                PortStatus=portStatus;
+                PortStatus=portStatus.ToString();
                 PortTag1=portTag1;
                 PortTag2=portTag2;
                 PortTag3=portTag3;

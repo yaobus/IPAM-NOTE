@@ -372,6 +372,7 @@
                             <ComboBox
                                 x:Name="EComboBox"
                                 SelectedIndex="0"
+                                IsEditable="True"
                                 VerticalAlignment="Center"
                                 materialDesign:HintAssist.Hint="槽位标签">
                                 <ComboBoxItem
@@ -382,8 +383,7 @@
                                     Content="0/" />
                                 <ComboBoxItem
                                     Content="1/" />
-                                <ComboBoxItem
-                                    Content="" />
+
                             </ComboBox>
 
 
@@ -528,6 +528,7 @@
                             <ComboBox
                                 x:Name="FiberComboBox"
                                 SelectedIndex="0"
+                                IsEditable="True"
                                 VerticalAlignment="Center"
                                 materialDesign:HintAssist.Hint="槽位标签">
                                 <ComboBoxItem
@@ -538,8 +539,7 @@
                                     Content="0/" />
                                 <ComboBoxItem
                                     Content="1/" />
-                                <ComboBoxItem
-                                    Content="1/" />
+
                             </ComboBox>
 
 
@@ -676,6 +676,7 @@
                             <ComboBox
                                 x:Name="DiskComboBox"
                                 SelectedIndex="0"
+                                IsEditable="True"
                                 VerticalAlignment="Center"
                                 materialDesign:HintAssist.Hint="槽位标签">
                                 <ComboBoxItem
@@ -803,7 +804,7 @@
                                 x:Name="MgmtComboBox"
                                 SelectedIndex="0"
                                 VerticalAlignment="Center"
-                                
+                                IsEditable="True"
                                 materialDesign:HintAssist.Hint="槽位标签">
                                 <ComboBoxItem
                                     Content="Mgmt" />

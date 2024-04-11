@@ -82,7 +82,7 @@
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="网段">
                 <materialDesign:PackIcon
-                    Kind="IpNetwork" Width="24" Height="24"/>
+                    Kind="Server" Width="24" Height="24"/>
             </Button>
 
             <Button
@@ -322,7 +322,7 @@
 
             <StackPanel
                     Visibility="Visible"
-                    IsEnabled="False"
+                    
                     Grid.Column="1"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
@@ -332,10 +332,12 @@
 
                 <ComboBox
                         Margin="5"
-                        x:Name="AddressBox"
+                        MaxDropDownHeight="300"
+                        x:Name="DeviceBox"
+                        DisplayMemberPath="{Binding Name}"
                         ItemsSource="{Binding ShortStringList}"
                         materialDesign:TextFieldAssist.HasClearButton="True"
-                        Width="120"
+                        Width="240"
                         VerticalAlignment="Bottom"
                         
                         >
@@ -349,7 +351,7 @@
                     </ComboBox.SelectedItem>
                 </ComboBox>
 
-                <StackPanel
+                <!--<StackPanel
                         Grid.Column="1"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
@@ -375,7 +377,7 @@
 
 
                     </ComboBox>
-                </StackPanel>
+                </StackPanel>-->
 
                 <StackPanel
                         HorizontalAlignment="Right"

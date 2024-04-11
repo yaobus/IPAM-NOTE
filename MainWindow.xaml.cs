@@ -271,7 +271,8 @@ namespace IPAM_NOTE
         /// <param name="e"></param>
         private void TopControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+	       
+	        DataBrige.GraphicsMode = 0;
 
             int index = TopControl.SelectedIndex;
 
