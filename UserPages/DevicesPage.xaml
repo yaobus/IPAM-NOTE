@@ -331,7 +331,7 @@
                     >
 
                 <ComboBox
-                        Margin="5"
+                        Margin="0,5,5,5"
                         MaxDropDownHeight="300"
                         x:Name="DeviceBox"
                         DisplayMemberPath="{Binding Name}"
@@ -443,7 +443,7 @@
                         HorizontalAlignment="Right"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         ToolTip="导入向导"
-                        
+                        Click="ImportButton_OnClick"
                         materialDesign:ButtonAssist.CornerRadius="15" 
                         >
 

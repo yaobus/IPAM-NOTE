@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IPAM_NOTE.DatabaseOperation;
 using IPAM_NOTE.DevicePage;
+using IPAM_NOTE.UserWindows;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using OfficeOpenXml;
@@ -105,7 +106,7 @@ namespace IPAM_NOTE.UserPages
 
 
 
-        private List<string> devicesList = new List<string>();
+        
 
         /// <summary>
         /// 加载设备信息列表
@@ -150,11 +151,11 @@ namespace IPAM_NOTE.UserPages
                     DataBrige.DeviceInfos.Add(new DeviceInfo(id, tableName, name, model, number, people, date,
                         description, ePort, ePortTag, fPort, fPortTag, mPort, mPortTag, dPort, dPortTag));
 
-                    devicesList.Add($"{id}-{name}-{number}-{model}");
+                    DataBrige.DevicesList.Add($"{id}-{name}-{number}-{model}");
                 }
 
                 DevicesView.ItemsSource = DataBrige.DeviceInfos;
-                DeviceBox.ItemsSource = devicesList;
+                DeviceBox.ItemsSource = DataBrige.DevicesList;
                 reader.Close();
             }
             catch (Exception ex)
@@ -2045,7 +2046,7 @@ namespace IPAM_NOTE.UserPages
 
 			if (DataBrige.LoadType == 1)
 			{
-				Console.WriteLine("12000");
+				
 
 				using (var package = new ExcelPackage())
 				{
@@ -2053,13 +2054,13 @@ namespace IPAM_NOTE.UserPages
 
 
 					// 写入标题行
-					sheet.Cells[1, 1].Value = "端口类型";
-					sheet.Cells[1, 2].Value = "端口编号";
-					sheet.Cells[1, 3].Value = "端口状态";
-					sheet.Cells[1, 4].Value = "端口标记";
-					sheet.Cells[1, 5].Value = "端口标记";
-					sheet.Cells[1, 6].Value = "端口标记";
-					sheet.Cells[1, 7].Value = "端口注释";
+					sheet.Cells[1, 1].Value = "PortType";
+					sheet.Cells[1, 2].Value = "PortNumber";
+					sheet.Cells[1, 3].Value = "PortStatus";
+					sheet.Cells[1, 4].Value = "PortTag1";
+					sheet.Cells[1, 5].Value = "PortTag2";
+					sheet.Cells[1, 6].Value = "PortTag3";
+					sheet.Cells[1, 7].Value = "Description";
 
 					// 写入数据
 					int rowIndex = 2;
@@ -2087,19 +2088,19 @@ namespace IPAM_NOTE.UserPages
 			else
 			{
 
-				Console.WriteLine("12334");
+				
 				using (var package = new ExcelPackage())
 				{
 					var sheet = package.Workbook.Worksheets.Add(DataBrige.SelectDeviceTableName);
 
 					// 写入标题行
-					sheet.Cells[1, 1].Value = "端口类型";
-					sheet.Cells[1, 2].Value = "端口编号";
-					sheet.Cells[1, 3].Value = "端口状态";
-					sheet.Cells[1, 4].Value = "端口标记";
-					sheet.Cells[1, 5].Value = "端口标记";
-					sheet.Cells[1, 6].Value = "端口标记";
-					sheet.Cells[1, 7].Value = "端口注释";
+					sheet.Cells[1, 1].Value = "PortType";
+					sheet.Cells[1, 2].Value = "PortNumber";
+					sheet.Cells[1, 3].Value = "PortStatus";
+					sheet.Cells[1, 4].Value = "PortTag1";
+					sheet.Cells[1, 5].Value = "PortTag2";
+					sheet.Cells[1, 6].Value = "PortTag3";
+					sheet.Cells[1, 7].Value = "Description";
 
 					int rowIndex = 2;
 					foreach (var info in dataList)
@@ -2133,5 +2134,21 @@ namespace IPAM_NOTE.UserPages
 
 			
 		}
+
+		private void ImportButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			DeviceImportWindow deviceImportWindow = new DeviceImportWindow();
+
+
+
+            if (deviceImportWindow.ShowDialog() == true)
+            {
+
+                DevicesView_OnSelectionChanged(null, null);
+                // 当子窗口关闭后执行这里的代码
+                //LoadNetworkInfo(dbClass.connection);
+
+            }
+        }
     }
 }

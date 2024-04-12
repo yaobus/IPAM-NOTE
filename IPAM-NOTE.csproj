@@ -184,6 +184,9 @@
     <Compile Include="UserPages\NetworkManage.xaml.cs">
       <DependentUpon>NetworkManage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserWindows\DeviceImportWindow.xaml.cs">
+      <DependentUpon>DeviceImportWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserWindows\SetPasswordWindow.xaml.cs">
       <DependentUpon>SetPasswordWindow.xaml</DependentUpon>
     </Compile>
@@ -249,6 +252,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserPages\NetworkManage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserWindows\DeviceImportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

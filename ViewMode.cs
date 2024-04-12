@@ -468,5 +468,29 @@ namespace IPAM_NOTE
 
         }
 
-    }
+
+
+        /// <summary>
+        /// ip地址信息
+        /// </summary>
+        public class DevicePortFromCsv
+        {
+	        //IP地址
+	        public string PortType { get; set; }
+
+	        public string PortNumber { get; set; }
+
+	        public string PortStatus { get; set; }
+
+	        public string PortTag1 { get; set; }
+
+	        public string PortTag2 { get; set; }
+
+	        public string PortTag3 { get; set; }
+
+	        public string Description { get; set; }
+
+
+        }
+	}
 }

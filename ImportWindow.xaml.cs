@@ -198,6 +198,7 @@ namespace IPAM_NOTE
 					MessageBox.Show("数据导入完毕，请检查数据是否正常。", "导入完成", MessageBoxButton.OK,
 						MessageBoxImage.Information);
 					connection.Close();
+					this.DialogResult = true;
 					this.Close();
 				}
 			}

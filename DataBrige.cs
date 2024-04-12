@@ -205,5 +205,11 @@ namespace IPAM_NOTE
 		/// </summary>
 		public static int DeviceSearchType = -1;
 
+
+
+        /// <summary>
+        /// 设备列表，显示在搜索筛选框
+        /// </summary>
+		public static List<string> DevicesList = new List<string>();
 	}
 }
