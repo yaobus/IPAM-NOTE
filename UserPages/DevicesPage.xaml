@@ -339,7 +339,7 @@
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         Width="240"
                         VerticalAlignment="Bottom"
-                        
+                        SelectionChanged="DeviceBox_OnSelectionChanged"
                         >
                     <ComboBox.SelectedItem>
                         <Binding
@@ -458,7 +458,7 @@
                         
                         ToolTip="导出表格内容"
                         IsEnabled="False"
-                        
+                        Click="ExportButton_OnClick"
                         materialDesign:ButtonAssist.CornerRadius="15" 
                         >
 

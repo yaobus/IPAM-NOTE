@@ -182,11 +182,28 @@ namespace IPAM_NOTE
         /// </summary>
         public static string SearchDeviceTableName;
 
+        /// <summary>
+        /// 点击设备列表时候的设备表名
+        /// </summary>
+        public static string SelectDeviceTableName;
+
+
+		/// <summary>
+		/// 全局搜索到的设备信息清单
+		/// </summary>
+		public static List<SearchDeviceInfo> SearchDeviceInfos = new List<SearchDeviceInfo>();
+
 
         /// <summary>
-        /// 全局搜索到的设备信息清单
+        /// 设备信息加载方式，0为正常加载，1为搜索加载
         /// </summary>
-        public static List<SearchDeviceInfo> SearchDeviceInfos = new List<SearchDeviceInfo>();
+        public static int DeviceLoadType;
 
-    }
+
+		/// <summary>
+		/// 设备端口信息搜索方式,0为全局搜索，1为指定搜索
+		/// </summary>
+		public static int DeviceSearchType = -1;
+
+	}
 }

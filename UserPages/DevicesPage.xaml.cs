@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -20,6 +21,8 @@ using System.Windows.Shapes;
 using IPAM_NOTE.DatabaseOperation;
 using IPAM_NOTE.DevicePage;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using OfficeOpenXml;
 using static IPAM_NOTE.ViewMode;
 using UserControl = System.Windows.Controls.UserControl;
 
@@ -163,18 +166,25 @@ namespace IPAM_NOTE.UserPages
 
         private void DevicesView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+	        DataBrige.DeviceLoadType = 0;
 
             GraphicsButton.IsEnabled = true;
 
             if (DevicesView.SelectedIndex != -1)
             {
+                ExportButton.IsEnabled=true;
+
                 if (DevicesView.SelectedItem is DeviceInfo info)
                 {
                     //将所选设备信息存到临时区域
                     DataBrige.SelectDeviceInfo = info;
 
-                    //加载所选设备信息
-                    GetDeviceInfo(info.TableName);
+                    DataBrige.SelectDeviceTableName = info.TableName;
+
+                    
+
+					//加载所选设备信息
+					GetDeviceInfo(info.TableName);
 
 
 
@@ -199,7 +209,8 @@ namespace IPAM_NOTE.UserPages
             }
             else
             {
-                MinusButton.IsEnabled = false;
+	            ExportButton.IsEnabled = false;
+				MinusButton.IsEnabled = false;
                 EditButton.IsEnabled = false;
                 DeviceName.Text = "";
                 DeviceModel.Text = "";
@@ -1353,8 +1364,10 @@ namespace IPAM_NOTE.UserPages
             //列表显示
             DataBrige.GraphicsMode = 1;
 
+            //加载方式
+            DataBrige.DeviceLoadType = 1;
 
-            GraphicsButton.IsEnabled=false;
+			GraphicsButton.IsEnabled=false;
             ListButton.IsEnabled=true;
             ListButton.IsChecked = true;
 
@@ -1382,7 +1395,11 @@ namespace IPAM_NOTE.UserPages
             //索引为-1的时候搜索全部设备，不为-1的时候搜索指定设备
             if (DeviceBox.SelectedIndex != -1)
             {
-                DataBrige.SearchDeviceTableName = DataBrige.DeviceInfos[DeviceBox.SelectedIndex].TableName + "_Search_" + KeyWord.Text;
+
+	            //进行了指定搜索的标记
+	            DataBrige.DeviceSearchType = 1;
+
+				DataBrige.SearchDeviceTableName = DataBrige.DeviceInfos[DeviceBox.SelectedIndex].TableName + "_Search_" + KeyWord.Text;
 
                 MultipleSelect.IsEnabled = false;
                 
@@ -1573,7 +1590,11 @@ namespace IPAM_NOTE.UserPages
             }
             else//搜索全部设备
             {
-                DataBrige.SearchDeviceInfos.Clear();
+                //进行了全局搜索的标记
+	            DataBrige.DeviceSearchType = 0;
+
+
+				DataBrige.SearchDeviceInfos.Clear();
 
                 DataBrige.SearchDeviceTableName = "Search_All_Devices_Table_" + KeyWord.Text;
 
@@ -1896,5 +1917,221 @@ namespace IPAM_NOTE.UserPages
             SearchClear.IsEnabled=false;
 
         }
+
+        /// <summary>
+        /// 导出内容
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportButton_OnClick(object sender, RoutedEventArgs e)
+        {
+			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+
+			// 创建 SaveFileDialog 实例
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+			saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+			saveFileDialog.FilterIndex = 1;
+			saveFileDialog.RestoreDirectory = true;
+
+
+			if (DataBrige.DeviceLoadType == 0)
+			{
+
+				// 设置默认文件名
+				saveFileDialog.FileName = DataBrige.SelectDeviceTableName + ".xlsx";
+			}
+			else
+			{
+				// 设置默认文件名
+				saveFileDialog.FileName = DataBrige.SearchDeviceTableName +"_"+ KeyWord.Text + ".xlsx";
+			}
+
+
+
+
+			// 显示 SaveFileDialog
+			bool? result = saveFileDialog.ShowDialog();
+
+			if (result == true)
+			{
+				// 获取用户选择的文件路径
+				string filePath = saveFileDialog.FileName;
+
+
+				if (DataBrige.DeviceSearchType == 0)
+				{
+					Console.WriteLine("s-0");
+					ListViewExportToExcel(DataBrige.SearchDeviceInfos, filePath);
+				}
+				else
+				{
+					Console.WriteLine("s-1");
+					ExportToExcel(DataBrige.DevicePortInfos, filePath);
+				}
+
+
+
+			}
+		}
+
+        /// <summary>
+        /// 全局搜索导出
+        /// </summary>
+        /// <param name="dataList"></param>
+        /// <param name="filePath"></param>
+        public void ListViewExportToExcel(List<SearchDeviceInfo> dataList, string filePath)
+        {
+
+
+	        using (var package = new ExcelPackage())
+	        {
+		        var sheet = package.Workbook.Worksheets.Add("SearchAllTable");
+
+
+
+				// 写入标题行
+
+				sheet.Cells[1, 1].Value = "设备表名";
+				sheet.Cells[1, 2].Value = "设备名称";
+				sheet.Cells[1, 3].Value = "设备型号";
+				sheet.Cells[1, 4].Value = "设备编号";
+				sheet.Cells[1, 5].Value = "端口类型";
+		        sheet.Cells[1, 6].Value = "端口编号";
+		        sheet.Cells[1, 7].Value = "端口状态";
+		        sheet.Cells[1, 8].Value = "端口标记";
+		        sheet.Cells[1, 9].Value = "端口标记";
+		        sheet.Cells[1, 10].Value = "端口标记";
+		        sheet.Cells[1, 11].Value = "端口注释";
+
+
+		        // 写入数据
+		        int rowIndex = 2;
+		        foreach (var info in dataList)
+		        {
+			        sheet.Cells[rowIndex, 1].Value = info.TableName;
+			        sheet.Cells[rowIndex, 2].Value = info.Name;
+			        sheet.Cells[rowIndex, 3].Value = info.Model;
+			        sheet.Cells[rowIndex, 4].Value = info.Number;
+					sheet.Cells[rowIndex, 5].Value = info.PortType;
+			        sheet.Cells[rowIndex, 6].Value = info.PortNumber;
+			        sheet.Cells[rowIndex, 7].Value = info.PortStatus;
+			        sheet.Cells[rowIndex, 8].Value = info.PortTag1;
+			        sheet.Cells[rowIndex, 9].Value = info.PortTag2;
+			        sheet.Cells[rowIndex, 10].Value = info.PortTag3; ;
+			        sheet.Cells[rowIndex, 11].Value = info.Description; ;
+
+			        rowIndex++;
+		        }
+
+
+		        // 保存Excel文件
+		        FileInfo excelFile = new FileInfo(filePath);
+
+
+
+		        package.SaveAs(excelFile);
+
+	        }
+
+
+        }
+
+
+
+
+		public void ExportToExcel(List<DevicePortInfo> dataList, string filePath)
+		{
+
+			if (DataBrige.LoadType == 1)
+			{
+				Console.WriteLine("12000");
+
+				using (var package = new ExcelPackage())
+				{
+					var sheet = package.Workbook.Worksheets.Add(DataBrige.SearchDeviceTableName);
+
+
+					// 写入标题行
+					sheet.Cells[1, 1].Value = "端口类型";
+					sheet.Cells[1, 2].Value = "端口编号";
+					sheet.Cells[1, 3].Value = "端口状态";
+					sheet.Cells[1, 4].Value = "端口标记";
+					sheet.Cells[1, 5].Value = "端口标记";
+					sheet.Cells[1, 6].Value = "端口标记";
+					sheet.Cells[1, 7].Value = "端口注释";
+
+					// 写入数据
+					int rowIndex = 2;
+					foreach (var info in dataList)
+					{
+						sheet.Cells[rowIndex, 1].Value = info.PortType;
+						sheet.Cells[rowIndex, 2].Value = info.PortNumber;
+						sheet.Cells[rowIndex, 3].Value = info.PortStatus;
+						sheet.Cells[rowIndex, 4].Value = info.PortTag1;
+						sheet.Cells[rowIndex, 5].Value = info.PortTag2;
+						sheet.Cells[rowIndex, 6].Value = info.PortTag3; ;
+						sheet.Cells[rowIndex, 7].Value = info.Description; ;
+						rowIndex++;
+					}
+
+
+					// 保存Excel文件
+					FileInfo excelFile = new FileInfo(filePath);
+
+
+
+					package.SaveAs(excelFile);
+				}
+			}
+			else
+			{
+
+				Console.WriteLine("12334");
+				using (var package = new ExcelPackage())
+				{
+					var sheet = package.Workbook.Worksheets.Add(DataBrige.SelectDeviceTableName);
+
+					// 写入标题行
+					sheet.Cells[1, 1].Value = "端口类型";
+					sheet.Cells[1, 2].Value = "端口编号";
+					sheet.Cells[1, 3].Value = "端口状态";
+					sheet.Cells[1, 4].Value = "端口标记";
+					sheet.Cells[1, 5].Value = "端口标记";
+					sheet.Cells[1, 6].Value = "端口标记";
+					sheet.Cells[1, 7].Value = "端口注释";
+
+					int rowIndex = 2;
+					foreach (var info in dataList)
+					{
+						sheet.Cells[rowIndex, 1].Value = info.PortType;
+						sheet.Cells[rowIndex, 2].Value = info.PortNumber;
+						sheet.Cells[rowIndex, 3].Value = info.PortStatus;
+						sheet.Cells[rowIndex, 4].Value = info.PortTag1;
+						sheet.Cells[rowIndex, 5].Value = info.PortTag2;
+						sheet.Cells[rowIndex, 6].Value = info.PortTag3; ;
+						sheet.Cells[rowIndex, 7].Value = info.Description; ;
+						rowIndex++;
+					}
+
+					// 保存Excel文件
+					FileInfo excelFile = new FileInfo(filePath);
+
+					package.SaveAs(excelFile);
+				}
+			}
+
+
+		}
+
+		private void DeviceBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (DeviceBox.SelectedIndex != -1)
+			{
+				DataBrige.SearchDeviceTableName = DataBrige.DeviceInfos[DeviceBox.SelectedIndex].TableName;
+			}
+
+			
+		}
     }
 }
