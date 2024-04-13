@@ -51,6 +51,11 @@
             <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
+
+        <Style x:Key="IndexStyle" TargetType="userPages:IndexPage">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -129,7 +134,7 @@
                         </TabItem>
 
                         <TabItem
-                            IsEnabled="False"
+                            IsEnabled="True"
                             IsSelected="False"
                             >
                             <TabItem.Header>
@@ -140,7 +145,7 @@
                                         Width="28"
                                         Height="28"
                                     HorizontalAlignment="Center"
-                                    Kind="BookmarkBoxMultipleOutline" />
+                                    Kind="ChemicalWeapon" />
                                     <!--<TextBlock
                                     HorizontalAlignment="Center"
                                     Text="地址收藏" />-->

@@ -181,8 +181,14 @@
     <Compile Include="UserPages\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserPages\IndexPage.xaml.cs">
+      <DependentUpon>IndexPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserPages\NetworkManage.xaml.cs">
       <DependentUpon>NetworkManage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserWindows\AddIndexWindow.xaml.cs">
+      <DependentUpon>AddIndexWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserWindows\DeviceImportWindow.xaml.cs">
       <DependentUpon>DeviceImportWindow.xaml</DependentUpon>
@@ -251,7 +257,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserPages\IndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserPages\NetworkManage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserWindows\AddIndexWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

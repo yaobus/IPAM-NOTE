@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -305,6 +306,7 @@ namespace IPAM_NOTE.UserPages
             var fList = devicePortInfos.Where(data => data.PortType == "F").ToList(); //光口
             var mList = devicePortInfos.Where(data => data.PortType == "M").ToList(); //管理口
             var dList = devicePortInfos.Where(data => data.PortType == "D").ToList(); //硬盘位
+            var iList = devicePortInfos.Where(data => data.PortType == "I").ToList(); //导航页
 
             string etag = "";
             string ftag = "";
@@ -706,6 +708,308 @@ namespace IPAM_NOTE.UserPages
 
 
 
+
+
+            #region 添加导航链接
+
+
+            x = iList.Count;
+
+            WrapPanel iSubitemPanel = new WrapPanel();
+
+
+
+            #region 添加新增导航标签按钮
+
+            // 添加PackIcon到第一列
+            PackIcon packIcon1 = new PackIcon();
+            packIcon1.Kind = PackIconKind.SignDirectionPlus; // 设置PackIcon的图标类型
+            packIcon1.Margin = new Thickness(-5);
+            packIcon1.VerticalAlignment = VerticalAlignment.Center;
+            packIcon1.Width = 32;
+            packIcon1.Height = 32;
+
+            Button addIndexButton = new Button()
+            {
+                Height = 60,
+                Width = 60,
+                FontWeight = FontWeights.ExtraBold,
+                Content = packIcon1,
+                ToolTip = "添加导航标签",
+                Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+                BorderThickness = new Thickness(0),
+                Margin = new Thickness(5),
+
+            };
+            addIndexButton.Click += AddIndexButton_Click;
+
+
+            iSubitemPanel.Children.Add(addIndexButton);
+
+
+
+            // 编辑还是访问按钮
+            PackIcon packIcon2 = new PackIcon();
+            packIcon2.Kind = PackIconKind.Play; // 设置PackIcon的图标类型
+            packIcon2.Margin = new Thickness(-5);
+            packIcon2.VerticalAlignment = VerticalAlignment.Center;
+            packIcon2.Width = 32;
+            packIcon2.Height = 32;
+
+
+
+            Button editButton = new Button()
+            {
+                Height = 60,
+                Width = 60,
+                FontWeight = FontWeights.ExtraBold,
+                Content = packIcon2,
+                ToolTip = "访问模式",
+                Tag = "0",//访问模式
+                Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+                BorderThickness = new Thickness(0),
+                Margin = new Thickness(5),
+
+            };
+
+            editButton.Click += EditButton_Click;
+
+            iSubitemPanel.Children.Add(editButton);
+
+
+
+
+
+
+
+            #endregion
+
+            if (x > 0)
+            {
+
+
+
+                for (int i = 0; i < x; i++)
+                {
+                    string description = null;
+                    Brush colorBrush = null;
+                    string status = iList[i].PortStatus;
+
+                    Brush fontBrush = null;
+
+                    switch (status)
+                    {
+                        case "0":
+                            colorBrush = Brushes.CadetBlue;
+                            description = "类型:导航标签\r特征:独有标签\r名称:" + iList[i].PortTag1 + "\r地址:" + iList[i].PortTag2 + "\r注释:" + iList[i].Description; ;
+
+                            break;
+
+                        case "1":
+                            colorBrush = Brushes.Coral;
+                            description = "类型:导航标签\r全局标签\r名称:" + iList[i].PortTag1 + "\r地址:" + iList[i].PortTag2 + "\r注释:" + iList[i].Description; ;
+
+                            break;
+
+
+                    }
+
+                    fontBrush = Brushes.AliceBlue;
+
+                    string content = iList[i].PortTag1;//PortTag1是导航标签名字，PortTag2是导航标签地址，Description是注释
+
+
+                   // StackPanel panel = new StackPanel();
+
+                    Grid grid = new Grid();
+                    ColumnDefinition column1 = new ColumnDefinition();
+                    ColumnDefinition column2 = new ColumnDefinition();
+                    RowDefinition row1 = new RowDefinition();
+                    RowDefinition row2=new RowDefinition();
+                    
+                    column1.Width = new GridLength(20);
+                    column2.Width = new GridLength(100);
+
+                    row1.Height= new GridLength(60, GridUnitType.Star);
+                    row2.Height= new GridLength(40, GridUnitType.Star);
+
+                    grid.ColumnDefinitions.Add(column1);
+                    grid.ColumnDefinitions.Add(column2);
+                    grid.RowDefinitions.Add(row1);
+                    grid.RowDefinitions.Add(row2);
+                    grid.VerticalAlignment= VerticalAlignment.Center;
+
+                    // 添加PackIcon到第一列
+                    PackIcon packIcon = new PackIcon();
+                    packIcon.Kind = PackIconKind.GoogleChrome; // 设置PackIcon的图标类型
+                    packIcon.Margin=new Thickness(-5);
+                    packIcon.VerticalAlignment = VerticalAlignment.Center;
+
+                    Grid.SetColumn(packIcon, 0);
+                    Grid.SetRow(packIcon, 0);
+                    Grid.SetRowSpan(packIcon, 2);
+
+                    TextBlock textBlock1 = new TextBlock();
+                    textBlock1.Text = iList[i].PortTag1;
+                    textBlock1.FontWeight = FontWeights.Bold;
+                    textBlock1.FontSize = 16;
+
+                    TextBlock textBlock2 = new TextBlock();
+                    textBlock2.Text = iList[i].PortTag2;
+                    textBlock2.FontWeight = FontWeights.Bold;
+                    textBlock2.FontSize = 12;
+                    textBlock2.Opacity = 0.5;
+
+                    Grid.SetColumn(textBlock1, 1);
+                    Grid.SetRow(textBlock1, 0);
+
+                    Grid.SetColumn(textBlock2, 1);
+                    Grid.SetRow(textBlock2, 1);
+
+
+                    grid.Children.Add(packIcon);
+                    grid.Children.Add(textBlock1);
+                    grid.Children.Add(textBlock2);
+
+                    Button indexButton = new Button()
+                    {
+                        Height = 60,
+                        Background = colorBrush,
+                        Foreground = fontBrush,
+                        FontWeight = FontWeights.ExtraBold,
+                        Content = grid,
+                        ToolTip = description,
+                        Tag = iList[i].PortTag2,
+                        Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
+                        BorderThickness = new Thickness(0),
+                        Margin = new Thickness(5),
+
+                    };
+
+                    indexButton.Click += IndexButton_Click;
+                    //显示到图形化区域
+                    iSubitemPanel.Children.Add(indexButton);
+
+                }
+
+               
+
+                //Separator mSeparator = new Separator();
+                //mSeparator.Width = 10000; // 设置横线的宽度，根据需要调整
+                //mSeparator.Opacity = 0.3;
+                ////miberseparator.Loaded += (sender, e) =>
+                ////{
+                ////    // 设置横线的宽度为父容器的宽度
+                ////    miberseparator.Width = Graphics.ActualWidth;
+                ////};
+
+                //GraphicsPlan.Children.Add(mSeparator);
+            }
+
+
+            GraphicsPlan.Children.Add(iSubitemPanel);
+
+            #endregion
+
+        }
+
+        /// <summary>
+        /// 切换图标
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+
+                if (button.Tag == "0")//如果是访问模式
+                {
+                    // 添加PackIcon到第一列
+                    PackIcon packIcon1 = new PackIcon();
+                    packIcon1.Kind = PackIconKind.EditBoxOutline; // 设置PackIcon的图标类型
+                    packIcon1.Margin = new Thickness(-5);
+                    packIcon1.VerticalAlignment = VerticalAlignment.Center;
+                    packIcon1.Width = 32;
+                    packIcon1.Height = 32;
+                    button.ToolTip = "编辑模式";
+                    button.Content = packIcon1;
+                    button.Tag = "1";
+                    DataBrige.EditMode = 1;
+                }
+                else
+                {
+
+                    PackIcon packIcon1 = new PackIcon();
+                    packIcon1.Kind = PackIconKind.Play; // 设置PackIcon的图标类型
+                    packIcon1.Margin = new Thickness(-5);
+                    packIcon1.VerticalAlignment = VerticalAlignment.Center;
+                    packIcon1.Width = 32;
+                    packIcon1.Height = 32;
+                    button.ToolTip = "访问模式";
+                    DataBrige.EditMode = 0;
+                    button.Content = packIcon1;
+                    button.Tag = "0";
+                }
+
+
+
+
+            }
+        }
+
+
+        /// <summary>
+        /// 弹出新建导航标签页面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddIndexButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            AddIndexWindow addWindow = new AddIndexWindow();
+
+            if (addWindow.ShowDialog() == true)
+            {
+               
+                // 当子窗口关闭后执行这里的代码
+                LoadDevicesInfo(dbClass.connection);
+                // DevicesView.ItemsSource = DataBrige.DeviceInfos;
+            }
+
+        }
+
+
+        /// <summary>
+        /// 导航页标签被点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void IndexButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (sender is Button button)
+            {
+                if (DataBrige.EditMode==0)
+                {
+                    string url = button.Tag.ToString();
+
+
+                    Process.Start(url);
+                }
+                else//弹出编辑器
+                {
+                    
+                }
+
+
+
+            }
+
+            
+
+            
+
         }
 
 
@@ -1002,7 +1306,8 @@ namespace IPAM_NOTE.UserPages
             DataBrige.SelectDevicePortType = "";
             DataBrige.SelectDevicePortStatus = "-1";
             DataBrige.portList.Clear();
-
+            MultipleSelectStatus.Visibility = Visibility.Hidden;
+           
             //if (LoadMode == 0)
             //{
             WriteDeviceConfig(DataBrige.DevicePortInfos);
@@ -2150,5 +2455,6 @@ namespace IPAM_NOTE.UserPages
 
             }
         }
+
     }
 }

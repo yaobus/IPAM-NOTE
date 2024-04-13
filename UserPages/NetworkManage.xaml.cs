@@ -2204,6 +2204,9 @@ namespace IPAM_NOTE.UserPages
 
             DataBrige.SelectedIpAddress.Clear();
 
+           
+
+            MultipleSelectStatus.Visibility = Visibility.Hidden;
             if (LoadMode == 0)
             {
                 WriteAddressConfig(DataBrige.ipAddressInfos);

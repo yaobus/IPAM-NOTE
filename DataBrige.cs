@@ -211,5 +211,11 @@ namespace IPAM_NOTE
         /// 设备列表，显示在搜索筛选框
         /// </summary>
 		public static List<string> DevicesList = new List<string>();
-	}
+
+
+        /// <summary>
+        /// 表示点击标签是编辑还是访问，0为访问，1为编辑
+        /// </summary>
+        public static int EditMode = 0;
+    }
 }

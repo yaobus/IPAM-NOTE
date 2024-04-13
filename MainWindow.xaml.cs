@@ -271,8 +271,9 @@ namespace IPAM_NOTE
         /// <param name="e"></param>
         private void TopControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-	       
-	        DataBrige.GraphicsMode = 0;
+            DataBrige. DevicesList.Clear();
+            
+            DataBrige.GraphicsMode = 0;
 
             int index = TopControl.SelectedIndex;
 
@@ -281,6 +282,7 @@ namespace IPAM_NOTE
                 BottomControl.SelectedIndex = -1;
 
                 FunctionPanel.Children.Clear();
+
 
                 switch (index)
                 {
@@ -299,6 +301,14 @@ namespace IPAM_NOTE
                         devicesPage.Style = (Style)FindResource("DevicesStyle");
 
                         FunctionPanel.Children.Add(devicesPage);
+
+                        break;
+                    case 2: 
+                        IndexPage indexPage = new IndexPage();
+
+
+                        indexPage.Style = (Style)FindResource("IndexStyle");
+                        FunctionPanel.Children.Add(indexPage);
 
                         break;
                 }
