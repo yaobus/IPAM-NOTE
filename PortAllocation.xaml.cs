@@ -247,6 +247,7 @@ namespace IPAM_NOTE
                 {
 	                string portTag="";
 	                Console.WriteLine(type);
+
 	                switch (type)
 	                {
                         case "RJ45网口":
@@ -269,8 +270,11 @@ namespace IPAM_NOTE
 	                        type = "M";
 							break;
 
-
-	                }
+                        case "访问标签":
+                            portTag = DataBrige.SelectDeviceInfo.MportTag;
+                            type = "I";
+                            break;
+                    }
 
 	                port = port.Replace(portTag, "");
                 }

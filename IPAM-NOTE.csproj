@@ -196,6 +196,9 @@
     <Compile Include="UserWindows\SetPasswordWindow.xaml.cs">
       <DependentUpon>SetPasswordWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserWindows\TESTWindow.xaml.cs">
+      <DependentUpon>TESTWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserWindows\VerifyPasswordWindow.xaml.cs">
       <DependentUpon>VerifyPasswordWindow.xaml</DependentUpon>
     </Compile>
@@ -274,6 +277,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserWindows\SetPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserWindows\TESTWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

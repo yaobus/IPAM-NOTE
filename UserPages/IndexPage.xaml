@@ -12,9 +12,119 @@
             FontFamily="SimHei"
              d:DesignHeight="1080" 
              d:DesignWidth="1920"
-             
+             Loaded="IndexPage_OnLoaded"
              >
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="72"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Column="0"
+            Grid.Row="0"
+            VerticalAlignment="Center"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                x:Name="IndexButton"
+                Margin="0"
+                
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="索引">
+                <materialDesign:PackIcon
+                    Kind="Numbers"
+                    Width="24"
+                    Height="24"
+                />
+            </Button>
+
+            <Button
+                Grid.Column="1"
+                x:Name="NetworkButton"
+                Height="30"
+                
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="网段">
+                <materialDesign:PackIcon
+                    Kind="Server" Width="24" Height="24"/>
+            </Button>
+
+            <Button
+                Grid.Column="2"
+                x:Name="DescriptionButton"
+                Height="30"
+                
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="网段备注">
+                <materialDesign:PackIcon
+                    Kind="Notebook" Width="24" Height="24"/>
+            </Button>
+
+        </Grid>
+
+        <Grid
+                Grid.Column="2"
+                Grid.Row="0"
+                
+                >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="690"/>
+
+            </Grid.ColumnDefinitions>
+
+
+
+            <StackPanel
+                    
+                    Grid.Column="0"
+                    Margin="5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    >
+
+            </StackPanel>
+
+
+
+
+        </Grid>
+
+        <ScrollViewer 
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="1"
+            Margin="10"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+
+            <StackPanel
+
+                
+                Orientation="Vertical"
+                HorizontalAlignment="Left"
+                x:Name="Graphics"
+                
+                >
+
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+
     </Grid>
 </UserControl>

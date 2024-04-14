@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.UI;
 using System.Windows;
@@ -19,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ControlzEx.Standard;
 using IPAM_NOTE.DatabaseOperation;
 using IPAM_NOTE.DevicePage;
 using IPAM_NOTE.UserWindows;
@@ -169,6 +171,9 @@ namespace IPAM_NOTE.UserPages
         private void DevicesView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 	        DataBrige.DeviceLoadType = 0;
+            DataBrige.EditMode = 0;
+
+
 
             GraphicsButton.IsEnabled = true;
 
@@ -369,7 +374,7 @@ namespace IPAM_NOTE.UserPages
                     switch (status)
                     {
                         case "0":
-                            colorBrush = Brushes.YellowGreen;
+                            colorBrush = Brushes.DarkCyan;
                             description = "类型：RJ45网口\r未使用端口";
 
                             break;
@@ -465,7 +470,7 @@ namespace IPAM_NOTE.UserPages
                     switch (status)
                     {
                         case "0":
-                            colorBrush = Brushes.DarkTurquoise;
+                            colorBrush = Brushes.DarkCyan;
                             description = "类型：光纤网口\r未使用端口";
 
                             break;
@@ -551,7 +556,7 @@ namespace IPAM_NOTE.UserPages
                     switch (status)
                     {
                         case "0":
-                            colorBrush = Brushes.ForestGreen;
+                            colorBrush = Brushes.DarkCyan;
                             description = "类型：硬盘插槽\r未使用插槽";
 
                             break;
@@ -638,7 +643,7 @@ namespace IPAM_NOTE.UserPages
                     switch (status)
                     {
                         case "0":
-                            colorBrush = Brushes.DarkRed;
+                            colorBrush = Brushes.DarkCyan;
                             description = "类型：管理网口\r未使用端口";
 
                             break;
@@ -800,7 +805,7 @@ namespace IPAM_NOTE.UserPages
                     switch (status)
                     {
                         case "0":
-                            colorBrush = Brushes.CadetBlue;
+                            colorBrush = Brushes.DarkCyan;
                             description = "类型:导航标签\r特征:独有标签\r名称:" + iList[i].PortTag1 + "\r地址:" + iList[i].PortTag2 + "\r注释:" + iList[i].Description; ;
 
                             break;
@@ -816,7 +821,7 @@ namespace IPAM_NOTE.UserPages
 
                     fontBrush = Brushes.AliceBlue;
 
-                    string content = iList[i].PortTag1;//PortTag1是导航标签名字，PortTag2是导航标签地址，Description是注释
+                   
 
 
                    // StackPanel panel = new StackPanel();
@@ -874,12 +879,13 @@ namespace IPAM_NOTE.UserPages
                     Button indexButton = new Button()
                     {
                         Height = 60,
+                        Width = 130,
                         Background = colorBrush,
                         Foreground = fontBrush,
                         FontWeight = FontWeights.ExtraBold,
                         Content = grid,
                         ToolTip = description,
-                        Tag = iList[i].PortTag2,
+                        Tag = $"[{iList[i].PortNumber}]" + iList[i].PortTag2,
                         Style = (Style)this.FindResource("MaterialDesignFlatSecondaryDarkBgButton"),
                         BorderThickness = new Thickness(0),
                         Margin = new Thickness(5),
@@ -892,18 +898,6 @@ namespace IPAM_NOTE.UserPages
 
                 }
 
-               
-
-                //Separator mSeparator = new Separator();
-                //mSeparator.Width = 10000; // 设置横线的宽度，根据需要调整
-                //mSeparator.Opacity = 0.3;
-                ////miberseparator.Loaded += (sender, e) =>
-                ////{
-                ////    // 设置横线的宽度为父容器的宽度
-                ////    miberseparator.Width = Graphics.ActualWidth;
-                ////};
-
-                //GraphicsPlan.Children.Add(mSeparator);
             }
 
 
@@ -973,7 +967,9 @@ namespace IPAM_NOTE.UserPages
             {
                
                 // 当子窗口关闭后执行这里的代码
-                LoadDevicesInfo(dbClass.connection);
+                // LoadDevicesInfo(dbClass.connection);
+                GetDeviceInfo(DataBrige.SelectDeviceTableName);
+
                 // DevicesView.ItemsSource = DataBrige.DeviceInfos;
             }
 
@@ -990,16 +986,48 @@ namespace IPAM_NOTE.UserPages
             
             if (sender is Button button)
             {
+                string url = button.Tag.ToString();
+
                 if (DataBrige.EditMode==0)
                 {
-                    string url = button.Tag.ToString();
+                    
+
+                    string pattern = @"\[\d+\]";
+                    url = Regex.Replace(url, pattern, "");
 
 
+                    if (!url.Contains("https://") && !url.Contains("http://"))
+                    {
+                        // 如果字符串中不存在 "https://" 或 "http://", 添加 "https://"
+                        url = "http://" + url;
+                    }
                     Process.Start(url);
                 }
                 else//弹出编辑器
                 {
-                    
+
+
+                    DataBrige.SelectIndexTag = ExtractNumberInSquareBrackets(url);
+
+                    Console.WriteLine(DataBrige.SelectIndexTag);
+
+                    Window allocation = new AddIndexWindow();
+
+                    if (allocation.ShowDialog() == true)
+                    {
+                        GetDeviceInfo(DataBrige.SelectDeviceInfo.TableName);
+                        //if (LoadMode == 0)
+                        //{
+                        WriteDeviceConfig(DataBrige.DevicePortInfos);
+                        //}
+                        //else
+                        //{
+                        //	ListLoad();
+
+                        //}
+                    }
+
+
                 }
 
 
@@ -1011,8 +1039,30 @@ namespace IPAM_NOTE.UserPages
             
 
         }
+        
+        /// <summary>
+        /// 提取标签中的数字
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        static int ExtractNumberInSquareBrackets(string input)
+        {
+            // 使用正则表达式匹配字符串中的数字
+            string pattern = @"\[(\d+)\]";
+            Match match = Regex.Match(input, pattern);
 
-
+            if (match.Success)
+            {
+                // 提取匹配到的数字并转换为整数返回
+                string numberString = match.Groups[1].Value;
+                return int.Parse(numberString);
+            }
+            else
+            {
+                // 如果没有匹配到数字，则返回一个默认值（这里返回0，你可以根据需要修改）
+                return 0;
+            }
+        }
 
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
@@ -1609,9 +1659,11 @@ namespace IPAM_NOTE.UserPages
 
             if (sender is ListView listView)
             {
-                if (listView.SelectedIndex != -1)
+                DevicePortInfo devicePortInfo = listView.SelectedItem as DevicePortInfo;
+
+                if (listView.SelectedIndex != -1 && devicePortInfo.PortType != "I")
                 {
-                    DevicePortInfo devicePortInfo = listView.SelectedItem as DevicePortInfo;
+
 
                     DataBrige.SelectDevicePortInfo = devicePortInfo;
 

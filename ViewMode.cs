@@ -492,5 +492,81 @@ namespace IPAM_NOTE
 
 
         }
+
+
+        //----------------------INDEXPAGE----------------------------
+        public class IndexInfo
+        {
+            public string TableName
+            {
+                get;
+                set;
+            }
+
+            public string Name
+            {
+                get;
+                set;
+            }
+
+            public string Model
+            {
+                get;
+                set;
+            }
+
+            public string Number
+            {
+                get;
+                set;
+            }
+
+            public string PortNumber
+            {
+                get;
+                set;
+            }
+
+            public int PortStatus
+            {
+                get;
+                set;
+            }
+
+            public string PortTag1
+            {
+                get;
+                set;
+            }
+
+            public string PortTag2
+            {
+                get;
+                set;
+            }
+
+
+            public string Description
+            {
+                get;
+                set;
+            }
+
+            public IndexInfo(string tableName,string name ,string model,string number,string portNumber,int portStatus,string portTag1,string portTag2,string description)
+            {
+                TableName=tableName;
+                Name=name;
+                Model=model;
+                Number=number;
+                PortNumber=portNumber;
+                PortStatus=portStatus;
+                PortTag1=portTag1;
+                PortTag2=portTag2;
+                Description=description;
+                
+            }
+        }
+
+
 	}
 }

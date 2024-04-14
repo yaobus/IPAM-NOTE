@@ -22,7 +22,7 @@ namespace IPAM_NOTE
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Ver = "1.17";
+        public static string Ver = "1.18";
 
         /// <summary>
         /// 最新版本号
@@ -217,5 +217,11 @@ namespace IPAM_NOTE
         /// 表示点击标签是编辑还是访问，0为访问，1为编辑
         /// </summary>
         public static int EditMode = 0;
+
+
+        /// <summary>
+        /// 表示当前选中的导航标签，-1为未选择
+        /// </summary>
+        public static int SelectIndexTag = -1;
     }
 }
