@@ -847,7 +847,7 @@ namespace IPAM_NOTE.UserPages
                     // 添加PackIcon到第一列
                     PackIcon packIcon = new PackIcon();
                     packIcon.Kind = PackIconKind.GoogleChrome; // 设置PackIcon的图标类型
-                    packIcon.Margin=new Thickness(-5);
+                    packIcon.Margin = new Thickness(0);
                     packIcon.VerticalAlignment = VerticalAlignment.Center;
 
                     Grid.SetColumn(packIcon, 0);
