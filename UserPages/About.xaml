@@ -185,13 +185,13 @@
                     Margin="0,10"
                     FontSize="16"
                     Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                    Text="感谢以下用户提出的意见和建议以及给予的支持"/>
+                    Text="感谢以下用户提出的意见和功能性建议以及给予的支持（排名不分先后）"/>
 
                 <TextBlock
                     Margin="0,10"
                     FontSize="16"
                     Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                    Text="52破解用户@waishr"/>
+                    Text="52破解用户@waishr @fkeuali"/>
 
 
 
