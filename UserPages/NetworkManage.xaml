@@ -528,7 +528,7 @@
                         x:Name="ImportButton"
                         HorizontalAlignment="Right"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
-                        ToolTip="导入向导"
+                        ToolTip="数据导出导入向导"
                         Click="ImportButton_OnClick"
                         materialDesign:ButtonAssist.CornerRadius="15" 
                         >
@@ -542,7 +542,7 @@
                         HorizontalAlignment="Right"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         
-                        ToolTip="导出表格内容"
+                        ToolTip="导出表格内容，不可作为数据源导入"
                         IsEnabled="False"
                         Click="ExportButton_OnClick"
                         materialDesign:ButtonAssist.CornerRadius="15" 

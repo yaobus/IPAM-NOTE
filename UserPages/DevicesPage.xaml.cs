@@ -2319,12 +2319,12 @@ namespace IPAM_NOTE.UserPages
 
 				if (DataBrige.DeviceSearchType == 0)
 				{
-					Console.WriteLine("s-0");
+					
 					ListViewExportToExcel(DataBrige.SearchDeviceInfos, filePath);
 				}
 				else
 				{
-					Console.WriteLine("s-1");
+					
 					ExportToExcel(DataBrige.DevicePortInfos, filePath);
 				}
 

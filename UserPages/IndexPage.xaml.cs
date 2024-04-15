@@ -52,22 +52,17 @@ namespace IPAM_NOTE.UserPages
             LoadDevicesInfo(dbClass.connection);
 
 
-            
-
 
             if (DataBrige.DeviceInfos != null)
             {
                 int index = 0;
+
                 foreach (var info in DataBrige.DeviceInfos)//查询所有的表
                 {
-                    index += 1;
+                   
 
                     string tableName = info.TableName;
 
-                    string name = info.Name;
-                    string model = info.Model;
-                    string number = info.Number;
-                    string note = info.Description;
 
                     ////查询每个设备对应的标签
                     string sql = $"SELECT * FROM {tableName} WHERE PortType ='I' and PortStatus = 1";
@@ -75,141 +70,164 @@ namespace IPAM_NOTE.UserPages
                     SQLiteCommand command = new SQLiteCommand(sql, dbClass.connection);
                     SQLiteDataReader reader = command.ExecuteReader();
 
-                    Grid grid = new Grid();
-
-
-                    // 设置 Grid 行定义
-                    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto}); // 最小高度为 20
-                    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto }); 
-
-                    // 设置 Grid 列定义
-                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(40) }); // 左边宽度为 40
-                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(260) }); // 左边宽度为 260
-                    grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // 右边宽度自适应
-
                     
 
-                    //索引
-                    TextBlock indexTextBlock = new TextBlock();
-                    indexTextBlock.Text =index.ToString();
-                    indexTextBlock.Style = (Style)this.FindResource("MaterialDesignHeadline6TextBlock");
-                    indexTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                    indexTextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-                    indexTextBlock.FontWeight = FontWeights.Black;
-                    Grid.SetColumn(indexTextBlock, 0); // 设置左边 TextBlock 的列位置
-                    Grid.SetRow(indexTextBlock, 0); // 设置左边 TextBlock 的行位置
-                    Grid.SetRowSpan(indexTextBlock, 2);
-
-
-                    StackPanel stack= new StackPanel();
-                    stack.Orientation = Orientation.Horizontal;
-                    Grid.SetColumn(stack, 1); // 设置左边 TextBlock 的列位置
-                    Grid.SetRow(stack, 0); // 设置左边 TextBlock 的行位置
-
-
-                    TextBlock nameTextBlock = new TextBlock();
-                    nameTextBlock.Text = name;
-                    nameTextBlock.Style = (Style)this.FindResource("MaterialDesignHeadline6TextBlock");
-                    nameTextBlock.Width = 80;
-                    nameTextBlock.Margin=new Thickness(0);
-                    nameTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                    nameTextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-
-
-
-                    TextBlock nameTextBlock2 = new TextBlock();
-                    nameTextBlock2.Text = number;
-                    nameTextBlock2.Style  = (Style)this.FindResource("MaterialDesignHeadline6TextBlock");
-                    nameTextBlock2.Width = 220;
-                    nameTextBlock2.Margin = new Thickness(0);
-                    nameTextBlock2.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                    nameTextBlock2.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-
-
-
-
-                    stack.Children.Add(nameTextBlock);
-                    stack.Children.Add(nameTextBlock2);
-                    stack.VerticalAlignment = VerticalAlignment.Bottom;
-
-
-                    StackPanel stack2 = new StackPanel();
-                    stack2.VerticalAlignment = VerticalAlignment.Top;
-                    stack2.HorizontalAlignment = HorizontalAlignment.Left;
-                    stack2.Orientation = Orientation.Horizontal;
-                    Grid.SetColumn(stack2, 1); // 设置左边 TextBlock 的列位置
-                    Grid.SetRow(stack2, 1); // 设置左边 TextBlock 的行位置
-
-
-                    //型号信息
-                    TextBlock modelTextBlock = new TextBlock();
-                    modelTextBlock.Text = model;
-                    modelTextBlock.Width = 150;
-                    modelTextBlock.Style = (Style)this.FindResource("MaterialDesignCaptionTextBlock");
-                    modelTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                    modelTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
-                    modelTextBlock.Opacity = 0.3;
-
-
-                    //注释信息
-                    TextBlock noteBlock = new TextBlock();
-                    noteBlock.Text = note;
-                    noteBlock.Style = (Style)this.FindResource("MaterialDesignCaptionTextBlock");
-                    noteBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                    noteBlock.HorizontalAlignment = HorizontalAlignment.Left;
-                    noteBlock.Opacity = 0.3;
-
-
-                    stack2.Children.Add(modelTextBlock);
-                    stack2.Children.Add(noteBlock);
-                    
-
-                    WrapPanel chiPanel = new WrapPanel();
-
-                    Grid.SetColumn(chiPanel, 2); // 设置左边 TextBlock 的列位置
-                    Grid.SetRow(chiPanel, 0); // 设置左边 TextBlock 的行位置
-                    Grid.SetRowSpan(chiPanel, 2);
-
-                    grid.Children.Add(indexTextBlock);//索引
-
-                    grid.Children.Add(stack);//名称+设备编号
-                    grid.Children.Add(stack2);//型号+注释
-
-                    grid.Children.Add(chiPanel);//快速访问标签
-
-
-
-
+                    int rowCount = 0;
 
                     while (reader.Read())
                     {
-                        string portNumber = reader["PortNumber"].ToString();
-                        int portStatus =Convert.ToInt32(reader["PortStatus"].ToString());
-                        string portTag1= reader["PortTag1"].ToString();
-                        string portTag2 = reader["PortTag2"].ToString();
-                        string description = reader["Description"].ToString();
-
-
-                        
-                        Button button = new Button();
-                        button.Height = 60;
-                        button.Width = 130;
-                        button.Content = CreatButtonPanel(portTag1, portTag2);
-                        button.Margin = new Thickness(5);
-                        button.Click += Button_Click;
-                        button.Tag = portTag2;
-                        button.Foreground = (Brush)FindResource("MaterialDesignDarkForeground");
-                        chiPanel.Children.Add(button);
-
+                        rowCount++;
                     }
 
+                   
 
-                    Graphics.Children.Add(grid);
+                    if (rowCount != 0)
+                    {
+                        index += 1;
 
-                    Separator separator = new Separator();
-                    separator.Width = 10000; // 设置横线的宽度，根据需要调整
-                    separator.Opacity = 0.3;
-                    Graphics.Children.Add(separator);
+						Grid grid = new Grid();
+
+
+						string name = info.Name;
+						string model = info.Model;
+						string number = info.Number;
+						string note = info.Description;
+
+
+						// 设置 Grid 行定义
+						grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto }); // 最小高度为 20
+						grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+						// 设置 Grid 列定义
+						grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(40) }); // 左边宽度为 40
+						grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(260) }); // 左边宽度为 260
+						grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) }); // 右边宽度自适应
+
+
+
+						//索引
+						TextBlock indexTextBlock = new TextBlock();
+						indexTextBlock.Text = index.ToString();
+						indexTextBlock.Style = (Style)this.FindResource("MaterialDesignHeadline6TextBlock");
+						indexTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+						indexTextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+						indexTextBlock.FontWeight = FontWeights.Black;
+						Grid.SetColumn(indexTextBlock, 0); // 设置左边 TextBlock 的列位置
+						Grid.SetRow(indexTextBlock, 0); // 设置左边 TextBlock 的行位置
+						Grid.SetRowSpan(indexTextBlock, 2);
+
+
+						StackPanel stack = new StackPanel();
+						stack.Orientation = Orientation.Horizontal;
+						Grid.SetColumn(stack, 1); // 设置左边 TextBlock 的列位置
+						Grid.SetRow(stack, 0); // 设置左边 TextBlock 的行位置
+
+
+						TextBlock nameTextBlock = new TextBlock();
+						nameTextBlock.Text = name;
+						nameTextBlock.Style = (Style)this.FindResource("MaterialDesignHeadline6TextBlock");
+						nameTextBlock.Width = 80;
+						nameTextBlock.Margin = new Thickness(0);
+						nameTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+						nameTextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+
+
+
+						TextBlock nameTextBlock2 = new TextBlock();
+						nameTextBlock2.Text = number;
+						nameTextBlock2.Style = (Style)this.FindResource("MaterialDesignHeadline6TextBlock");
+						nameTextBlock2.Width = 220;
+						nameTextBlock2.Margin = new Thickness(0);
+						nameTextBlock2.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+						nameTextBlock2.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+
+
+
+
+						stack.Children.Add(nameTextBlock);
+						stack.Children.Add(nameTextBlock2);
+						stack.VerticalAlignment = VerticalAlignment.Bottom;
+
+
+						StackPanel stack2 = new StackPanel();
+						stack2.VerticalAlignment = VerticalAlignment.Top;
+						stack2.HorizontalAlignment = HorizontalAlignment.Left;
+						stack2.Orientation = Orientation.Horizontal;
+						Grid.SetColumn(stack2, 1); // 设置左边 TextBlock 的列位置
+						Grid.SetRow(stack2, 1); // 设置左边 TextBlock 的行位置
+
+
+						//型号信息
+						TextBlock modelTextBlock = new TextBlock();
+						modelTextBlock.Text = model;
+						modelTextBlock.Width = 150;
+						modelTextBlock.Style = (Style)this.FindResource("MaterialDesignCaptionTextBlock");
+						modelTextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+						modelTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
+						modelTextBlock.Opacity = 0.3;
+
+
+						//注释信息
+						TextBlock noteBlock = new TextBlock();
+						noteBlock.Text = note;
+						noteBlock.Style = (Style)this.FindResource("MaterialDesignCaptionTextBlock");
+						noteBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+						noteBlock.HorizontalAlignment = HorizontalAlignment.Left;
+						noteBlock.Opacity = 0.3;
+
+
+						stack2.Children.Add(modelTextBlock);
+						stack2.Children.Add(noteBlock);
+
+
+						WrapPanel chiPanel = new WrapPanel();
+
+						Grid.SetColumn(chiPanel, 2); // 设置左边 TextBlock 的列位置
+						Grid.SetRow(chiPanel, 0); // 设置左边 TextBlock 的行位置
+						Grid.SetRowSpan(chiPanel, 2);
+
+						grid.Children.Add(indexTextBlock);//索引
+
+						grid.Children.Add(stack);//名称+设备编号
+						grid.Children.Add(stack2);//型号+注释
+
+						grid.Children.Add(chiPanel);//快速访问标签
+
+
+						////查询每个设备对应的标签
+						string sql2 = $"SELECT * FROM {tableName} WHERE PortType ='I' and PortStatus = 1";
+                        SQLiteCommand command2 = new SQLiteCommand(sql, dbClass.connection);
+						reader = command2.ExecuteReader();
+
+
+						while (reader.Read())
+						{
+							string portTag1 = reader["PortTag1"].ToString();
+							string portTag2 = reader["PortTag2"].ToString();
+
+							Console.WriteLine(portTag1);
+
+							Button button = new Button();
+							button.Height = 60;
+							button.Width = 130;
+							button.Content = CreatButtonPanel(portTag1, portTag2);
+							button.Margin = new Thickness(5);
+							button.Click += Button_Click;
+							button.Tag = portTag2;
+							button.Foreground = (Brush)FindResource("MaterialDesignDarkForeground");
+							chiPanel.Children.Add(button);
+
+						}
+
+
+						Graphics.Children.Add(grid);
+
+						Separator separator = new Separator();
+						separator.Width = 10000; // 设置横线的宽度，根据需要调整
+						separator.Opacity = 0.3;
+						Graphics.Children.Add(separator);
+					}
+
                 }
             }
 

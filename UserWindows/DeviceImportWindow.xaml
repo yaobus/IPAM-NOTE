@@ -12,7 +12,7 @@
         TextElement.FontSize="14"
         FontFamily="SimHei"
         ResizeMode="NoResize"
-        Title="数据导入向导" 
+        Title="设备数据导出导入向导" 
         Style="{DynamicResource MaterialDesignWindow}"
         Height="300"
         Width="600"

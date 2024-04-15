@@ -12,7 +12,7 @@
         FontFamily="SimHei"
         ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="数据导入向导" 
+        Title="网段数据导出导入向导" 
         Style="{DynamicResource MaterialDesignWindow}"
         Height="300"
         Width="600"
