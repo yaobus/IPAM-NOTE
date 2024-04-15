@@ -1221,9 +1221,11 @@ namespace IPAM_NOTE.UserPages
                     sheet.Cells[1, 6].Value = "PingTime";
                     sheet.Cells[1, 7].Value = "HostName";
                     sheet.Cells[1, 8].Value = "MacAddress";
+                    sheet.Cells[1, 9].Value = "OnlineHostName";
+                    sheet.Cells[1, 10].Value = "OnlineMacAddress";
 
-                    // 写入数据
-                    int rowIndex = 2;
+					// 写入数据
+					int rowIndex = 2;
                     foreach (var ipAddressInfo in dataList)
                     {
                         sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Address;
@@ -1234,22 +1236,14 @@ namespace IPAM_NOTE.UserPages
                         sheet.Cells[rowIndex, 6].Value = ipAddressInfo.PingTime;
                         sheet.Cells[rowIndex, 7].Value = ipAddressInfo.HostName;
                         sheet.Cells[rowIndex, 8].Value = ipAddressInfo.MacAddress;
-                        rowIndex++;
+                        sheet.Cells[rowIndex, 9].Value = ipAddressInfo.OnlineHostName;
+                        sheet.Cells[rowIndex, 10].Value = ipAddressInfo.OnlineMacAddress;
+						rowIndex++;
                     }
-
-
-
-
-
 
 
                     // 保存Excel文件
                     FileInfo excelFile = new FileInfo(filePath);
-
-
-
-
-
 
 
                     package.SaveAs(excelFile);
@@ -1261,7 +1255,6 @@ namespace IPAM_NOTE.UserPages
                 {
                     var sheet = package.Workbook.Worksheets.Add(DataBrige.TempAddress.TableName);
 
-
                     // 写入标题行
                     sheet.Cells[1, 1].Value = "Address";
                     sheet.Cells[1, 2].Value = "AddressStatus";
@@ -1271,20 +1264,24 @@ namespace IPAM_NOTE.UserPages
                     sheet.Cells[1, 6].Value = "PingTime";
                     sheet.Cells[1, 7].Value = "HostName";
                     sheet.Cells[1, 8].Value = "MacAddress";
+                    sheet.Cells[1, 9].Value = "OnlineHostName";
+                    sheet.Cells[1, 10].Value = "OnlineMacAddress";
 
-                    // 写入数据
-                    int rowIndex = 2;
+					// 写入数据
+					int rowIndex = 2;
                     foreach (var ipAddressInfo in dataList)
                     {
-                        sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Address;
-                        sheet.Cells[rowIndex, 2].Value = ipAddressInfo.AddressStatus;
-                        sheet.Cells[rowIndex, 3].Value = ipAddressInfo.User;
-                        sheet.Cells[rowIndex, 4].Value = ipAddressInfo.Description;
-                        sheet.Cells[rowIndex, 5].Value = ipAddressInfo.PingStatus;
-                        sheet.Cells[rowIndex, 6].Value = ipAddressInfo.PingTime;
-                        sheet.Cells[rowIndex, 7].Value = ipAddressInfo.HostName;
-                        sheet.Cells[rowIndex, 8].Value = ipAddressInfo.MacAddress;
-                        rowIndex++;
+	                    sheet.Cells[rowIndex, 1].Value = ipAddressInfo.Address;
+	                    sheet.Cells[rowIndex, 2].Value = ipAddressInfo.AddressStatus;
+	                    sheet.Cells[rowIndex, 3].Value = ipAddressInfo.User;
+	                    sheet.Cells[rowIndex, 4].Value = ipAddressInfo.Description;
+	                    sheet.Cells[rowIndex, 5].Value = ipAddressInfo.PingStatus;
+	                    sheet.Cells[rowIndex, 6].Value = ipAddressInfo.PingTime;
+	                    sheet.Cells[rowIndex, 7].Value = ipAddressInfo.HostName;
+	                    sheet.Cells[rowIndex, 8].Value = ipAddressInfo.MacAddress;
+	                    sheet.Cells[rowIndex, 9].Value = ipAddressInfo.OnlineHostName;
+	                    sheet.Cells[rowIndex, 10].Value = ipAddressInfo.OnlineMacAddress;
+						rowIndex++;
                     }
 
                     // 保存Excel文件
