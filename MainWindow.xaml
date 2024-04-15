@@ -154,7 +154,7 @@
                         </TabItem>
 
                         <TabItem
-                            IsEnabled="False"
+                            IsEnabled="True"
                             IsSelected="False"
                         >
                             <TabItem.Header>

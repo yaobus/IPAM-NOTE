@@ -20,65 +20,191 @@
             <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="72"/>
+            <RowDefinition Height="2"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
+
+
         <Grid
+            
             Grid.Column="0"
             Grid.Row="0"
             VerticalAlignment="Center"
             >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="68*"/>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="30*"/>
+            </Grid.RowDefinitions>
+
             <Button
+                Height="40"
+                Grid.Row="0"
+                Grid.RowSpan="3"
                 Grid.Column="0"
                 x:Name="IndexButton"
-                Margin="0"
-                
+                Margin="-5"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="索引">
                 <materialDesign:PackIcon
+                    Margin="0"
                     Kind="Numbers"
                     Width="24"
                     Height="24"
+
                 />
             </Button>
 
-            <Button
-                Grid.Column="1"
-                x:Name="NetworkButton"
-                Height="30"
-                
-                Style="{StaticResource MaterialDesignFlatButton}"
-                ToolTip="网段">
-                <materialDesign:PackIcon
-                    Kind="Server" Width="24" Height="24"/>
-            </Button>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Button
-                Grid.Column="2"
-                x:Name="DescriptionButton"
-                Height="30"
+                <Button
+                    Grid.Column="0"
+                    Margin="0"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    ToolTip="索引">
+                    <StackPanel
+                        Margin="-5"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                    >
+                        <materialDesign:PackIcon
+                            Kind="TextShort"
+                            Width="24"
+                            Height="24"
+                            Margin="0"
+                            VerticalAlignment="Center"
+                        />
+                        <TextBlock Text="设备名称" Style="{StaticResource MaterialDesignHeadline6TextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+
+
+                </Button>
+
+                <Button
+                    Grid.Column="1"
+                    Margin="0"
                 
-                Style="{StaticResource MaterialDesignFlatButton}"
-                ToolTip="网段备注">
-                <materialDesign:PackIcon
-                    Kind="Notebook" Width="24" Height="24"/>
-            </Button>
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    ToolTip="索引">
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="-5"
+                    >
+                        <materialDesign:PackIcon
+                            Kind="OrderNumericDescending"
+                            Width="24"
+                            Height="24"
+                            Margin="0"
+                        />
+
+                        <TextBlock Text="设备编号" Style="{StaticResource MaterialDesignHeadline6TextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+
+
+            </Grid>
+
+
+
+            <Grid Grid.Row="1" Grid.Column="1" >
+                <ProgressBar
+                    Height="1"
+                    Opacity="0.3"
+                    materialDesign:TransitionAssist.DisableTransitions="True"
+                    Value="100" />
+            </Grid>
+
+
+
+
+
+            <Grid Grid.Row="2" Grid.Column="1" Opacity="0.5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    Margin="0,-8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    ToolTip="索引">
+                    <StackPanel
+                        Margin="-5"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                    >
+                        <materialDesign:PackIcon
+                            Kind="GlobeModel"
+                            Width="18"
+                            Height="18"
+                            Margin="0"
+                            VerticalAlignment="Center"
+                        />
+                        <TextBlock Text="设备型号" Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+
+
+                </Button>
+
+                <Button
+                    Grid.Column="1"
+                    Margin="0,-8"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    ToolTip="索引">
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="-5"
+                    >
+                        <materialDesign:PackIcon
+                            Kind="NoteTextOutline"
+                            Width="18"
+                            Height="18"
+                            Margin="0"
+                            VerticalAlignment="Center"
+                        />
+
+                        <TextBlock Text="设备备注" Style="{StaticResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+            </Grid>  
+
+
+
 
         </Grid>
 
         <Grid
-                Grid.Column="2"
-                Grid.Row="0"
-                
-                >
+            Grid.Column="2"
+            Grid.Row="0"
+           
+            >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="690"/>
@@ -89,13 +215,20 @@
 
             <StackPanel
                     
-                    Grid.Column="0"
-                    Margin="5"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    >
+                Grid.Column="0"
+                Margin="5"
+                Orientation="Horizontal"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                >
 
+                <materialDesign:PackIcon Foreground="#00bfa5" Margin="10,0" Kind="Routes"  Width="48" Height="48"/>
+
+                <TextBlock
+                    Foreground="#00bfa5"
+                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                    VerticalAlignment="Center"
+                    Text="全局设备快速访问标签索引页" />
             </StackPanel>
 
 
@@ -103,21 +236,42 @@
 
         </Grid>
 
-        <ScrollViewer 
+        <ProgressBar
+            Foreground="#404040"
+            Grid.Column="1"
+            Grid.Row="1"
+            Grid.RowSpan="4"
+            Height="2"
+            Orientation="Vertical"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            Value="100" />
+
+        <ProgressBar
+            Foreground="#404040"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Grid.Row="1"
+            Height="2"
+            Orientation="Horizontal"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Stretch"
+            Value="100" />
+
+        <ScrollViewer 
+            Grid.Column="0"
+            Grid.Row="2"
+            
+            Grid.ColumnSpan="3"
             Margin="10"
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto">
 
             <StackPanel
 
-                
                 Orientation="Vertical"
                 HorizontalAlignment="Left"
                 x:Name="Graphics"
-                
                 >
 
 
