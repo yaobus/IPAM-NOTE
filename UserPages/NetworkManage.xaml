@@ -16,6 +16,7 @@
              d:DesignWidth="1366"
              Loaded="NetworkManage_OnLoaded"
              >
+
     <Grid>
 
         <Grid.ColumnDefinitions>

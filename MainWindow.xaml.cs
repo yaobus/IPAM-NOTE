@@ -311,6 +311,15 @@ namespace IPAM_NOTE
                         FunctionPanel.Children.Add(indexPage);
 
                         break;
+
+                    case 3:
+                        AssetManage asset = new AssetManage();
+
+
+                        asset.Style = (Style)FindResource("AssetStyle");
+                        FunctionPanel.Children.Add(asset);
+
+                        break;
                 }
 
             }
