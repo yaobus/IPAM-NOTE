@@ -74,7 +74,7 @@
                     Grid.Column="0"
                     Margin="0"
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    ToolTip="索引">
+                    ToolTip="设备名称">
                     <StackPanel
                         Margin="-5"
                         Orientation="Horizontal"
@@ -100,7 +100,7 @@
                     Margin="0"
                 
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    ToolTip="索引">
+                    ToolTip="设备编号">
                     <StackPanel
                         Orientation="Horizontal"
                         VerticalAlignment="Center"
@@ -148,7 +148,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    ToolTip="索引">
+                    ToolTip="设备型号">
                     <StackPanel
                         Margin="-5"
                         Orientation="Horizontal"
@@ -174,7 +174,7 @@
                     Margin="0,-8"
                     HorizontalAlignment="Left"
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    ToolTip="索引">
+                    ToolTip="设备备注">
                     <StackPanel
                         Orientation="Horizontal"
                         VerticalAlignment="Center"

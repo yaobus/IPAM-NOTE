@@ -211,6 +211,7 @@ namespace IPAM_NOTE.UserPages
 							button.Height = 60;
 							button.Width = 130;
 							button.Content = CreatButtonPanel(portTag1, portTag2);
+							button.BorderThickness = new Thickness(0);
 							button.Margin = new Thickness(5);
 							button.Click += Button_Click;
 							button.Tag = portTag2;
