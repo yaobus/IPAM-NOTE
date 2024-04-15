@@ -130,7 +130,7 @@
                 Margin="0,10"
                 FontSize="16"
                 Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                Text="主要功能：IPAM-NOTE是一个用来主要记录IP地址分配信息（以及设备端口配置信息TODO）的应用程序" />
+                Text="主要功能：IPAM-NOTE是一个用来主要记录IP地址分配信息以及设备端口配置信息的应用程序" />
 
             <TextBlock
                 Margin="0,10"
