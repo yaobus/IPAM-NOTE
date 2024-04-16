@@ -58,7 +58,7 @@
             VerticalAlignment="Center"
             >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -70,9 +70,10 @@
                 Style="{StaticResource MaterialDesignFlatButton}"
                 ToolTip="索引">
                 <materialDesign:PackIcon
-                    Kind="Numbers"
-                    Width="24"
-                    Height="24"
+                    VerticalAlignment="Center"
+                    Kind="Identifier"
+                    Width="36"
+                    Height="36"
                 />
             </Button>
 

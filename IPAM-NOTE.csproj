@@ -169,8 +169,8 @@
     <Compile Include="UserPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserPages\AssetManage.xaml.cs">
-      <DependentUpon>AssetManage.xaml</DependentUpon>
+    <Compile Include="UserPages\CabinetManage.xaml.cs">
+      <DependentUpon>CabinetManage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserPages\DatabaseBackup.xaml.cs">
       <DependentUpon>DatabaseBackup.xaml</DependentUpon>
@@ -247,7 +247,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserPages\AssetManage.xaml">
+    <Page Include="UserPages\CabinetManage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

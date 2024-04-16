@@ -57,7 +57,7 @@
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
 
-        <Style x:Key="AssetStyle" TargetType="userPages:AssetManage">
+        <Style x:Key="CabinetManageStyle" TargetType="userPages:CabinetManage">
             <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
@@ -171,7 +171,7 @@
                                         Width="28"
                                         Height="28"
                                         HorizontalAlignment="Center"
-                                        Kind="Warehouse" />
+                                        Kind="ViewCarouselOutline" />
                                     <!--<TextBlock
                                     HorizontalAlignment="Center"
                                     Text="地址收藏" />-->
@@ -327,7 +327,7 @@
                                         ToolTip="内测群邀请"
                                         VerticalAlignment="Center"
                                         materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
                                         materialDesign:ButtonProgressAssist.Value="-1"
                                         IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                                         Click="HumanGreeting_OnClick"

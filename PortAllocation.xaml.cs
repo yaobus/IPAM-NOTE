@@ -78,14 +78,14 @@ namespace IPAM_NOTE
                     case "E" :
                         TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + DataBrige.SelectDevicePortInfo.PortNumber;
                         Tag1Panel.ClearValue(HintAssist.HintProperty);
-                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        HintAssist.SetHint(Tag1Panel, "VLANID");
                         break;
 
                     case "F":
                         TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDeviceInfo.FportTag + DataBrige.SelectDevicePortInfo.PortNumber;
 
                         Tag1Panel.ClearValue(HintAssist.HintProperty);
-                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        HintAssist.SetHint(Tag1Panel, "VLANID");
                         break;
                     case "D":
                         TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDeviceInfo.DportTag + DataBrige.SelectDevicePortInfo.PortNumber;
@@ -102,14 +102,14 @@ namespace IPAM_NOTE
                     case "RJ45网口":
 	                    TypeBlock.Text = "当前选择RJ45网口："  + DataBrige.SelectDevicePortInfo.PortNumber;
 	                    Tag1Panel.ClearValue(HintAssist.HintProperty);
-	                    HintAssist.SetHint(Tag1Panel, "对端设备:");
+	                    HintAssist.SetHint(Tag1Panel, "VLANID");
 	                    break;
 
                     case "光纤网口":
 	                    TypeBlock.Text = "当前选择光纤网口："  + DataBrige.SelectDevicePortInfo.PortNumber;
 
 	                    Tag1Panel.ClearValue(HintAssist.HintProperty);
-	                    HintAssist.SetHint(Tag1Panel, "对端设备:");
+	                    HintAssist.SetHint(Tag1Panel, "VLANID");
 	                    break;
                     case "硬盘插槽":
 	                    TypeBlock.Text = "当前选择硬盘插槽："  + DataBrige.SelectDevicePortInfo.PortNumber;

@@ -268,14 +268,16 @@ namespace IPAM_NOTE
 			//获取到的主机名和MAC与备案的不一样则显示红色
 			if (HostNameTextBox.Text != PingHostNameBox.Text && PingHostNameBox.Text != "N/A")
 			{
-				PingHostNameBox.Foreground = Brushes.DarkRed;
-			}
+				PingHostNameBox.Foreground = Brushes.Yellow;
+                PingHostNameBox.Opacity = 1;
+            }
 
 
 			if (MacTextBox.Text != PingMacBox.Text && PingMacBox.Text != "N/A")
 			{
-				PingMacBox.Foreground = Brushes.DarkRed;
-			}
+				PingMacBox.Foreground = Brushes.Yellow;
+                PingMacBox.Opacity = 1;
+            }
 
 		}
 

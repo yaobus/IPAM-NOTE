@@ -313,10 +313,10 @@ namespace IPAM_NOTE
                         break;
 
                     case 3:
-                        AssetManage asset = new AssetManage();
+                        CabinetManage asset = new CabinetManage();
 
 
-                        asset.Style = (Style)FindResource("AssetStyle");
+                        asset.Style = (Style)FindResource("CabinetManageStyle");
                         FunctionPanel.Children.Add(asset);
 
                         break;
