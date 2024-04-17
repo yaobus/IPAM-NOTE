@@ -11,13 +11,12 @@
              TextElement.FontWeight="Medium"
              FontFamily="SimHei"
              d:DesignHeight="1080" 
-             d:DesignWidth="1920">
+             d:DesignWidth="1920"
+             >
     <Grid>
         <Grid>
-            <Canvas x:Name="MyCanvas" Background="#303030" 
-                    MouseLeftButtonDown="MyCanvas_MouseLeftButtonDown"
-                    MouseMove="MyCanvas_MouseMove"
-                    MouseLeftButtonUp="MyCanvas_MouseLeftButtonUp"/>
+            <Canvas x:Name="MyCanvas" Background="#303030" ></Canvas>
+                  
         </Grid>
     </Grid>
 </UserControl>
