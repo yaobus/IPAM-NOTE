@@ -166,6 +166,9 @@
     <Compile Include="PortAllocation.xaml.cs">
       <DependentUpon>PortAllocation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\GridCanvas.xaml.cs">
+      <DependentUpon>GridCanvas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PortAllocation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\GridCanvas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -350,6 +357,7 @@
   <ItemGroup>
     <Resource Include="Resources\Devices\SWITCH1.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

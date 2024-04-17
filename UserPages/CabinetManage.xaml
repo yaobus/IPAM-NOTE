@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IPAM_NOTE.UserPages"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:userControls="clr-namespace:IPAM_NOTE.UserControls"
              mc:Ignorable="d" 
              Background="{DynamicResource MaterialDesignDarkBackground}"
              Foreground="{DynamicResource MaterialDesignDarkForeground}"
@@ -14,9 +15,30 @@
              d:DesignWidth="1920"
              >
     <Grid>
-        <Grid>
-            <Canvas x:Name="MyCanvas" Background="#303030" ></Canvas>
-                  
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="72"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+        <Grid
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Grid.Row="1">
+
+            <userControls:GridCanvas 
+                x:Name="MyCanvas" 
+                MouseWheel="Canvas_OnMouseWheel" 
+                MouseDown="MyCanvas_OnMouseDown"
+                MouseMove="MyCanvas_OnMouseMove"
+                MouseUp="MyCanvas_OnMouseUp"
+                />
+
+
         </Grid>
+
+
+
     </Grid>
 </UserControl>
