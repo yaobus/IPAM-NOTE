@@ -23,7 +23,12 @@ namespace IPAM_NOTE.UserPages
 		private bool isDragging = false;
 		private Point lastPosition;
 
-		public CabinetManage()
+        private bool isDraggingCanvas = false;
+        private bool isDraggingContent = false;
+        private Point lastCanvasPosition;
+        private Point lastContentPosition;
+
+        public CabinetManage()
 		{
 			InitializeComponent();
 
@@ -39,12 +44,12 @@ namespace IPAM_NOTE.UserPages
 			double scaleIncrement = 0.1;
 
 			// 获取当前 Canvas 的缩放变换
-			ScaleTransform scaleTransform = MyCanvas.RenderTransform as ScaleTransform;
+			ScaleTransform scaleTransform = SubCanvas.RenderTransform as ScaleTransform;
 			if (scaleTransform == null)
 			{
 				// 如果没有缩放变换，则创建一个新的缩放变换，并应用到 Canvas 上
 				scaleTransform = new ScaleTransform(1.0, 1.0);
-				MyCanvas.RenderTransform = scaleTransform;
+				SubCanvas.RenderTransform = scaleTransform;
 			}
 
 			// 计算新的缩放比例
@@ -60,46 +65,42 @@ namespace IPAM_NOTE.UserPages
 			scaleTransform.ScaleY = newScale;
 		}
 
-		private void MyCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
-		{
-			if (e.RightButton == MouseButtonState.Pressed)
-			{
-				isDragging = true;
-				lastPosition = e.GetPosition(MyCanvas);
-				MyCanvas.CaptureMouse();
-			}
-		}
 
-		private void MyCanvas_OnMouseMove(object sender, MouseEventArgs e)
-		{
-			if (isDragging)
-			{
-				Point newPosition = e.GetPosition(MyCanvas);
-				double deltaX = newPosition.X - lastPosition.X;
-				double deltaY = newPosition.Y - lastPosition.Y;
 
-				TranslateTransform translateTransform = MyCanvas.RenderTransform as TranslateTransform;
-				if (translateTransform == null)
-				{
-					translateTransform = new TranslateTransform();
-					MyCanvas.RenderTransform = translateTransform;
-				}
 
-				translateTransform.X += deltaX;
-				translateTransform.Y += deltaY;
+        private void SubCanvas_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // 右键按下时开始拖动操作
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (Keyboard.Modifiers == ModifierKeys.None)
+                {
+                    // 只拖动内容
+                    isDraggingContent = true;
+                    lastContentPosition = e.GetPosition(SubCanvas);
+                   SubCanvas.CaptureMouse();
+                }
+                else
+                {
+                    // 拖动整个画布
+                    isDraggingCanvas = true;
+                    lastCanvasPosition = e.GetPosition(SubCanvas);
+                    SubCanvas.CaptureMouse();
+                }
+            }
+        }
 
-				lastPosition = newPosition;
-			}
-		}
+        private void SubCanvas_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            Point newPosition = e.GetPosition(SubCanvas);
+            double deltaX = newPosition.X - lastCanvasPosition.X;
+            double deltaY = newPosition.Y - lastCanvasPosition.Y;
 
-		private void MyCanvas_OnMouseUp(object sender, MouseButtonEventArgs e)
-		{
-			if (isDragging)
-			{
-				isDragging = false;
-				MyCanvas.ReleaseMouseCapture();
-			}
-		}
-	}
+            Canvas.SetLeft(SubCanvas, Canvas.GetLeft(SubCanvas) + deltaX);
+            Canvas.SetTop(SubCanvas, Canvas.GetTop(SubCanvas) + deltaY);
+
+            lastCanvasPosition = newPosition;
+        }
+    }
 }
 

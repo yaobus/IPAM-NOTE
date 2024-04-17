@@ -6,9 +6,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="GridCanvas_OnLoaded"
-            
+             MouseWheel="Canvas_OnMouseWheel"
+             SizeChanged="GridCanvas_OnSizeChanged"
              >
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Canvas x:Name="canvas" Background="Transparent" />
+        <Canvas x:Name="canvas" Background="Transparent" >
+            <!-- 将网格线和其他内容放置在这个容器中 -->
+            <Grid x:Name="contentContainer">
+                <!-- 在这里放置网格线和其他内容 -->
+            </Grid>
+        </Canvas>
     </Grid>
 </UserControl>

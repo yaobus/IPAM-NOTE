@@ -23,21 +23,25 @@
             </Grid.RowDefinitions>
 
         <Grid
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
+
             Grid.Row="1">
 
-            <userControls:GridCanvas 
-                x:Name="MyCanvas" 
-                MouseWheel="Canvas_OnMouseWheel" 
-                MouseDown="MyCanvas_OnMouseDown"
-                MouseMove="MyCanvas_OnMouseMove"
-                MouseUp="MyCanvas_OnMouseUp"
-                />
+
+                    <userControls:GridCanvas
+                        x:Name="SubCanvas"
+                        Background="Transparent"
+                        MouseLeftButtonDown="SubCanvas_OnMouseLeftButtonDown"
+                        MouseMove="SubCanvas_OnMouseMove"
+                        >
+
+
+
+                    </userControls:GridCanvas>
+
+
 
 
         </Grid>
-
 
 
     </Grid>

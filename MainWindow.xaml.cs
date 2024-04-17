@@ -79,7 +79,7 @@ namespace IPAM_NOTE
             networkManage.Style = (Style)FindResource("UserControlStyle");
             FunctionPanel.Children.Add(networkManage);
 
-            TopControl.SelectedIndex = 0;
+            TopControl.SelectedIndex = 3;
 
         }
 
