@@ -320,34 +320,59 @@ namespace IPAM_NOTE
         /// </summary>
         public class ModelPresetInfo
         {
+            public int Id
+            {
+                get; set;
+            }
+
+            public string ModelType
+            {
+                get; set;
+            }
+
+            public string Brand
+            {
+                get; set;
+            }
+
             // 设备对应表名称
             public string Model
             {
                 get; set;
             }
 
-            public int Eport
+            public int Ethernet
             {
                 get; set;
             }
 
-            public int Fport
+            public int Fiber
             {
                 get; set;
             }
             
-            public int Mport
+            public int Disk
             {
                 get; set;
             }
 
-            public ModelPresetInfo(string model,int eport,int fport,int mport)
+            public int Manage
             {
+                get; set;
+            }
 
+            public ModelPresetInfo(int id, string modelType,string brand,string model,int ethernet,int fiber,int disk,int manage)
+            {
+                Id = id;
+                ModelType = modelType;
+                Brand = brand;
                 Model = model;
-                Eport = eport;
-                Fport = fport;
-                Mport = mport;
+                Ethernet = ethernet;
+                Fiber = fiber;
+                Disk = disk;
+                Manage = manage;
+
+
 
             }
         }

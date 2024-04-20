@@ -1,0 +1,190 @@
+﻿<UserControl x:Class="IPAM_NOTE.UserPages.ModelPreset"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IPAM_NOTE.UserPages"
+             mc:Ignorable="d" 
+
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="{DynamicResource MaterialDesignDarkBackground}"
+             Foreground="{DynamicResource MaterialDesignDarkForeground}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             FontFamily="SimHei"
+             d:DesignHeight="768" 
+             d:DesignWidth="1366"
+             Loaded="ModelPreset_OnLoaded"
+             >
+
+    <Grid>
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Margin="30">
+            <TextBlock
+                Margin="0,10"
+ 
+                Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                Text="设备型号预设" />
+
+            <TextBlock
+                Margin="0,10"
+                FontSize="16"
+                Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                Text="在这个页面你可以添加设备型号预设，以便于在设备页面直接调用配置信息" />
+
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="5"
+                >
+
+                <Button
+                    x:Name="AddButton"
+                    Margin="5,0"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    ToolTip="添加网段"
+                    VerticalAlignment="Center"
+                    materialDesign:ButtonAssist.CornerRadius="15"
+                    Click="AddButton_OnClick"
+                    >
+
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Width="auto"
+                        Height="auto">
+                        <materialDesign:PackIcon
+                            Width="24"
+                            Height="24"
+                            HorizontalAlignment="Center"
+                            Kind="Add" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="添加预设" />
+                    </StackPanel>
+
+                </Button>
+
+                <Button
+                    x:Name="MinusButton"
+                    Margin="5,0"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    ToolTip="删除网段"
+                    VerticalAlignment="Center"
+                    materialDesign:ButtonAssist.CornerRadius="15"
+                    IsEnabled="False"
+                    Click="MinusButton_OnClick"
+                
+                >
+
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Width="auto"
+                        Height="auto">
+                        <materialDesign:PackIcon
+                            Width="24"
+                            Height="24"
+                            HorizontalAlignment="Center"
+                            Kind="Delete" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="删除预设" />
+                    </StackPanel>
+
+                </Button>
+
+                <Button
+                    x:Name="EditButton"
+                    Visibility="Collapsed"
+                    Margin="20,0"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    ToolTip="编辑网段"
+                    VerticalAlignment="Center"
+                    IsEnabled="False"
+                    materialDesign:ButtonAssist.CornerRadius="15"
+                
+                    >
+
+                    <materialDesign:PackIcon Kind="Edit" Width="24" Height="24"/>
+
+                </Button>
+
+
+
+
+
+
+
+
+
+
+            </StackPanel>
+
+            <ListView
+
+            x:Name="ModelPresetList"
+           
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            materialDesign:ElevationAssist.Elevation="Dp1"
+            SelectionChanged="ModelPresetList_OnSelectionChanged"
+            >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn
+                        
+                        DisplayMemberBinding="{Binding Id}"
+                        Header="序号" >
+                        </GridViewColumn>
+                        <GridViewColumn
+                        DisplayMemberBinding="{Binding ModelType}"
+                        Header="设备类型" />
+                        <GridViewColumn
+                       
+                        DisplayMemberBinding="{Binding Brand}"
+                        Header="设备品牌" />
+                        <GridViewColumn
+                        
+                        DisplayMemberBinding="{Binding Model}"
+                        Header="设备型号" />
+                        <GridViewColumn
+                        DisplayMemberBinding="{Binding Ethernet}"
+                        Header="电口数量" />
+                        <GridViewColumn
+                        DisplayMemberBinding="{Binding Fiber}"
+                        Header="光口数量" />
+                        <GridViewColumn
+                        DisplayMemberBinding="{Binding Disk}"
+                        Header="硬盘插槽数量" />
+                        <GridViewColumn
+                        DisplayMemberBinding="{Binding Manage}"
+                        Header="管理口数量" />
+                    </GridView>
+                </ListView.View>
+
+
+            </ListView>
+
+
+
+
+
+
+        </StackPanel>
+
+    </Grid>
+
+
+</UserControl>

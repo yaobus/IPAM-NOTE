@@ -79,7 +79,7 @@ namespace IPAM_NOTE
             networkManage.Style = (Style)FindResource("UserControlStyle");
             FunctionPanel.Children.Add(networkManage);
 
-            TopControl.SelectedIndex = 3;
+            TopControl.SelectedIndex = 0;
 
         }
 
@@ -341,12 +341,19 @@ namespace IPAM_NOTE
             {
                 TopControl.SelectedIndex = -1;
                 FunctionPanel.Children.Clear();
+
                 switch (index)
                 {
                     case 0:
 
+                       ModelPreset modelPreset = new ModelPreset();
+
+                        modelPreset.Style = (Style)FindResource("ModelPresetStyle");
+
+                        FunctionPanel.Children.Add(modelPreset);
 
                         break;
+                       
 
 
                     case 1:
@@ -393,6 +400,20 @@ namespace IPAM_NOTE
 
 
                         break;
+
+
+                    case 5:
+
+
+
+                        HumanGreeting humanGreeting = new HumanGreeting();
+
+                        humanGreeting.Style = (Style)FindResource("HumanGreetingStyle");
+
+                        FunctionPanel.Children.Add(humanGreeting);
+
+
+                        break;
                 }
 
             }
@@ -405,13 +426,14 @@ namespace IPAM_NOTE
         private void AboutButton_OnClick(object sender, RoutedEventArgs e)
         {
             FunctionPanel.Children.Clear();
-            TopControl.SelectedIndex = -1;
+           BottomControl.SelectedIndex = 4;
+            BottomControl_OnSelectionChanged(null,null);
 
-            About aboutPage = new About();
+            //About aboutPage = new About();
 
-            aboutPage.Style = (Style)FindResource("AboutPageStyle");
+            //aboutPage.Style = (Style)FindResource("AboutPageStyle");
 
-            FunctionPanel.Children.Add(aboutPage);
+            //FunctionPanel.Children.Add(aboutPage);
 
         }
 

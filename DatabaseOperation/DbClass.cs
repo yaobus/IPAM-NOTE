@@ -203,5 +203,28 @@ namespace IPAM_NOTE.DatabaseOperation
 
             }
         }
+
+
+
+        /// <summary>
+        /// 创建设备型号预设表
+        /// </summary>
+        /// <param name="tableName"></param>
+        public void CreateModelPresetIfNotExists(string tableName)
+        {
+            if (!IsTableExists(tableName))
+            {
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    // 创建表的 SQL 语句
+                    command.CommandText = $"CREATE TABLE \"ModelPreset\" (\r\n  \"Id\" INTEGER PRIMARY KEY AUTOINCREMENT, \r\n \"ModelType\" TEXT, \r\n \"Brand\" TEXT,\r\n  \"Model\" TEXT,\r\n  \"Ethernet\" TEXT,\r\n  \"Fiber\" TEXT,\r\n  \"Disk\" TEXT\r\n，,\r\n  \"Manage\" TEXT\r\n);";
+
+                    command.ExecuteNonQuery();
+                }
+
+            }
+        }
+
     }
 }

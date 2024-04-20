@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{89472C4D-6B61-46F3-A976-6F78F15A06FF}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>IPAM_NOTE</RootNamespace>
     <AssemblyName>IPAM-NOTE</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -166,6 +166,9 @@
     <Compile Include="PortAllocation.xaml.cs">
       <DependentUpon>PortAllocation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PresetWindow\AddPreset.xaml.cs">
+      <DependentUpon>AddPreset.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\GridCanvas.xaml.cs">
       <DependentUpon>GridCanvas.xaml</DependentUpon>
     </Compile>
@@ -187,8 +190,14 @@
     <Compile Include="UserPages\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserPages\HumanGreeting.xaml.cs">
+      <DependentUpon>HumanGreeting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserPages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPages\ModelPreset.xaml.cs">
+      <DependentUpon>ModelPreset.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserPages\NetworkManage.xaml.cs">
       <DependentUpon>NetworkManage.xaml</DependentUpon>
@@ -246,6 +255,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PresetWindow\AddPreset.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\GridCanvas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -274,7 +287,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserPages\HumanGreeting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserPages\IndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPages\ModelPreset.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -357,7 +378,9 @@
   <ItemGroup>
     <Resource Include="Resources\Devices\SWITCH1.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\HumanGreeting.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

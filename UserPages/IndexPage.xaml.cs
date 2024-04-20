@@ -141,7 +141,7 @@ namespace IPAM_NOTE.UserPages
 						nameTextBlock2.VerticalAlignment = System.Windows.VerticalAlignment.Center;
 						nameTextBlock2.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
 
-
+                        
 
 
 						stack.Children.Add(nameTextBlock);
@@ -205,7 +205,7 @@ namespace IPAM_NOTE.UserPages
 							string portTag1 = reader["PortTag1"].ToString();
 							string portTag2 = reader["PortTag2"].ToString();
 
-							Console.WriteLine(portTag1);
+							//Console.WriteLine(portTag1);
 
 							Button button = new Button();
 							button.Height = 60;

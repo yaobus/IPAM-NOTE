@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="GridCanvas_OnLoaded"
-             MouseWheel="Canvas_OnMouseWheel"
+             
              SizeChanged="GridCanvas_OnSizeChanged"
              >
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

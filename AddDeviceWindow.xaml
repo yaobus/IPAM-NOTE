@@ -14,8 +14,8 @@
         mc:Ignorable="d"
         Title="设备信息卡" 
         Style="{DynamicResource MaterialDesignWindow}"
-        Height="650"
-        Width="1200"
+        Height="600"
+        Width="980"
         WindowStartupLocation="CenterScreen"
         Closing="AddDeviceWindow_OnClosing"
         Loaded="AddDeviceWindow_OnLoaded"
@@ -124,7 +124,7 @@
         </materialDesign:Card>
 
         <StackPanel 
-            Margin="30"
+            Margin="5"
             x:Name="DevicePanel"
             Grid.ColumnSpan="2"
             Grid.Column="0">

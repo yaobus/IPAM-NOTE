@@ -22,7 +22,7 @@ namespace IPAM_NOTE
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Ver = "1.19";
+        public static string Ver = "1.20";
 
         /// <summary>
         /// 最新版本号
@@ -223,5 +223,12 @@ namespace IPAM_NOTE
         /// 表示当前选中的导航标签，-1为未选择
         /// </summary>
         public static int SelectIndexTag = -1;
+
+        //----------------------------ModelPreset-----------------------------------
+
+        /// <summary>
+        /// 型号预设列表
+        /// </summary>
+        public static List<ViewMode.ModelPresetInfo> ModelPresetInfos = new List<ViewMode.ModelPresetInfo>();
     }
 }

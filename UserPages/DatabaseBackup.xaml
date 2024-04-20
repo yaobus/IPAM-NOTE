@@ -11,8 +11,8 @@
              TextElement.FontWeight="Medium"
              TextElement.FontSize="14"
              FontFamily="SimHei"
-             d:DesignHeight="450" 
-             d:DesignWidth="800"
+             d:DesignHeight="1080" 
+             d:DesignWidth="1920"
              Loaded="DatabaseBackup_OnLoaded"
              >
     <Grid>
@@ -134,9 +134,9 @@
 
             <ListView
                             
-                            x:Name="BackupListView"
-                            SelectionChanged="BackupListView_OnSelectionChanged"
-                            >
+                x:Name="BackupListView"
+                SelectionChanged="BackupListView_OnSelectionChanged"
+                >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn

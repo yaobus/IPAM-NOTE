@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ControlzEx.Standard;
 using IPAM_NOTE.DatabaseOperation;
 
 namespace IPAM_NOTE.DevicePage
@@ -50,11 +53,43 @@ namespace IPAM_NOTE.DevicePage
             dbClass = new DbClass(dbFilePath);
             dbClass.OpenConnection();
 
+            LoadPreset();
 
             if (DataBrige.DeviceAddStatus == 1)//编辑设备
             {
-                NameBox.Text = DataBrige.SelectDeviceInfo.Name;
-                ModelBox.Text = DataBrige.SelectDeviceInfo.Model;
+                TypeBox.Text = DataBrige.SelectDeviceInfo.Name;
+
+
+
+                //string extractedText;
+                //// 匹配方括号内的文本
+                //Match match = Regex.Match(DataBrige.SelectDeviceInfo.Model, @"\[(.*?)\]");
+                //if (match.Success)
+                //{
+                //   extractedText = match.Groups[1].Value;
+                   
+                //}
+                //else
+                //{
+                //    extractedText = null;
+                //}
+
+                //if (extractedText != null)
+                //{
+                    
+                //}
+                //else
+                //{
+                //    ModelBox.Text = DataBrige.SelectDeviceInfo.Model;
+                //}
+
+
+
+
+                ModelBox.Text = Regex.Replace(DataBrige.SelectDeviceInfo.Model, @"\[.*?\]", "");
+
+
+
                 NumberBox.Text = DataBrige.SelectDeviceInfo.Number;
                 PeopleBox.Text = DataBrige.SelectDeviceInfo.People;
 
@@ -62,22 +97,36 @@ namespace IPAM_NOTE.DevicePage
 
                 DescriptionBox.Text = DataBrige.SelectDeviceInfo.Description;
 
+
+                EPlan.Visibility= Visibility.Collapsed;
+                FPlan.Visibility = Visibility.Collapsed;
+                DPlan.Visibility = Visibility.Collapsed;
+                MPlan.Visibility = Visibility.Collapsed;
+
+                BrandBox.Visibility= Visibility.Collapsed;
+                BrandLabel.Visibility= Visibility.Collapsed;
+
                 ECheckBox.IsEnabled = false;
                 ECheckBox.IsChecked = false;
 
+                SerialBox.IsEnabled=false;
+                SerialBox.IsChecked=false;
+
                 FCheckBox.IsEnabled = false;
-                FCheckBox.IsChecked=false;
+                FCheckBox.IsChecked = false;
 
                 MCheckBox.IsEnabled = false;
-                MCheckBox.IsChecked=false;
+                MCheckBox.IsChecked = false;
 
                 DCheckBox.IsEnabled = false;
-                DCheckBox.IsChecked=false;
+                DCheckBox.IsChecked = false;
             }
 
 
 
         }
+
+
 
         #region 端口数字输入
 
@@ -287,53 +336,134 @@ namespace IPAM_NOTE.DevicePage
         private void SaveButton_OnClick(object sender, RoutedEventArgs e)
         {
 
+
             if (DataBrige.DeviceAddStatus == 0)//添加
             {
 
-                //1、添加设备到设备总表
+                //检查设备编号是否存在
+                string sqlTemp = $"SELECT COUNT(*) FROM Devices WHERE `Number` = '{NumberBox.Text}'";
 
-                if (CheckInput() == 0)
+                
+
+
+                int num = dbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
+
+
+                if (num == 0)
                 {
 
-                    string tableName = CreateTableName();
+                    //1、添加设备到设备总表
+                    if (CheckInput() == 0)
+                    {
 
-                    //插入设备信息总表的数据
-                    string sql = string.Format(
-                        $"INSERT INTO Devices (TableName,Name,Model,Number,People,Date,Description,Eport,EportTag,Fport,FportTag,Mport,MportTag,Dport,DportTag) " +
-                        $"VALUES ('{tableName}','{NameBox.Text}','{ModelBox.Text}','{NumberBox.Text}','{PeopleBox.Text}','{DateBox.Text}','{DescriptionBox.Text}'," +
-                        $"{Convert.ToInt32(EthernetPort.Text)},'{EComboBox.Text}',{Convert.ToInt32(FiberPort.Text)},'{FiberComboBox.Text}',{Convert.ToInt32(ManagePort.Text)},'{MgmtComboBox.Text}',{Convert.ToInt32(DiskBox.Text)},'{DiskComboBox.Text}')");
-                    dbClass.ExecuteQuery(sql);
+                        string tableName = CreateTableName();
 
-                    //创建表
-                    CreateTable(tableName);
 
-                    //初始化设备详细信息表
-                    InitializedData(tableName);
+                        string model = "[" + BrandBox.Text + "]" + ModelBox.Text;
 
-                    //关闭窗口
-                    CloseParentWindowRequested?.Invoke(this, EventArgs.Empty);
+                        //插入设备信息总表的数据
+                        string sql = string.Format(
+                            $"INSERT INTO Devices (TableName,Name,Model,Number,People,Date,Description,Eport,EportTag,Fport,FportTag,Mport,MportTag,Dport,DportTag) " +
+                            $"VALUES ('{tableName}','{TypeBox.Text}','{model}','{NumberBox.Text}','{PeopleBox.Text}','{DateBox.Text}','{DescriptionBox.Text}'," +
+                            $"{Convert.ToInt32(EthernetPort.Text)},'{EComboBox.Text}',{Convert.ToInt32(FiberPort.Text)},'{FiberComboBox.Text}',{Convert.ToInt32(ManagePort.Text)},'{MgmtComboBox.Text}',{Convert.ToInt32(DiskBox.Text)},'{DiskComboBox.Text}')");
+                        dbClass.ExecuteQuery(sql);
+
+                        //创建表
+                        CreateTable(tableName);
+
+                        //初始化设备详细信息表
+                        InitializedData(tableName);
+
+                        //关闭窗口
+                        CloseParentWindowRequested?.Invoke(this, EventArgs.Empty);
+                    }
                 }
+                else
+                {
+                    MessageBox.Show("已存在相同编号的设备，请检查", "编号重复", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                }
+
+
+
+
+
+
+
             }
             else //编辑
             {
 
 
-                if (NameBox.Text.Length > 0)
+                if (TypeBox.Text.Length > 0)
                 {
-                    string tableName = DataBrige.SelectDeviceInfo.TableName;
 
-                    string sql = string.Format(
-                        $"UPDATE Devices SET \"Name\" = '{NameBox.Text}', \"Model\" = '{ModelBox.Text}'  , \"Number\" = '{NumberBox.Text}' , \"People\" = '{PeopleBox.Text}', \"Description\" = '{DescriptionBox.Text}' WHERE TableName = '{tableName}'");
-                    Console.WriteLine(sql);
 
-                    dbClass.ExecuteQuery(sql); //写入端口信息
+                    //检查设备编号是否存在
+                    string sqlTemp = $"SELECT COUNT(*) FROM Devices WHERE `Number` = '{NumberBox.Text}'";
 
-                    //关闭窗口
-                    CloseParentWindowRequested?.Invoke(this, EventArgs.Empty);
+
+
+
+                    int num = dbClass.ExecuteScalarTableNum(sqlTemp, dbClass.connection);
+
+
+                    if (num == 0 || NumberBox.Text == DataBrige.SelectDeviceInfo.Number)
+                    {
+                        string tableName = DataBrige.SelectDeviceInfo.TableName;
+
+
+                        string model = DataBrige.SelectDeviceInfo.Model;//数据库中的型号
+
+                        string brand;//品牌
+
+                        Match match = Regex.Match(model, @"\[(.*?)\]");
+
+                        if (match.Success)
+                        {
+                            brand = match.Groups[1].Value;
+                           
+                        }
+                        else
+                        {
+                            brand = null;
+                        }
+
+                        string newModel;
+
+                        if (brand != null)
+                        {
+                            newModel = "[" + brand + "]" + ModelBox.Text;//新的型号
+                        }
+                        else
+                        {
+                            newModel =  ModelBox.Text;//新的型号
+                        }
+
+                       
+
+
+                        string sql = string.Format(
+                            $"UPDATE Devices SET \"Name\" = '{TypeBox.Text}', \"Model\" = '{newModel}'  , \"Number\" = '{NumberBox.Text}' , \"People\" = '{PeopleBox.Text}', \"Description\" = '{DescriptionBox.Text}' WHERE TableName = '{tableName}'");
+                        Console.WriteLine(sql);
+
+                        dbClass.ExecuteQuery(sql); //写入端口信息
+
+                        //关闭窗口
+                        CloseParentWindowRequested?.Invoke(this, EventArgs.Empty);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("已存在相同编号的设备，请检查", "编号重复", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+
+
+
                 }
                 else
                 {
-                    MessageBox.Show("设备名称不得为空", "必要信息不完整" , MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("设备名称不得为空", "必要信息不完整", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
             }
@@ -352,7 +482,7 @@ namespace IPAM_NOTE.DevicePage
             int index = 0;
 
             //1.校验设备名
-            if (NameBox.Text.Length < 1)
+            if (TypeBox.Text.Length < 1)
             {
                 index += 1;
                 message += index + ":请输入设备名称\r";
@@ -407,7 +537,34 @@ namespace IPAM_NOTE.DevicePage
         }
 
 
+        List<string> typeList = new List<string>();
 
+
+
+        /// <summary>
+        /// 加载类型预设
+        /// </summary>
+        private void LoadPreset()
+        {
+            typeList.Clear();
+
+            string query = "SELECT DISTINCT ModelType FROM ModelPreset;";
+
+            SQLiteCommand command = new SQLiteCommand(query, dbClass.connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                typeList.Add(reader["ModelType"].ToString());
+            }
+
+            TypeBox.ItemsSource = null;
+            TypeBox.ItemsSource = typeList;
+
+
+
+        }
 
 
         /// <summary>
@@ -432,28 +589,45 @@ namespace IPAM_NOTE.DevicePage
         private void InitializedData(string tableName, int Eprot = 0, int Fport = 0, int Mport = 0, int Disk = 0)
         {
             string sql;
-                
+
 
             //添加电口
             int x = Convert.ToInt32(EthernetPort.Text);
+
             if (x > 0)
             {
                 for (int i = 0; i < x; i++)
                 {
                     //PortStatus为0时表示未用端口，1表示已用端口
-                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('E', '{i+1}', 0, '', '', '', '')";
+                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('E', '{i + 1}', 0, '', '', '', '')";
                     dbClass.ExecuteQuery(sql);
                 }
             }
 
             //添加光口
             x = Convert.ToInt32(FiberPort.Text);
+
             if (x > 0)
             {
+                int num = Convert.ToInt32(EthernetPort.Text) + 1;
+
                 for (int i = 0; i < x; i++)
                 {
-                    //PortStatus为0时表示未用端口，1表示已用端口
-                    sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('F', '{i+1}', 0, '', '', '', '')";
+                    
+                    if (SerialBox.IsChecked == true)//连续编号
+                    {
+                        
+                        //PortStatus为0时表示未用端口，1表示已用端口
+                        sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('F', '{num + i}', 0, '', '', '', '')";
+                    }
+                    else
+                    {
+                        
+                        //PortStatus为0时表示未用端口，1表示已用端口
+                        sql = $"INSERT INTO \"{tableName}\" (\"PortType\", \"PortNumber\", \"PortStatus\", \"PortTag1\", \"PortTag2\", \"PortTag3\", \"Description\") VALUES ('F', '{i + 1}', 0, '', '', '', '')";
+                    }
+
+
                     dbClass.ExecuteQuery(sql);
                 }
             }
@@ -491,7 +665,7 @@ namespace IPAM_NOTE.DevicePage
             EthernetSlider.Value = 0;
             if (ECheckBox.IsChecked == true)
             {
-                
+
                 EPlan.Visibility = Visibility.Visible;
             }
             else
@@ -510,7 +684,7 @@ namespace IPAM_NOTE.DevicePage
             }
             else
             {
-               FPlan.Visibility = Visibility.Collapsed;
+                FPlan.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -550,6 +724,205 @@ namespace IPAM_NOTE.DevicePage
         private void DatePicker_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             DateBox.Text = DatePicker.Text;
+        }
+
+
+        /// <summary>
+        /// 选择类别，加载品牌
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TypeBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            brandList.Clear();
+            modeList.Clear();
+            presetInfos.Clear();
+            ModelBox.Text = null;
+            EthernetSlider.Value = 0;
+            FiberSlider.Value = 0;
+            DiskSlider.Value = 0;
+            ManageSlider.Value = 0;
+
+            if (TypeBox.SelectedIndex != -1)
+            {
+                string type = typeList[TypeBox.SelectedIndex];
+
+                Console.WriteLine(type);
+
+                LoadBrandPreset(type);
+
+            }
+
+        }
+
+        /// <summary>
+        /// 品牌列表
+        /// </summary>
+        private List<string> brandList = new List<string>();
+
+        /// <summary>
+        /// 加载品牌预设
+        /// </summary>
+        private void LoadBrandPreset(string type)
+        {
+            brandList.Clear();
+
+            string query = $"SELECT DISTINCT Brand FROM ModelPreset WHERE ModelType ='{type}';";
+
+            Console.WriteLine(query);
+
+            SQLiteCommand command = new SQLiteCommand(query, dbClass.connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                brandList.Add(reader["Brand"].ToString());
+            }
+
+            BrandBox.ItemsSource = null;
+            BrandBox.ItemsSource = brandList;
+        }
+
+
+        /// <summary>
+        /// 选择品牌预设
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BrandBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            modeList.Clear();
+            presetInfos.Clear();
+            ModelBox.Text = null;
+            EthernetSlider.Value = 0;
+            FiberSlider.Value = 0;
+            DiskSlider.Value = 0;
+            ManageSlider.Value = 0;
+
+            if (BrandBox.SelectedIndex != -1)
+            {
+                string type = typeList[TypeBox.SelectedIndex];
+
+                string brand = brandList[BrandBox.SelectedIndex];
+
+
+
+                LoadModelPreset(type, brand);
+
+            }
+
+        }
+
+        private List<string> modeList = new List<string>();
+
+        private List<ViewMode.ModelPresetInfo> presetInfos = new List<ViewMode.ModelPresetInfo>();
+
+
+        /// <summary>
+        /// 加载品牌预设
+        /// </summary>
+        private void LoadModelPreset(string type, string brand)
+        {
+            modeList.Clear();
+
+            string query = $"SELECT * FROM ModelPreset WHERE ModelType ='{type}' AND Brand='{brand}';";
+
+            Console.WriteLine(query);
+
+            SQLiteCommand command = new SQLiteCommand(query, dbClass.connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            int id = 0;
+            while (reader.Read())
+            {
+
+                id++;
+                string model = reader["Model"].ToString();
+
+                int ethernet = Convert.ToInt32(reader["Ethernet"]);
+
+                int fiber = Convert.ToInt32(reader["Fiber"]);
+
+                int disk = Convert.ToInt32(reader["Disk"]);
+
+                int manage = Convert.ToInt32(reader["Manage"]);
+
+                ViewMode.ModelPresetInfo info =
+                    new ViewMode.ModelPresetInfo(id, type, brand, model, ethernet, fiber, disk, manage);
+                presetInfos.Add(info);
+                modeList.Add(model);
+
+            }
+
+            ModelBox.ItemsSource = null;
+            ModelBox.ItemsSource = modeList;
+        }
+
+
+
+        /// <summary>
+        /// 加载预设
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ModelBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataBrige.DeviceAddStatus != 1)
+            {
+                int index = ModelBox.SelectedIndex;
+                if (index != -1)
+                {
+                    int ethernet = presetInfos[index].Ethernet;
+
+                    if (ethernet > 0)
+                    {
+                        ECheckBox.IsChecked = true;
+                        EPlan.Visibility = Visibility.Visible;
+                        EthernetSlider.Value = ethernet;
+                    }
+
+
+
+                    int fiber = presetInfos[index].Fiber;
+
+                    if (fiber > 0)
+                    {
+                        FCheckBox.IsChecked = true;
+                        FPlan.Visibility = Visibility.Visible;
+                        FiberSlider.Value = fiber;
+                    }
+
+
+                    int disk = presetInfos[index].Disk;
+
+                    if (disk > 0)
+                    {
+                        DCheckBox.IsChecked = true;
+                        DPlan.Visibility = Visibility.Visible;
+                        DiskSlider.Value = disk;
+                    }
+
+
+                    int manage = presetInfos[index].Manage;
+
+                    if (manage > 0)
+                    {
+                        MCheckBox.IsChecked = true;
+                        MPlan.Visibility = Visibility.Visible;
+                        ManageSlider.Value = manage;
+                    }
+
+
+
+
+                }
+
+            }
+
+
+
         }
     }
 }

@@ -62,6 +62,8 @@ namespace IPAM_NOTE
                         command.ExecuteNonQuery();
                         command.CommandText = $"CREATE TABLE \"User\" (\r\n  \"Id\" INTEGER PRIMARY KEY AUTOINCREMENT,\r\n  \"Password\" TEXT);";
                         command.ExecuteNonQuery();
+                        command.CommandText = $"CREATE TABLE \"ModelPreset\" (\r\n  \"Id\" INTEGER PRIMARY KEY AUTOINCREMENT, \r\n \"ModelType\" TEXT, \r\n \"Brand\" TEXT,\r\n  \"Model\" TEXT,\r\n  \"Ethernet\" TEXT,\r\n  \"Fiber\" TEXT,\r\n  \"Disk\" TEXT\r\n，,\r\n  \"Manage\" TEXT\r\n);";
+                        command.ExecuteNonQuery();
                     }
                 }
 			}

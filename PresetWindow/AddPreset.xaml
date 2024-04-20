@@ -1,28 +1,27 @@
-﻿<UserControl x:Class="IPAM_NOTE.DevicePage.GeneralNetworkDevice"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:IPAM_NOTE.DevicePage"
-             mc:Ignorable="d" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Background="{DynamicResource MaterialDesignDarkBackground}"
-             Foreground="{DynamicResource MaterialDesignDarkForeground}"
-             TextElement.FontWeight="Medium"
-             TextElement.FontSize="16"
-             FontFamily="SimHei"
-             Height="550"
-             Width="950"
-             Loaded="GeneralNetworkDevice_OnLoaded"
-             >
+﻿<Window x:Class="IPAM_NOTE.PresetWindow.AddPreset"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IPAM_NOTE.PresetWindow"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Background="{DynamicResource MaterialDesignDarkBackground}"
+        Foreground="{DynamicResource MaterialDesignDarkForeground}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="SimHei"
+        Height="480"
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        Loaded="AddPreset_OnLoaded"
+        >
     <Grid>
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-
 
 
         <Grid Grid.Row="0">
@@ -34,115 +33,93 @@
                   Foreground="{StaticResource MaterialDesignDarkForeground}"
                   Mode="PrimaryDark">
 
-                <Grid>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel 
-                        Grid.Column="0"
+                <WrapPanel 
+                      
+                        
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Bottom"
                         >
-                        <StackPanel
-                            Height="50"
+                    <StackPanel
+                           
                             Margin="5"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal"
                             VerticalAlignment="Bottom"
                             >
-                            <Label 
+                        <Label 
                                 Width="75"
                                 VerticalAlignment="Bottom" 
                                 Content="设备类型:" />
 
-                            <ComboBox
-                                Width="125"
-                                x:Name="TypeBox"
+                        <ComboBox
+                                Width="300"
+                                x:Name="NameBox"
                                 SelectedIndex="0"
                                 IsEditable="True"
                                 MaxDropDownHeight="300"
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Center"
-                                SelectionChanged="TypeBox_OnSelectionChanged"
+                                
                                 materialDesign:HintAssist.Hint="设备类型预设">
 
+                         
+
+                        </ComboBox>
 
 
-                            </ComboBox>
-                            <Label 
-                                x:Name="BrandLabel"
-                                Width="50"
+
+
+
+                    </StackPanel>
+
+                    <StackPanel
+                           
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Bottom"
+                        >
+                        <Label 
+                                Width="75"
                                 VerticalAlignment="Bottom" 
-                                Content="品牌:" />
+                                Content="设备品牌:" />
 
-                            <ComboBox
-                                Width="125"
+                        <ComboBox
+                                Width="300"
                                 x:Name="BrandBox"
                                 SelectedIndex="0"
                                 IsEditable="True"
                                 MaxDropDownHeight="300"
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Center"
-                                SelectionChanged="BrandBox_OnSelectionChanged"
+                                
                                 materialDesign:HintAssist.Hint="设备品牌预设">
 
-
-
-                            </ComboBox>
-
-
+                           
+                        </ComboBox>
 
 
 
-                        </StackPanel>
 
-                        <StackPanel
-                            Height="50"
+
+                    </StackPanel>
+
+
+                    <StackPanel
+                            
                             Margin="5"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal"
                             VerticalAlignment="Bottom"
                         
                             >
-                            <Label Width="75" VerticalAlignment="Bottom" Content="设备型号:"/>
+                        <Label Width="75" VerticalAlignment="Bottom" Content="设备型号:"/>
 
-                            <ComboBox
+
+                        <TextBox
                                 Width="300"
                                 x:Name="ModelBox"
-                                SelectedIndex="0"
-                                IsEditable="True"
-                                MaxDropDownHeight="300"
-                                VerticalAlignment="Bottom"
-                                HorizontalAlignment="Center"
-                                SelectionChanged="ModelBox_OnSelectionChanged"
-                                materialDesign:HintAssist.Hint="设备型号预设">
-
-
-
-                            </ComboBox>
-
-
-
-
-                        </StackPanel>
-
-                        <StackPanel
-                            Height="50"
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Bottom"
-                        
-                            >
-                            <Label 
-                                Width="75"
-                                VerticalAlignment="Bottom"
-                                Content="设备编号:"/>
-                            <TextBox
-                                Width="300"
-                                x:Name="NumberBox"
                                 Margin="0"
                                 VerticalAlignment="Bottom"
                                 AcceptsReturn="False"
@@ -152,122 +129,16 @@
                                 Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
                                 
                             />
-
-                        </StackPanel>
 
 
 
                     </StackPanel>
 
-                    <StackPanel 
-                         Grid.Column="1"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Bottom"
-                         
-                        >
-                        <StackPanel
-                            Height="50"
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Bottom"
-                            >
-                            <Label 
-                                Width="75"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Bottom"
-                                Content="责任人:" />
-                            <TextBox
-                                Width="300"
-                                x:Name="PeopleBox"
-                                Margin="0"
-                                VerticalAlignment="Bottom"
-                                AcceptsReturn="False"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                                
-                            />
-
-                        </StackPanel>
-
-                        <StackPanel
-                            Height="50"
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Bottom"
-                        
-                            >
-                            <Label 
-                                Width="75"
-                                VerticalAlignment="Bottom"
-                                Content="启用日期:"/>
-
-                            <TextBox
-                                Width="280"
-                                x:Name="DateBox"
-                                Margin="0"
-                                VerticalAlignment="Bottom"
-                                AcceptsReturn="False"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-    
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-    
-                            />
-
-                            <DatePicker
-                                x:Name="DatePicker"
-                                Width="20"
-                                VerticalAlignment="Bottom"
-                                materialDesign:CalendarAssist.IsHeaderVisible="True"
-                                materialDesign:HintAssist.Hint=""
-                                SelectedDateChanged="DatePicker_OnSelectedDateChanged"
-                                >
-                                <DatePicker.SelectedDate>
-                                    <Binding
-                                        Path="FutureValidatingDate"
-                                        UpdateSourceTrigger="PropertyChanged">
-
-                                    </Binding>
-                                </DatePicker.SelectedDate>
-                            </DatePicker>
-                        </StackPanel>
-
-                        <StackPanel
-                            Height="50"
-                            Margin="5"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Bottom"
-                        
-                            >
-                            <Label 
-                                Width="75"
-                                VerticalAlignment="Bottom"
-                                Content="设备备注:"/>
-                            <TextBox
-                                Width="300"
-                                x:Name="DescriptionBox"
-                                Margin="0"
-                                VerticalAlignment="Bottom"
-                                AcceptsReturn="False"
-                                TextWrapping="NoWrap" 
-                                materialDesign:HintAssist.FloatingScale="0"
-                                
-                                Style="{DynamicResource  MaterialDesignFloatingHintTextBox}"
-                                
-                            />
-
-                        </StackPanel>
 
 
+                </WrapPanel>
 
-                    </StackPanel>
 
-                </Grid>
 
 
 
@@ -277,7 +148,6 @@
             </materialDesign:ColorZone>
 
         </Grid>
-
 
 
         <Grid Grid.Row="1">
@@ -302,95 +172,11 @@
                         HorizontalAlignment="Stretch"
                         
                         >
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            
-                            
-                            
-                            <CheckBox
-                                Margin="0,0,10,0"
-                                x:Name="ECheckBox"
-                                IsChecked="False"
-                                VerticalAlignment="Center"
-                                Foreground="GreenYellow"
-                                Click="ECheckBox_OnClick"
-                                
-                                
-                                Style="{StaticResource MaterialDesignDarkCheckBox}" >
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-
-                                    <materialDesign:PackIcon Kind="Ethernet" Width="24" Height="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="以太网口" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox>
-
-
-                            <CheckBox
-                                Margin="0,0,10,0"
-                                x:Name="FCheckBox"
-                                IsChecked="False"
-                                VerticalAlignment="Center"
-                                Foreground="Aqua"
-                                Click="FCheckBox_OnClick"
-                                Style="{StaticResource MaterialDesignDarkCheckBox}" >
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="ViewStreamOutline" Width="24" Height="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="光纤网口" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox>
-
-                            <CheckBox
-                                Margin="0,0,10,0"
-                                x:Name="SerialBox"
-                                IsChecked="False"
-                                VerticalAlignment="Center"
-                                Foreground="Aqua"
-                                ToolTip="勾选此选项后，光纤网口的编号将延续电口编号，例如最后一个电口为24，那么光口将是25"
-                                Style="{StaticResource MaterialDesignDarkCheckBox}" >
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="ViewStreamOutline" Width="24" Height="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="连续编号" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox>
-
-                            <CheckBox
-                                Margin="0,0,10,0"
-                                x:Name="DCheckBox"
-                                IsChecked="False"
-                                VerticalAlignment="Center"
-                                Foreground="Green"
-                                Click="DCheckBox_OnClick"
-                                
-                                Style="{StaticResource MaterialDesignDarkCheckBox}" >
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-
-                                    <materialDesign:PackIcon Kind="Hdd" Width="24" Height="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="硬盘插槽" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox>
-
-                            <CheckBox
-                                Margin="0,0,10,0"
-                                x:Name="MCheckBox"
-                                IsChecked="False"
-                                VerticalAlignment="Center"
-                                Foreground="DarkRed"
-                                Click="MCheckBox_OnClick"
-                                Style="{StaticResource MaterialDesignDarkCheckBox}" >
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-
-                                    <materialDesign:PackIcon Kind="Ethernet" Width="24" Height="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="管理接口" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </CheckBox>
-
-
-
-                        </StackPanel>
 
 
                         <StackPanel
                             x:Name="EPlan"
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             d:Visibility="Visible"
                             Height="50"
                             Margin="0,5"
@@ -412,27 +198,12 @@
                                 VerticalAlignment="Center"/>
 
 
-                            <ComboBox
-                                x:Name="EComboBox"
-                                SelectedIndex="0"
-                                IsEditable="True"
-                                VerticalAlignment="Center"
-                                materialDesign:HintAssist.Hint="槽位标签">
-                                <ComboBoxItem
-                                    Content="0/0/" />
-                                <ComboBoxItem
-                                    Content="1/0/" />
-                                <ComboBoxItem
-                                    Content="0/" />
-                                <ComboBoxItem
-                                    Content="1/" />
-
-                            </ComboBox>
 
 
 
 
-                           
+
+
 
 
                             <TextBox
@@ -547,7 +318,7 @@
                             x:Name="FPlan"
                             Height="50"
                             Margin="0,5"
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             d:Visibility="Visible"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
@@ -568,22 +339,6 @@
                                 VerticalAlignment="Center"
                                 Content="光口数量："/>
 
-                            <ComboBox
-                                x:Name="FiberComboBox"
-                                SelectedIndex="0"
-                                IsEditable="True"
-                                VerticalAlignment="Center"
-                                materialDesign:HintAssist.Hint="槽位标签">
-                                <ComboBoxItem
-                                    Content="0/0/" />
-                                <ComboBoxItem
-                                    Content="1/0/" />
-                                <ComboBoxItem
-                                    Content="0/" />
-                                <ComboBoxItem
-                                    Content="1/" />
-
-                            </ComboBox>
 
 
                             <TextBox
@@ -693,7 +448,7 @@
 
 
                         <StackPanel
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             d:Visibility="Visible"
                             x:Name="DPlan"
                             Height="50"
@@ -714,19 +469,8 @@
                                 Width="80"
                                 Margin="5,0" 
                                 VerticalAlignment="Center"
-                                Content="硬盘位："/>
+                                Content="硬盘槽位："/>
 
-                            <ComboBox
-                                x:Name="DiskComboBox"
-                                SelectedIndex="0"
-                                IsEditable="True"
-                                VerticalAlignment="Center"
-                                materialDesign:HintAssist.Hint="槽位标签">
-                                <ComboBoxItem
-                                    Content="Slot" />
-
-
-                            </ComboBox>
 
                             <TextBox
                                 Width="50"
@@ -820,7 +564,7 @@
                         </StackPanel>
 
                         <StackPanel
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             d:Visibility="Visible"
                             x:Name="MPlan"
                             Height="50"
@@ -843,19 +587,8 @@
                                 VerticalAlignment="Center"
                                 Content="管理口："/>
 
-                            <ComboBox
-                                x:Name="MgmtComboBox"
-                                SelectedIndex="0"
-                                VerticalAlignment="Center"
-                                IsEditable="True"
-                                materialDesign:HintAssist.Hint="槽位标签">
-                                <ComboBoxItem
-                                    Content="Mgmt" />
-                                <ComboBoxItem
-                                    Content="1/" />
 
-                            </ComboBox>
-                            
+
 
                             <TextBox
                                 Width="50"
@@ -962,34 +695,34 @@
 
         </Grid>
 
+        <Grid Grid.Row="2">
 
-
-
-        <Button
-            Grid.Row="2"
-            x:Name="SaveButton"
-            Margin="5"
-            Height="50"
-            Width="120"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Style="{StaticResource MaterialDesignOutlinedButton}"
-            ToolTip="保存" 
-            Click="SaveButton_OnClick"
-            materialDesign:ButtonAssist.CornerRadius="5"
+            <Button
+                
+                x:Name="SaveButton"
+                Margin="5"
+                Height="50"
+                Width="120"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="保存" 
+                Click="SaveButton_OnClick"
+                materialDesign:ButtonAssist.CornerRadius="5"
             >
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                <materialDesign:PackIcon 
-                    Kind="ContentSave" 
-                    VerticalAlignment="Center"
-                    Height="32"
-                    Width="32"
-                />
-                <TextBlock
-                    VerticalAlignment="Center"
-                >保存设备</TextBlock>
-            </StackPanel>
-        </Button>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <materialDesign:PackIcon 
+                        Kind="ContentSave" 
+                        VerticalAlignment="Center"
+                        Height="32"
+                        Width="32"
+                    />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                    >保存设备</TextBlock>
+                </StackPanel>
+            </Button>
 
+        </Grid>
     </Grid>
-</UserControl>
+</Window>

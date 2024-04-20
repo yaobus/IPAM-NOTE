@@ -61,7 +61,14 @@
             <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
-
+        <Style x:Key="ModelPresetStyle" TargetType="userPages:ModelPreset">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
+        <Style x:Key="HumanGreetingStyle" TargetType="userPages:HumanGreeting">
+            <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -160,7 +167,7 @@
                         </TabItem>
 
                         <TabItem
-                            IsEnabled="True"
+                            IsEnabled="False"
                             IsSelected="False"
                         >
                             <TabItem.Header>
@@ -198,7 +205,7 @@
 
                         <TabItem
                             IsSelected="False"
-                            IsEnabled="False"
+                           
                             >
 
                             <TabItem.Header>
@@ -209,7 +216,7 @@
                                         Width="28"
                                         Height="28"
                                         HorizontalAlignment="Center"
-                                        ToolTip="设备预设"
+                                        ToolTip="设备型号预设"
                                         Kind="Devices" />
                                     <!--<TextBlock
                                     HorizontalAlignment="Center"
@@ -318,20 +325,6 @@
                                     Width="auto"
                                     Height="auto">
 
-                                    <Button
-                                        x:Name="HumanGreeting"
-                                        Margin="0"
-                                        Height="60"
-                                        Style="{StaticResource MaterialDesignOutlinedButton}" 
-                                        BorderThickness="0"
-                                        ToolTip="内测群邀请"
-                                        VerticalAlignment="Center"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                                        materialDesign:ButtonProgressAssist.Value="-1"
-                                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                                        Click="HumanGreeting_OnClick"
-                                        >
 
                                         <materialDesign:PackIcon 
                                             Kind="HumanGreeting" 
@@ -339,7 +332,7 @@
                                             Height="28"
                                         />
 
-                                    </Button>
+
                                 </StackPanel>
                             </TabItem.Header>
                         </TabItem>
