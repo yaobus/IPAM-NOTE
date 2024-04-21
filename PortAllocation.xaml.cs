@@ -48,34 +48,34 @@ namespace IPAM_NOTE
 
             if (DataBrige.portList.Count == 0)//单个分配
             {
-                
+
                 string type = DataBrige.SelectDevicePortInfo.PortType;
 
 
                 //Console.WriteLine("STATUS:"+DataBrige.SelectDevicePortInfo.PortStatus);
 
 
-				if (DataBrige.SelectDevicePortInfo.PortStatus == "0" || DataBrige.SelectDevicePortInfo.PortStatus == "")
-				{
-					EnableBox.IsChecked = false;
-				}
-				else
-				{
-					if (DataBrige.SelectDevicePortInfo.PortStatus == "1" || DataBrige.SelectDevicePortInfo.PortStatus == "已分配")
-					{
-						EnableBox.IsChecked = true;
-					}
-					
-					
-				}
-
-
-
-
-
-				switch (type)
+                if (DataBrige.SelectDevicePortInfo.PortStatus == "0" || DataBrige.SelectDevicePortInfo.PortStatus == "")
                 {
-                    case "E" :
+                    EnableBox.IsChecked = false;
+                }
+                else
+                {
+                    if (DataBrige.SelectDevicePortInfo.PortStatus == "1" || DataBrige.SelectDevicePortInfo.PortStatus == "已分配")
+                    {
+                        EnableBox.IsChecked = true;
+                    }
+
+
+                }
+
+
+
+
+
+                switch (type)
+                {
+                    case "E":
                         TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + DataBrige.SelectDevicePortInfo.PortNumber;
                         Tag1Panel.ClearValue(HintAssist.HintProperty);
                         HintAssist.SetHint(Tag1Panel, "VLANID");
@@ -100,30 +100,30 @@ namespace IPAM_NOTE
                         HintAssist.SetHint(Tag1Panel, "管理地址:");
                         break;
                     case "RJ45网口":
-	                    TypeBlock.Text = "当前选择RJ45网口："  + DataBrige.SelectDevicePortInfo.PortNumber;
-	                    Tag1Panel.ClearValue(HintAssist.HintProperty);
-	                    HintAssist.SetHint(Tag1Panel, "VLANID");
-	                    break;
+                        TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "VLANID");
+                        break;
 
                     case "光纤网口":
-	                    TypeBlock.Text = "当前选择光纤网口："  + DataBrige.SelectDevicePortInfo.PortNumber;
+                        TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDevicePortInfo.PortNumber;
 
-	                    Tag1Panel.ClearValue(HintAssist.HintProperty);
-	                    HintAssist.SetHint(Tag1Panel, "VLANID");
-	                    break;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "VLANID");
+                        break;
                     case "硬盘插槽":
-	                    TypeBlock.Text = "当前选择硬盘插槽："  + DataBrige.SelectDevicePortInfo.PortNumber;
-	                    Tag1Panel.ClearValue(HintAssist.HintProperty);
-	                    HintAssist.SetHint(Tag1Panel, "硬盘信息:");
+                        TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "硬盘信息:");
 
-	                    break;
+                        break;
 
                     case "管理接口":
-	                    TypeBlock.Text = "当前选择管理接口："  + DataBrige.SelectDevicePortInfo.PortNumber;
-	                    Tag1Panel.ClearValue(HintAssist.HintProperty);
-	                    HintAssist.SetHint(Tag1Panel, "管理地址:");
-	                    break;
-				}
+                        TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "管理地址:");
+                        break;
+                }
 
                 Tag1TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag1;
                 Tag2TextBox.Text = DataBrige.SelectDevicePortInfo.PortTag2;
@@ -132,23 +132,23 @@ namespace IPAM_NOTE
             }
             else//多个分配
             {
-	           // string type = DataBrige.SelectDevicePortInfo.PortType;
+                // string type = DataBrige.SelectDevicePortInfo.PortType;
 
-	            if (DataBrige.SelectDevicePortStatus == "0")//未分配状态
-	            {
-		            EnableBox.IsChecked = false;
-	            }
-	            else
-	            {
-		            EnableBox.IsChecked = true;//已分配状态
-		            Tag1TextBox.IsEnabled = false;
+                if (DataBrige.SelectDevicePortStatus == "0")//未分配状态
+                {
+                    EnableBox.IsChecked = false;
+                }
+                else
+                {
+                    EnableBox.IsChecked = true;//已分配状态
+                    Tag1TextBox.IsEnabled = false;
                     Tag2TextBox.IsEnabled = false;
                     Tag3TextBox.IsEnabled = false;
-                    DescriptionTextBox.IsEnabled= false;
+                    DescriptionTextBox.IsEnabled = false;
 
-	            }
+                }
 
-				string ports = "";
+                string ports = "";
 
                 for (int i = 0; i < DataBrige.portList.Count; i++)
                 {
@@ -179,14 +179,14 @@ namespace IPAM_NOTE
                     case "E":
                         TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDeviceInfo.EportTag + ports + "端口";
                         Tag1Panel.ClearValue(HintAssist.HintProperty);
-                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        HintAssist.SetHint(Tag1Panel, "VLANID:");
                         break;
 
                     case "F":
                         TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDeviceInfo.FportTag + ports + "端口";
 
                         Tag1Panel.ClearValue(HintAssist.HintProperty);
-                        HintAssist.SetHint(Tag1Panel, "对端设备:");
+                        HintAssist.SetHint(Tag1Panel, "VLANID:");
                         break;
                     case "D":
                         TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDeviceInfo.DportTag + ports + "槽位";
@@ -197,6 +197,30 @@ namespace IPAM_NOTE
 
                     case "M":
                         TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDeviceInfo.MportTag + ports + "端口";
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "管理地址:");
+                        break;
+                    case "RJ45网口":
+                        TypeBlock.Text = "当前选择RJ45网口：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "VLANID");
+                        break;
+
+                    case "光纤网口":
+                        TypeBlock.Text = "当前选择光纤网口：" + DataBrige.SelectDevicePortInfo.PortNumber;
+
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "VLANID");
+                        break;
+                    case "硬盘插槽":
+                        TypeBlock.Text = "当前选择硬盘插槽：" + DataBrige.SelectDevicePortInfo.PortNumber;
+                        Tag1Panel.ClearValue(HintAssist.HintProperty);
+                        HintAssist.SetHint(Tag1Panel, "硬盘信息:");
+
+                        break;
+
+                    case "管理接口":
+                        TypeBlock.Text = "当前选择管理接口：" + DataBrige.SelectDevicePortInfo.PortNumber;
                         Tag1Panel.ClearValue(HintAssist.HintProperty);
                         HintAssist.SetHint(Tag1Panel, "管理地址:");
                         break;
@@ -215,24 +239,24 @@ namespace IPAM_NOTE
         private void SaveButton_OnClick(object sender, RoutedEventArgs e)
         {
 
-	        int enable;
+            int enable;
 
-			if (EnableBox.IsChecked == true)
-			{
-				enable = 1;
-			}
-			else
-			{
-				enable = 0;
-			}
+            if (EnableBox.IsChecked == true)
+            {
+                enable = 1;
+            }
+            else
+            {
+                enable = 0;
+            }
 
 
-			string tableName = DataBrige.SelectDeviceInfo.TableName;
+            string tableName = DataBrige.SelectDeviceInfo.TableName;
 
 
             if (DataBrige.portList.Count == 0)//单个分配
             {
-	           
+
                 string type = DataBrige.SelectDevicePortInfo.PortType;
                 string typetemp = type;
 
@@ -245,30 +269,30 @@ namespace IPAM_NOTE
 
                 if (DataBrige.GraphicsMode == 1)
                 {
-	                string portTag="";
-	                Console.WriteLine(type);
+                    string portTag = "";
+                    Console.WriteLine(type);
 
-	                switch (type)
-	                {
+                    switch (type)
+                    {
                         case "RJ45网口":
-	                        portTag = DataBrige.SelectDeviceInfo.EportTag;
-	                        type = "E";
+                            portTag = DataBrige.SelectDeviceInfo.EportTag;
+                            type = "E";
                             break;
 
                         case "光纤网口":
-	                        portTag = DataBrige.SelectDeviceInfo.FportTag;
-	                        type = "F";
-							break;
-                            
-                        case "硬盘插槽":
-	                        portTag = DataBrige.SelectDeviceInfo.DportTag;
-	                        type = "D";
-							break;
+                            portTag = DataBrige.SelectDeviceInfo.FportTag;
+                            type = "F";
+                            break;
 
-                       case "管理网口":
-	                        portTag = DataBrige.SelectDeviceInfo.MportTag;
-	                        type = "M";
-							break;
+                        case "硬盘插槽":
+                            portTag = DataBrige.SelectDeviceInfo.DportTag;
+                            type = "D";
+                            break;
+
+                        case "管理网口":
+                            portTag = DataBrige.SelectDeviceInfo.MportTag;
+                            type = "M";
+                            break;
 
                         case "访问标签":
                             portTag = DataBrige.SelectDeviceInfo.MportTag;
@@ -276,7 +300,7 @@ namespace IPAM_NOTE
                             break;
                     }
 
-	                port = port.Replace(portTag, "");
+                    port = port.Replace(portTag, "");
                 }
 
 
@@ -345,80 +369,80 @@ namespace IPAM_NOTE
                 {
                     string port;
 
-					if (DataBrige.SelectDevicePortStatus == "1")//多选状态下选择了已启用的端口准备释放
-					{
-
-						for (int i = 0; i < DataBrige.portList.Count; i++)
-						{
-							port = DataBrige.portList[i];
-
-							string sql = string.Format(
-								$"UPDATE {tableName} SET \"PortStatus\" = '{enable}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
-
-							dbClass.ExecuteQuery(sql); //写入端口信息
-
-
-							int index = 0;
-
-
-							foreach (var item in DataBrige.DevicePortInfos)
-							{
-								if (item.PortType == type && item.PortNumber == port)
-								{
-									DataBrige.DevicePortInfos[index].PortStatus = enable.ToString();
-
-
-
-									break;
-								}
-
-								index++;
-							}
-
-						}
-
-
-					}
-					else
+                    if (DataBrige.SelectDevicePortStatus == "1")//多选状态下选择了已启用的端口准备释放
                     {
 
-						for (int i = 0; i < DataBrige.portList.Count; i++)
-						{
-							port = DataBrige.portList[i];
+                        for (int i = 0; i < DataBrige.portList.Count; i++)
+                        {
+                            port = DataBrige.portList[i];
 
-							string sql = string.Format(
-								$"UPDATE {tableName} SET \"PortStatus\" = '{enable}', \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+                            string sql = string.Format(
+                                $"UPDATE {tableName} SET \"PortStatus\" = '{enable}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
 
-							dbClass.ExecuteQuery(sql); //写入端口信息
-
-
-							int index = 0;
+                            dbClass.ExecuteQuery(sql); //写入端口信息
 
 
-							foreach (var item in DataBrige.DevicePortInfos)
-							{
-								if (item.PortType == type && item.PortNumber == port)
-								{
-									DataBrige.DevicePortInfos[index].PortStatus = enable.ToString();
-									DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
-									DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
-									DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
-									DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
+                            int index = 0;
 
 
-									break;
-								}
-
-								index++;
-							}
-
-						}
+                            foreach (var item in DataBrige.DevicePortInfos)
+                            {
+                                if (item.PortType == type && item.PortNumber == port)
+                                {
+                                    DataBrige.DevicePortInfos[index].PortStatus = enable.ToString();
 
 
-					}
+
+                                    break;
+                                }
+
+                                index++;
+                            }
+
+                        }
 
 
-				}
+                    }
+                    else
+                    {
+
+                        for (int i = 0; i < DataBrige.portList.Count; i++)
+                        {
+                            port = DataBrige.portList[i];
+
+                            string sql = string.Format(
+                                $"UPDATE {tableName} SET \"PortStatus\" = '{enable}', \"PortTag1\" = '{Tag1TextBox.Text}'  , \"PortTag2\" = '{Tag2TextBox.Text}' , \"PortTag3\" = '{Tag3TextBox.Text}', \"Description\" = '{DescriptionTextBox.Text}' WHERE (PortType = '{type}' AND PortNumber = '{port}')");
+
+                            dbClass.ExecuteQuery(sql); //写入端口信息
+
+
+                            int index = 0;
+
+
+                            foreach (var item in DataBrige.DevicePortInfos)
+                            {
+                                if (item.PortType == type && item.PortNumber == port)
+                                {
+                                    DataBrige.DevicePortInfos[index].PortStatus = enable.ToString();
+                                    DataBrige.DevicePortInfos[index].PortTag1 = Tag1TextBox.Text;
+                                    DataBrige.DevicePortInfos[index].PortTag2 = Tag2TextBox.Text;
+                                    DataBrige.DevicePortInfos[index].PortTag3 = Tag3TextBox.Text;
+                                    DataBrige.DevicePortInfos[index].Description = DescriptionTextBox.Text;
+
+
+                                    break;
+                                }
+
+                                index++;
+                            }
+
+                        }
+
+
+                    }
+
+
+                }
 
             }
 

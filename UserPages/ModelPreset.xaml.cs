@@ -92,7 +92,7 @@ namespace IPAM_NOTE.UserPages
                     i++;
                     // 读取数据行中的每一列
 
-                    int id = Convert.ToInt32(reader["Id"].ToString());
+                    int id = i;
                     string modelType = reader["ModelType"].ToString();
                     string brand = reader["Brand"].ToString();
                     string model = reader["Model"].ToString();
@@ -135,7 +135,7 @@ namespace IPAM_NOTE.UserPages
             string sql = $"DELETE FROM \"ModelPreset\" WHERE ModelType = '{type}' AND Brand = '{brand}' AND Model = '{model}'";
 
             dbClass.ExecuteQuery(sql);
-
+            LoadModelPreset(dbClass.connection);
         }
     }
 }
