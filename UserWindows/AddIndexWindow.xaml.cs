@@ -40,13 +40,15 @@ namespace IPAM_NOTE.UserWindows
             dbClass.OpenConnection();
 
 
-            DeviceBlock.Text = DataBrige.SelectDeviceInfo.Name + " " + DataBrige.SelectDeviceInfo.Number;
-            ModelTextBlock.Text = "型号:" + DataBrige.SelectDeviceInfo.Model;
-            DescriptionBlock.Text = "备注:" + DataBrige.SelectDeviceInfo.Description;
+
 
             //判断是编辑还是新建标签
             if (DataBrige.EditMode == 1) //编辑模式
             {
+                DeviceBlock.Text = DataBrige.SelectDeviceInfo.Name + " " + DataBrige.SelectDeviceInfo.Number;
+                ModelTextBlock.Text = "型号:" + DataBrige.SelectDeviceInfo.Model;
+                DescriptionBlock.Text = "备注:" + DataBrige.SelectDeviceInfo.Description;
+
                 TypeBlock.Text = "当前选中导航标签:" + DataBrige.SelectIndexTag.ToString();
 
                 string sql =
@@ -87,8 +89,6 @@ namespace IPAM_NOTE.UserWindows
             }
             else
             {
-
-                
 
 
                 int num = CalculateIndexId(DataBrige.SelectDeviceInfo.TableName);

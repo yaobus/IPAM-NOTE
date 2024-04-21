@@ -960,6 +960,7 @@ namespace IPAM_NOTE.UserPages
         /// <param name="e"></param>
         private void AddIndexButton_Click(object sender, RoutedEventArgs e)
         {
+           
 
             AddIndexWindow addWindow = new AddIndexWindow();
 
