@@ -14,8 +14,8 @@
         mc:Ignorable="d"
         Title="分配地址" 
         Style="{DynamicResource MaterialDesignWindow}"
-        Height="440"
-        Width="600"
+        Height="500"
+        Width="800"
         WindowStartupLocation="CenterScreen"
         Loaded="Allocation_OnLoaded"
         Closing="Allocation_OnClosing"
@@ -189,7 +189,7 @@
         <StackPanel
             Grid.Row="1"
             Grid.Column="0"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             >
             <StackPanel
                 Margin="5"
@@ -217,6 +217,7 @@
                     x:Name="UserTextBox"
                     Margin="5"
                     Text=""
+                    Height="50"
                     MaxHeight="55"
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
@@ -252,7 +253,8 @@
                     x:Name="DescriptionTextBox"
                     Margin="5"
                     Text=""
-                    MaxHeight="60"
+                    Height="50"
+                    
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     VerticalScrollBarVisibility="Auto"
@@ -287,7 +289,7 @@
                     x:Name="HostNameTextBox"
                     Margin="5"
                     Text=""
-                    MaxHeight="80"
+                    Height="50"
                     VerticalAlignment="Top"
                     AcceptsReturn="False"
                     VerticalScrollBarVisibility="Auto"
@@ -320,7 +322,7 @@
                     x:Name="MacTextBox"
                     Margin="5"
                     Text=""
-                    MaxHeight="80"
+                    Height="50"
                     VerticalAlignment="Top"
                     AcceptsReturn="False"
                     VerticalScrollBarVisibility="Auto"
@@ -330,13 +332,71 @@
 
             </StackPanel>
 
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="MAC地址"
+            >
 
+                <materialDesign:PackIcon 
+                    Margin="5"
+                    Kind="Link" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                    
+                />
+
+
+                <ComboBox
+                    Width="150"
+                    x:Name="Device"
+                    SelectedIndex="0"
+                    
+                    Margin="5"
+                    MaxDropDownHeight="300"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFilledComboBox}"
+                    materialDesign:HintAssist.Hint="关联设备">
+
+                </ComboBox>
+                <ComboBox
+                    Width="100"
+                    x:Name="Type"
+                    SelectedIndex="0"
+                    
+                    Margin="5"
+                    MaxDropDownHeight="300"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFilledComboBox}"           
+                    materialDesign:HintAssist.Hint="端口类型">
+
+                </ComboBox>
+                <ComboBox
+                    Width="70"
+                    x:Name="Port"
+                    SelectedIndex="0"
+                    
+                    Margin="5"
+                    MaxDropDownHeight="300"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFilledComboBox}"      
+                    materialDesign:HintAssist.Hint="端口号">
+
+                </ComboBox>
+
+            </StackPanel>
         </StackPanel>
 
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
         >
 
             <Button

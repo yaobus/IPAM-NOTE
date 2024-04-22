@@ -14,8 +14,8 @@
         mc:Ignorable="d"
         Title="分配端口" 
         Style="{DynamicResource MaterialDesignWindow}"
-        Height="440"
-        Width="600"
+        Height="500"
+        Width="800"
         WindowStartupLocation="CenterScreen"
         Loaded="PortAllocation_OnLoaded"
         Closing="PortAllocation_OnClosing"
@@ -140,13 +140,13 @@
         <StackPanel
             Grid.Row="1"
             Grid.Column="0"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             >
             <StackPanel
                 x:Name="Tag1Panel"
                 Margin="5"
                 Orientation="Horizontal"
-                VerticalAlignment="Center"
+                VerticalAlignment="Top"
                 HorizontalAlignment="Stretch"
                 materialDesign:HintAssist.Hint="端口号"
                 >
@@ -165,7 +165,7 @@
                     x:Name="Tag1TextBox"
                     Margin="5"
                     Text=""
-                    MaxHeight="55"
+                    Height="50"
                     AcceptsReturn="True"
                     VerticalScrollBarVisibility="Auto"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
@@ -199,7 +199,7 @@
                     x:Name="Tag2TextBox"
                     Margin="5"
                     Text=""
-                    MaxHeight="60"
+                    Height="50"
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     VerticalScrollBarVisibility="Auto"
@@ -234,7 +234,7 @@
                     x:Name="Tag3TextBox"
                     Margin="5"
                     Text=""
-                    MaxHeight="80"
+                    Height="50"
                     VerticalAlignment="Top"
                     AcceptsReturn="False"
                     VerticalScrollBarVisibility="Auto"
@@ -267,7 +267,7 @@
                     x:Name="DescriptionTextBox"
                     Margin="5"
                     Text=""
-                    MaxHeight="80"
+                    Height="50"
                     VerticalAlignment="Top"
                     AcceptsReturn="False"
                     VerticalScrollBarVisibility="Auto"
@@ -277,20 +277,66 @@
 
             </StackPanel>
 
+            <StackPanel
+                Margin="5"
+                Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                materialDesign:HintAssist.Hint="MAC地址"
+            >
+
+                <materialDesign:PackIcon 
+                    Margin="5"
+                    Kind="Link" 
+                    VerticalAlignment="Center"
+                    Height="32"
+                    Width="32"
+                    
+                />
+
+
+                <ComboBox
+                    Width="200"
+                    x:Name="Device"
+                    SelectedIndex="0"
+                    Height="50"
+                    Margin="5"
+                    MaxDropDownHeight="300"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFilledComboBox}"
+                    materialDesign:HintAssist.Hint="关联网段">
+
+                </ComboBox>
+                <ComboBox
+                    Width="130"
+                    x:Name="Type"
+                    SelectedIndex="0"
+                    Height="50"
+                    Margin="5"
+                    MaxDropDownHeight="300"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFilledComboBox}"           
+                    materialDesign:HintAssist.Hint="关联地址">
+
+                </ComboBox>
+
+            </StackPanel>
 
         </StackPanel>
 
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             >
 
             <CheckBox
                 x:Name="EnableBox"
                 Margin="10"
                 Content="是否启用"
-                Height="40"
+                Height="50"
                 Style="{StaticResource MaterialDesignCheckBox}" />
 
             <Button
@@ -333,7 +379,7 @@
                 ToolTip="删除分配" 
                 Click="ReleaseButton_OnClick"
                 materialDesign:ButtonAssist.CornerRadius="15"
-            >
+                >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                     <materialDesign:PackIcon 
                         Kind="Delete" 
@@ -344,6 +390,31 @@
                     <TextBlock
                         VerticalAlignment="Center"
                         >删除分配</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button
+                Visibility="Hidden"
+                Grid.Column="1"
+                
+                Margin="10"
+                Height="50"
+
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="删除分配" 
+                Click="ReleaseButton_OnClick"
+                materialDesign:ButtonAssist.CornerRadius="15"
+            >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <materialDesign:PackIcon 
+                        Kind="Delete" 
+                        VerticalAlignment="Center"
+                        Height="32"
+                        Width="32"
+                    />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                    >删除分配</TextBlock>
                 </StackPanel>
             </Button>
 

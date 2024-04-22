@@ -806,13 +806,13 @@ namespace IPAM_NOTE.UserPages
                     {
                         case "0":
                             colorBrush = Brushes.DarkCyan;
-                            description = "类型:导航标签\r特征:独有标签\r名称:" + iList[i].PortTag1 + "\r地址:" + iList[i].PortTag2 + "\r注释:" + iList[i].Description; ;
+                            description = "类型:导航标签\r属性:独有标签\r名称:" + iList[i].PortTag1 + "\r地址:" + iList[i].PortTag2 + "\r注释:" + iList[i].Description; ;
 
                             break;
 
                         case "1":
                             colorBrush = Brushes.Coral;
-                            description = "类型:导航标签\r全局标签\r名称:" + iList[i].PortTag1 + "\r地址:" + iList[i].PortTag2 + "\r注释:" + iList[i].Description; ;
+                            description = "类型:导航标签\r属性:全局标签\r名称:" + iList[i].PortTag1 + "\r地址:" + iList[i].PortTag2 + "\r注释:" + iList[i].Description; ;
 
                             break;
 

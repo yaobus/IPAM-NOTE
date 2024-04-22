@@ -215,7 +215,9 @@ namespace IPAM_NOTE.UserPages
 							button.Margin = new Thickness(5);
 							button.Click += Button_Click;
 							button.Tag = portTag2;
-							button.Background = Brushes.DarkCyan;
+                            button.ToolTip ="标签名称:"+ portTag1 + "\r访问地址:" + portTag2;
+
+                            button.Background = Brushes.DarkCyan;
 							button.Foreground = (Brush)FindResource("MaterialDesignDarkForeground");
 							chiPanel.Children.Add(button);
 

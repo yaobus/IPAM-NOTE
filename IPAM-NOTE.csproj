@@ -181,6 +181,9 @@
     <Compile Include="UserPages\DatabaseBackup.xaml.cs">
       <DependentUpon>DatabaseBackup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserPages\DataPreset.xaml.cs">
+      <DependentUpon>DataPreset.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserPages\DevicesPage.xaml.cs">
       <DependentUpon>DevicesPage.xaml</DependentUpon>
     </Compile>
@@ -195,6 +198,9 @@
     </Compile>
     <Compile Include="UserPages\IndexPage.xaml.cs">
       <DependentUpon>IndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserPages\PeoplePreset.xaml.cs">
+      <DependentUpon>PeoplePreset.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserPages\ModelPreset.xaml.cs">
       <DependentUpon>ModelPreset.xaml</DependentUpon>
@@ -275,6 +281,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserPages\DataPreset.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserPages\DevicesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -294,6 +304,10 @@
     <Page Include="UserPages\IndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPages\PeoplePreset.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserPages\ModelPreset.xaml">
       <SubType>Designer</SubType>

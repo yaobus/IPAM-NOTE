@@ -61,7 +61,7 @@
             <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
-        <Style x:Key="ModelPresetStyle" TargetType="userPages:ModelPreset">
+        <Style x:Key="DataPresetStyle" TargetType="userPages:DataPreset">
             <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
             <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=WrapPanel}}"/>
         </Style>
@@ -216,7 +216,7 @@
                                         Width="28"
                                         Height="28"
                                         HorizontalAlignment="Center"
-                                        ToolTip="设备型号预设"
+                                        ToolTip="数据预设"
                                         Kind="Devices" />
                                     <!--<TextBlock
                                     HorizontalAlignment="Center"

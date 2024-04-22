@@ -171,7 +171,6 @@ namespace IPAM_NOTE
 
 							MacTextBox.Text = "";
 
-
 						}
 						else
 						{
@@ -186,13 +185,16 @@ namespace IPAM_NOTE
 					}
 				}
 
+                if (DataBrige.SearchType!=0)
+                {
+                    PingHostNameBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].OnlineHostName;
 
-				PingHostNameBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].OnlineHostName;
-				
-				PingMacBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].OnlineMacAddress;
+                    PingMacBox.Text = DataBrige.ipAddressInfos[DataBrige.SelectIndex].OnlineMacAddress;
+
+                }
 
 
-			}
+            }
 			else//批量分配
 			{
 				//禁用无关按钮

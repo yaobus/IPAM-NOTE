@@ -346,11 +346,11 @@ namespace IPAM_NOTE
                 {
                     case 0:
 
-                       ModelPreset modelPreset = new ModelPreset();
+                       DataPreset dataPreset = new DataPreset();
 
-                        modelPreset.Style = (Style)FindResource("ModelPresetStyle");
+                       dataPreset.Style = (Style)FindResource("DataPresetStyle");
 
-                        FunctionPanel.Children.Add(modelPreset);
+                        FunctionPanel.Children.Add(dataPreset);
 
                         break;
                        
