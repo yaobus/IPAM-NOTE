@@ -22,7 +22,7 @@ namespace IPAM_NOTE
         /// <summary>
         /// 当前软件版本号
         /// </summary>
-        public static string Ver = "1.23";
+        public static string Ver = "1.24";
 
         /// <summary>
         /// 最新版本号
