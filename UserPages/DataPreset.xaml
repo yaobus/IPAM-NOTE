@@ -53,7 +53,7 @@
                 </TabItem.Header>
                
             </TabItem>
-            <TabItem>
+            <TabItem IsEnabled="False">
                 <TabItem.Header>
                     <StackPanel
                       Width="auto"
