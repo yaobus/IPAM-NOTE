@@ -232,6 +232,7 @@ namespace IPAM_NOTE.UserWindows
             UrlBox.Text = AddHttpIfNeeded(UrlBox.Text);
         }
 
+
         static string AddHttpIfNeeded(string input)
         {
             if (!input.Contains("https://") && !input.Contains("http://"))

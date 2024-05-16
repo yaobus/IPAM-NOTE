@@ -214,14 +214,15 @@
 
                 <TextBox
                     Width="340"
+                    
                     x:Name="UserTextBox"
                     Margin="5"
                     Text=""
                     Height="50"
                     MaxHeight="55"
                     VerticalAlignment="Top"
-                    AcceptsReturn="True"
-                    VerticalScrollBarVisibility="Auto"
+                    AcceptsReturn="False"
+                    VerticalScrollBarVisibility="Hidden"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="NoWrap" 
                 />
@@ -257,7 +258,7 @@
                     
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
-                    VerticalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Hidden"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="Wrap" 
                     />
@@ -292,7 +293,7 @@
                     Height="50"
                     VerticalAlignment="Top"
                     AcceptsReturn="False"
-                    VerticalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Hidden"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="Wrap" 
                 />
@@ -325,7 +326,7 @@
                     Height="50"
                     VerticalAlignment="Top"
                     AcceptsReturn="False"
-                    VerticalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Hidden"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"   
                     TextWrapping="Wrap" 
                 />
@@ -333,6 +334,7 @@
             </StackPanel>
 
             <StackPanel
+                Visibility="Collapsed"
                 Margin="5"
                 Orientation="Horizontal"
                 VerticalAlignment="Center"
