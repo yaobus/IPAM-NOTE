@@ -344,19 +344,19 @@ namespace IPAM_NOTE
 
                 switch (index)
                 {
-                    case 0:
+                    //case 0:
 
-                       DataPreset dataPreset = new DataPreset();
+                    //   DataPreset dataPreset = new DataPreset();
 
-                       dataPreset.Style = (Style)FindResource("DataPresetStyle");
+                    //   dataPreset.Style = (Style)FindResource("DataPresetStyle");
 
-                        FunctionPanel.Children.Add(dataPreset);
+                    //    FunctionPanel.Children.Add(dataPreset);
 
-                        break;
+                    //    break;
                        
 
 
-                    case 1:
+                    case 0:
 
                         DatabaseBackup databaseBackup = new DatabaseBackup();
 
@@ -365,7 +365,7 @@ namespace IPAM_NOTE
                         FunctionPanel.Children.Add(databaseBackup);
                         break;
 
-                    case 2:
+                    case 1:
 
 
                        
@@ -378,17 +378,17 @@ namespace IPAM_NOTE
 
                         break;
 
-                    case 3:
-                        DonationPage donationPage = new DonationPage();
+                    //case 3:
+                    //    DonationPage donationPage = new DonationPage();
 
-                        donationPage.Style = (Style)FindResource("DonationStyle");
+                    //    donationPage.Style = (Style)FindResource("DonationStyle");
 
-                        FunctionPanel.Children.Add(donationPage);
+                    //    FunctionPanel.Children.Add(donationPage);
 
-                        break;
+                    //    break;
 
 
-                    case 4:
+                    case 2:
 
 
                        
@@ -402,18 +402,18 @@ namespace IPAM_NOTE
                         break;
 
 
-                    case 5:
+                    //case 5:
 
 
 
-                        HumanGreeting humanGreeting = new HumanGreeting();
+                    //    HumanGreeting humanGreeting = new HumanGreeting();
 
-                        humanGreeting.Style = (Style)FindResource("HumanGreetingStyle");
+                    //    humanGreeting.Style = (Style)FindResource("HumanGreetingStyle");
 
-                        FunctionPanel.Children.Add(humanGreeting);
+                    //    FunctionPanel.Children.Add(humanGreeting);
 
 
-                        break;
+                    //    break;
                 }
 
             }
@@ -426,7 +426,7 @@ namespace IPAM_NOTE
         private void AboutButton_OnClick(object sender, RoutedEventArgs e)
         {
             FunctionPanel.Children.Clear();
-           BottomControl.SelectedIndex = 4;
+           BottomControl.SelectedIndex = 2;
             BottomControl_OnSelectionChanged(null,null);
 
             //About aboutPage = new About();
