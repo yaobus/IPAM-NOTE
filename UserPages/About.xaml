@@ -191,7 +191,7 @@
                 <TextBlock
                     Margin="0,10"
                     Style="{StaticResource MaterialDesignHeadline4TextBlock}"
-                    Text="特别鸣谢" />
+                    Text="特别鸣谢1" />
 
                 <TextBlock
                     Margin="0,10"
