@@ -17,7 +17,7 @@ using IPAM_NOTE.DevicePage;
 namespace IPAM_NOTE
 {
 	/// <summary>
-	/// AddDeviceWindow.xaml 的交互逻辑
+	/// AddDeviceWindow.xaml 的交互逻辑11
 	/// </summary>
 	public partial class AddDeviceWindow : Window
 	{

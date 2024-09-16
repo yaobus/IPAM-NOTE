@@ -127,7 +127,7 @@
                                 </StackPanel>
                             </TabItem.Header>
                         </TabItem>
-                        <TabItem
+                        <!--<TabItem
                             
                             >
                             <TabItem.Header>
@@ -139,9 +139,9 @@
                                         Height="28"
                                     HorizontalAlignment="Center"
                                     Kind="ViewQuilt" />
-                                    <!--<TextBlock
+                                    --><!--<TextBlock
                                     HorizontalAlignment="Center"
-                                    Text="设备端口" />-->
+                                    Text="设备端口" />--><!--
                                 </StackPanel>
                             </TabItem.Header>
                         </TabItem>
@@ -159,16 +159,17 @@
                                         Height="28"
                                     HorizontalAlignment="Center"
                                     Kind="ChemicalWeapon" />
-                                    <!--<TextBlock
+                                    --><!--<TextBlock
                                     HorizontalAlignment="Center"
-                                    Text="地址收藏" />-->
+                                    Text="地址收藏" />--><!--
                                 </StackPanel>
                             </TabItem.Header>
-                        </TabItem>
+                        </TabItem>-->
 
-                        <TabItem
+                        <!--<TabItem
                             IsEnabled="False"
                             IsSelected="False"
+                            
                         >
                             <TabItem.Header>
                                 <StackPanel
@@ -179,12 +180,12 @@
                                         Height="28"
                                         HorizontalAlignment="Center"
                                         Kind="ViewCarouselOutline" />
-                                    <!--<TextBlock
+                                    --><!--<TextBlock
                                     HorizontalAlignment="Center"
-                                    Text="地址收藏" />-->
+                                    Text="地址收藏" />--><!--
                                 </StackPanel>
                             </TabItem.Header>
-                        </TabItem>
+                        </TabItem>-->
                     </TabControl>
 
 
@@ -203,7 +204,7 @@
                         SelectionChanged="BottomControl_OnSelectionChanged"
                         Style="{StaticResource MaterialDesignNavigationRailTabControl}">
 
-                        <TabItem
+                        <!--<TabItem
                             IsSelected="False"
                            
                             >
@@ -218,12 +219,12 @@
                                         HorizontalAlignment="Center"
                                         ToolTip="数据预设"
                                         Kind="Devices" />
-                                    <!--<TextBlock
+                                    --><!--<TextBlock
                                     HorizontalAlignment="Center"
-                                    Text="获取帮助" />-->
+                                    Text="获取帮助" />--><!--
                                 </StackPanel>
                             </TabItem.Header>
-                        </TabItem>
+                        </TabItem>-->
 
                         <TabItem
                         IsSelected="False"
@@ -267,7 +268,7 @@
                             </TabItem.Header>
                         </TabItem>
 
-                        <TabItem>
+                        <!--<TabItem>
                             <TabItem.Header>
                                 <StackPanel
                                     Width="auto"
@@ -281,7 +282,7 @@
                                 </StackPanel>
                             </TabItem.Header>
 
-                        </TabItem>
+                        </TabItem>-->
 
                         <TabItem
                             IsSelected="False"
@@ -317,7 +318,7 @@
                             </TabItem.Header>
                         </TabItem>
 
-                        <TabItem
+                        <!--<TabItem
                             IsSelected="False"
                         >
                             <TabItem.Header>
@@ -335,7 +336,7 @@
 
                                 </StackPanel>
                             </TabItem.Header>
-                        </TabItem>
+                        </TabItem>-->
                     </TabControl>
 
 
