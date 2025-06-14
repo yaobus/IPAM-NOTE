@@ -1,4 +1,10 @@
 # IPAM-NOTE
+
+# 新版本ThinkITAM现已开放下载
+# 需要的同学请移步微软应用商店
+# https://apps.microsoft.com/detail/9P4L15BSJWR0?hl=zh-cn&gl=CN&ocid=pdpshare
+
+
 需要多用户版本的请查看我的另一项目 SIPAM  https://github.com/yaobus/SIPAM.git
 
 
